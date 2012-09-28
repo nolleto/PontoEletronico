@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="400dp"
+    android:orientation="vertical" 
+    android:weightSum="20"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="3"
+        android:text="Concluir Cadastro =)"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="14"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+        
+        <TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="Usuário (Gerente/Admin)"
+        	android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    	<EditText
+        	android:id="@+id/confCadastro_User"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:singleLine="true" 
+        	android:imeOptions="actionNext"
+        	android:imeActionId="@+id/confCadastro_Password">
+
+        	<requestFocus />
+    	</EditText>
+
+    	<TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="Senha:"
+        	android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    	<EditText
+        	android:id="@+id/confCadastro_Password"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:inputType="textPassword" />
+        
+    </LinearLayout>
+    
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_weight="10" >
+    
+    	<Button
+        	android:id="@+id/confCadastro_Cadastrar"
+        	android:layout_width="0px"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="5"
+        	android:text="Cadastrar" />
+
+    	<Button
+        	android:id="@+id/confCadastro_Cancelar"
+        	android:layout_width="0px"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="5"
+        	android:text="Cancelar" />
+    
+    </LinearLayout>
+
+</LinearLayout>

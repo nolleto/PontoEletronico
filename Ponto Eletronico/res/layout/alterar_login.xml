@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="20" >
+
+    <TextView 
+        android:id="@+id/altLogin_txtTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="3"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20dp"
+        android:layout_marginBottom="40dp"
+        android:text="Teste"/>
+    
+    <LinearLayout
+        android:id="@+id/altLogin_Linear_User"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="14"
+        android:visibility="gone"
+        android:orientation="vertical" >
+		
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:layout_marginBottom="20dp"
+            android:text="Novo Nome:"/>
+        
+        <EditText
+            android:id="@+id/altLogin_NewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone" >
+
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/altLogin_LinearPass"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="14"
+        android:visibility="gone"
+        android:orientation="vertical" >
+		
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:layout_marginBottom="20dp"
+            android:text="Digite sua antiga Senha:"/>
+        
+        <EditText
+            android:id="@+id/altLogin_OldPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:imeActionId="@+id/altLogin_NewPass1" />
+		
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="16dp"
+            android:layout_marginBottom="20dp"
+            android:text="Digite sua Nova Senha:"/>
+        
+        <EditText
+            android:id="@+id/altLogin_NewPass1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:inputType="textPassword"
+            android:imeOptions="actionNext"
+            android:imeActionId="@+id/altLogin_NewPass2"/>
+
+        <EditText
+            android:id="@+id/altLogin_NewPass2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirmar Senha"
+            android:inputType="textPassword" 
+            android:imeOptions="actionDone"/>
+
+    </LinearLayout>
+
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+        
+        <Button 
+            android:id="@+id/altLogin_BtnSalvar"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Salvar"/>
+        
+        <Button 
+            android:id="@+id/altLogin_BtnCancelar"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Cancelar"/>
+        
+    </LinearLayout>
+    
+</LinearLayout>

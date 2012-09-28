@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:weightSum="20" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="2"
+        android:textSize="40dp"
+        android:text="Cadastro =)" />
+
+    <ScrollView
+        android:id="@+id/cadastro_Scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="16" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Usuário para Login:"
+                android:textSize="20dp" />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="O usuário deve conter entr 4 a 25 charaters e pode conter apenas letras e númros."/>
+
+            <EditText
+                android:id="@+id/cadastro_UserName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeActionId="@+id/cadastro_password1"
+                android:imeOptions="actionNext"
+                android:singleLine="true" />
+            
+            <TextView 
+                android:id="@+id/text_UserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" 
+                android:alpha="0"
+                android:text="Usuário Inválido!!!"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Senha:"
+                android:textSize="20dp" />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="A senha deve conter entr 8 a 20 charaters."/>
+            
+
+            <EditText
+                android:id="@+id/cadastro_password1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeActionId="@+id/cadastro_password2"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+            
+            <EditText
+                android:id="@+id/cadastro_password2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeActionId="@+id/cadastro_Nome"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:hint="Confirmar Senha" />
+            
+            <TextView 
+                android:id="@+id/text_Password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:alpha="0"
+                android:text="Senhas não coincidem"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Nome Completo:"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/cadastro_Nome"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeActionId="@+id/cadastro_Email"
+                android:imeOptions="actionNext"
+                android:singleLine="true" 
+                android:hint="Ex: Flávio"/>
+            
+            <TextView 
+                android:id="@+id/text_Nome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:alpha="0"
+                android:text="Digite seu Nome!!!"/>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Email:"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/cadastro_Email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeActionId="@+id/cadastro_Endereco"
+                android:imeOptions="actionNext"
+                android:singleLine="true" 
+                android:hint="manuel@gmail.com"/>
+            
+            <TextView 
+                android:id="@+id/text_Email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:alpha="0"
+                android:text="Email inválido!!!"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Endereço:"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/cadastro_Endereco"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeActionId="@+id/cadastro_Telefone"
+                android:imeOptions="actionNext"
+                android:hint="Rua Colombo, 1054 \nPorto Alegre\nCep: 93155-000"/>
+            
+            <TextView 
+                android:id="@+id/text_Endereco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:alpha="0"
+                android:text="Digite seu endereço!!!"/>
+			
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Telefone:"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/cadastro_Telefone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:singleLine="true" 
+                android:hint="(51) 3541-6872"/>
+            
+            <TextView 
+                android:id="@+id/text_Telefone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:alpha="0"
+                android:text="Telefone inválido!!!"/>
+            
+        </LinearLayout>
+        
+    </ScrollView>
+
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:weightSum="10">
+        
+        <Button 
+            android:id="@+id/cadastro_BtnSalvar"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Salvar"/>
+        
+        <Button 
+            android:id="@+id/cadastro_BtnCancelar"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Cancelar"/>
+        
+    </LinearLayout>
+    
+</LinearLayout>

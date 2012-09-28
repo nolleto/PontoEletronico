@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:weightSum="20" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="3"
+        android:textSize="40dp"
+        android:text="Titulo =)" />
+    
+    <LinearLayout 
+    	android:layout_width="fill_parent"
+    	android:layout_marginLeft="20dp"
+    	android:layout_marginRight="20dp"
+    	android:layout_height="0px"
+    	android:layout_weight="12"
+    	android:orientation="vertical"
+    	android:gravity="center_vertical">
+    	
+    	
+        <TextView
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:textSize="20dp"
+    	    android:text="Usuário:"/>
+    	
+    	<EditText 
+        	android:id="@+id/userName"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:singleLine="true"
+        	android:imeOptions="actionNext"
+        	android:imeActionId="@+id/password"
+        	android:text="admin"/>
+    	
+    	<TextView 
+    	    android:layout_marginTop="40dp"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:textSize="20dp"
+    	    android:text="Senha:"/>
+    	
+    	<EditText 
+        	android:id="@+id/password"
+        	android:layout_width="fill_parent"
+        	android:inputType="textPassword"
+        	android:singleLine="true"
+        	android:layout_height="wrap_content"
+        	android:imeOptions="actionDone"
+        	android:text="1234"/>
+    	
+    </LinearLayout>
+
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="0px"
+	    android:layout_weight="4"
+	    android:orientation="horizontal"
+	    android:gravity="center_horizontal"
+	    android:weightSum="6">
+
+    	<Button
+        	android:id="@+id/btn_Entrar"
+        	android:layout_width="0px"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="2"
+        	android:text="Entrar" />
+
+    	<Button 
+    	    android:id="@+id/btn_Cadastros"
+    	    android:layout_width="0px"
+    	    android:layout_height="wrap_content"
+    	    android:layout_weight="2"
+    	    android:text="Cadastros"/>
+    	
+    	<Button
+    	    android:id="@+id/btn_Cadastrar"
+    	    android:layout_width="0px"
+    	    android:layout_height="wrap_content"
+    	    android:layout_weight="2"
+    	    android:text="Casdastrar" />
+    
+    </LinearLayout>
+
+</LinearLayout>

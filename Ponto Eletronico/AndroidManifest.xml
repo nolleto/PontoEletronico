@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.digitaldesk.pontoeletronico"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="11" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" 
+        android:theme="@android:style/Theme.Black.NoTitleBar">
+        <activity
+            android:name="br.com.pontoeletronico.activities.PontoEletronicoActivity"
+            android:label="@string/app_name" 
+            android:windowSoftInputMode="adjustPan"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.com.pontoeletronico.activities.CadastroActivity"
+            android:label="Cadastro" 
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.CadastroActivity" />
+
+                <category android:name="android.intent.category.CadastroActivity" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.com.pontoeletronico.activities.ConfirmarCadastroActivity"
+            android:label="ConfirmarCadastro" 
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.ConfirmarCadastroActivity" />
+
+                <category android:name="android.intent.category.ConfirmarCadastroActivity" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.com.pontoeletronico.activities.ListaContasActivity"
+            android:label="ListaContas" 
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.ListaContasActivity" />
+
+                <category android:name="android.intent.category.ListaContasActivity" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.com.pontoeletronico.activities.TelaFuncionarioActivity"
+            android:label="Funcionario" 
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.TelaFuncionarioActivity" />
+
+                <category android:name="android.intent.category.TelaFuncionarioActivity" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.com.pontoeletronico.activities.TelaGerenteActivity"
+            android:label="Gerente" 
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.TelaGerenteActivity" />
+
+                <category android:name="android.intent.category.TelaGerenteActivity" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.com.pontoeletronico.activities.ListaPontosActivity"
+            android:label="ListaPontos" 
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.ListaPontosActivity" />
+
+                <category android:name="android.intent.category.ListaPontosActivity" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="br.com.pontoeletronico.activities.AlterarCadastroActivity"
+            android:label="AlterarCadastro" 
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.AlterarCadastroActivity" />
+
+                <category android:name="android.intent.category.AlterarCadastroActivity" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.com.pontoeletronico.activities.AlterarLoginActivity"
+            android:label="AlterarLogin" 
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.AlterarLoginActivity" />
+
+                <category android:name="android.intent.category.AlterarLoginActivity" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.com.pontoeletronico.activities.AlterarDadosPessoaisActivity"
+            android:label="AlterarDadosPessoais" 
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.AlterarDadosPessoaisActivity" />
+
+                <category android:name="android.intent.category.AlterarDadosPessoaisActivity" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
