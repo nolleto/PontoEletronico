@@ -5,12 +5,11 @@ import java.util.List;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-import br.com.digitaldesk.pontoeletronico.R;
+import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.database.Funcionario_Ponto;
 import br.com.pontoeletronico.database.Ponto;
-import android.R.integer;
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -121,6 +120,12 @@ public class TelaFuncionarioActivity extends BaseActivity {
 		pontoDao.update(ponto);
 		
 		makeMyDearAlert("Sa�da!!!");
+	}
+	
+	public static void startActivity(Activity activity, int id) {
+		Intent intent = new Intent(activity, TelaFuncionarioActivity.class);
+		intent.putExtra("ID", id);
+		activity.startActivity(intent);
 	}
 	
 }

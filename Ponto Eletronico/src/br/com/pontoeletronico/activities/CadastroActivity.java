@@ -1,22 +1,16 @@
 package br.com.pontoeletronico.activities;
 
-import java.security.PublicKey;
-import java.util.List;
-import java.util.jar.Attributes.Name;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import br.com.digitaldesk.pontoeletronico.R;
+import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Funcionario;
-import br.com.pontoeletronico.database.Gerente;
+import br.com.pontoeletronico.util.CodeSnippet;
 
-import android.R.bool;
-import android.R.string;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,10 +18,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -377,35 +369,13 @@ public class CadastroActivity extends BaseActivity {
 	}
 	
 	public void btnCancelar_touch() {
-		
 		exitActivityAlert("Você realmente deseja cancelar o cadastro?");
-		
-		/*AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		alert.setCancelable(false).setMessage("Você realmente deseja cancelar o cadastro?").setTitle("Aviso").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				finish();
-				
-			}
-		});
-		alert.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				
-			}
-		});
-		
-		alert.create().show();*/
+	
 	}
 	
 	public void openConfirmarCadastro() {
-		List<Gerente> gerenteList = getHelper().getGerenteRuntimeDao().queryForEq("User", txtUser.getText().toString());
-		List<Funcionario> funcionarioList = getHelper().getFuncionarioRuntimeDao().queryForEq("User", txtUser.getText().toString());
 		
-		if (gerenteList.size() < 1 && funcionarioList.size() < 1) {
+		if (!CodeSnippet.checkIfExistUser(getHelper(), txtUser.getText().toString())) {
 			String strUser, strPassword, strNome, strEmail, strEndereco, strTelefone;
 			
 			strUser = txtUser.getText().toString();
@@ -414,15 +384,11 @@ public class CadastroActivity extends BaseActivity {
 			strEmail = txtEmail.getText().toString();
 			strEndereco = txtEndereco.getText().toString();
 			strTelefone = txtTelefone.getText().toString();
+						
+			Funcionario funcionario = new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone);
 			
-			FuncionarioGerente cadastroInfo = new FuncionarioGerente(strNome, strEmail, strUser, strPassword, strEndereco, strTelefone);
+			ConfirmarCadastroActivity.startActivity(CadastroActivity.this, funcionario);
 			
-			Intent confirmar = new Intent(CadastroActivity.this, ConfirmarCadastroActivity.class);
-			Bundle extras = new Bundle();
-			extras.putSerializable("UserInfo", cadastroInfo);
-			confirmar.putExtras(extras);
-			
-			startActivityForResult(confirmar, 1);
 		} else {
 			makeMyDearAlert("Nome de Usu�rio ja cadastrado!!!");
 		}
@@ -434,5 +400,10 @@ public class CadastroActivity extends BaseActivity {
 			finish();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	public static void startActivity(Activity activity) {
+		Intent telaCadastro = new Intent(activity, CadastroActivity.class);
+		activity.startActivity(telaCadastro);
 	}
 }

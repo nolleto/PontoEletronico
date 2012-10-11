@@ -31,7 +31,7 @@
             android:text="Novo Nome:"/>
         
         <EditText
-            android:id="@+id/altLogin_NewName"
+            android:id="@+id/altLogin_NewUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone" >

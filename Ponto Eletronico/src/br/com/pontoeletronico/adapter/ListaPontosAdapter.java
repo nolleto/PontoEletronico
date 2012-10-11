@@ -2,13 +2,9 @@ package br.com.pontoeletronico.adapter;
 
 import java.util.List;
 
-import br.com.digitaldesk.pontoeletronico.R;
-import br.com.digitaldesk.pontoeletronico.R.id;
-import br.com.digitaldesk.pontoeletronico.R.layout;
+import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Funcionario_Ponto;
-import br.com.pontoeletronico.database.Gerente;
 
-import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

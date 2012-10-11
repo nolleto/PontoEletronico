@@ -1,29 +1,22 @@
 package br.com.pontoeletronico.activities;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-import br.com.digitaldesk.pontoeletronico.R;
-import br.com.pontoeletronico.database.DaoProvider;
+import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Funcionario;
-import br.com.pontoeletronico.database.Gerente;
+import br.com.pontoeletronico.util.CodeSnippet;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 public class PontoEletronicoActivity extends BaseActivity {
     /** Called when the activity is first created. */
-	RuntimeExceptionDao<Gerente, Integer> gerenteDao;
 	RuntimeExceptionDao<Funcionario,Integer> funcionarioDao;
 	Button btnEntrar, btnCadastrar, btnCadastroList;
 	
@@ -35,15 +28,13 @@ public class PontoEletronicoActivity extends BaseActivity {
         btnEntrar = (Button) findViewById(R.id.btn_Entrar);
         btnCadastrar = (Button) findViewById(R.id.btn_Cadastrar);
         
-        gerenteDao = getHelper().getGerenteRuntimeDao();
         funcionarioDao = getHelper().getFuncionarioRuntimeDao();
         
-        List<Gerente> admins = gerenteDao.queryForEq("User", "Admin");
-        Gerente admin;
+        List<Funcionario> admins = funcionarioDao.queryForEq("User", "admin");
         
         if (admins.size() < 1) {
-        	admin = new Gerente("Admin", "admin", "1234");
-			gerenteDao.createIfNotExists(admin);
+        	Funcionario admin = new Funcionario("admin", "1234", "Admin", true);
+			funcionarioDao.createIfNotExists(admin);
 		}
         
         btnEntrar.setOnClickListener(new OnClickListener() {
@@ -51,35 +42,15 @@ public class PontoEletronicoActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				EditText user = (EditText) findViewById(R.id.userName);
-				EditText password = (EditText) findViewById(R.id.password);
 				
-				List<Funcionario> funcionarios = null;
-				List<Gerente> gerentes = null;
-				
-				try {
-					funcionarios = funcionarioDao.query(funcionarioDao.queryBuilder()
-							.where().eq("User", user.getText().toString())
-							.and().eq("Password", password.getText().toString())
-							.prepare());
+				if (CodeSnippet.checkIfExistUser(getHelper(), user.getText().toString())){
+					Funcionario funcionario = funcionarioDao.queryForEq("User", user.getText().toString()).get(0);
 					
-					gerentes = gerenteDao.query(gerenteDao.queryBuilder()
-							.where().eq("User", user.getText().toString())
-							.and().eq("Password", password.getText().toString())
-							.prepare());
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				
-				if (funcionarios != null && funcionarios.size() > 0){
-					Intent telaFunc = new Intent(PontoEletronicoActivity.this, TelaFuncionarioActivity.class);
-					telaFunc.putExtra("ID", funcionarios.get(0).funcionarioID);
-					startActivity(telaFunc);
-					
-				} else if (gerentes != null && gerentes.size() > 0) {
-					Intent telaGeren = new Intent(PontoEletronicoActivity.this, TelaGerenteActivity.class);
-					telaGeren.putExtra("ID", gerentes.get(0).gerenteID);
-					startActivity(telaGeren);
+					if (CodeSnippet.checkIsGerente(getHelper(), user.getText().toString())) {
+						TelaGerenteActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
+					} else {
+						TelaFuncionarioActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
+					}
 					
 				} else {
 					makeMyDearAlert("Gangnam Style");
@@ -93,8 +64,7 @@ public class PontoEletronicoActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent telaCadastro = new Intent(PontoEletronicoActivity.this, CadastroActivity.class);
-				startActivity(telaCadastro);
+				CadastroActivity.startActivity(PontoEletronicoActivity.this);
 				
 			}
 		});
@@ -104,8 +74,7 @@ public class PontoEletronicoActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent telaListaDeCadastros = new Intent(PontoEletronicoActivity.this, ListaContasActivity.class);
-				startActivity(telaListaDeCadastros);
+				ListaContasActivity.startActivity(PontoEletronicoActivity.this);
 				
 			}
 		});

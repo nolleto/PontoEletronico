@@ -14,3 +14,19 @@ gen/
 
 # Local configuration file (sdk path, etc)
 local.properties
+
+*.launch
+
+*.prefs
+
+*.version
+
+*.snap
+
+.metadata/.plugins/org.eclipse.core.resources/.projects/Ponto Eletronico/.markers
+
+*.index
+
+*.tree
+
+*.resources

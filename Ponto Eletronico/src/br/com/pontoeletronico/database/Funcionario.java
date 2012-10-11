@@ -1,11 +1,18 @@
 package br.com.pontoeletronico.database;
 
+import java.io.Serializable;
+
 import com.j256.ormlite.field.DatabaseField;
 
 import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
-public class Funcionario {
-	
+public class Funcionario implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7206727363243262703L;
+
 	@DatabaseField(generatedId=true)
 	public int funcionarioID;
 
@@ -26,12 +33,23 @@ public class Funcionario {
 	
 	@DatabaseField
 	public String Phone;
+	
+	@DatabaseField
+	public Boolean isGerente;
 
 	public Funcionario() {};
 	
-	public Funcionario(String user, String password) {
+	public Funcionario(String user, String password, Boolean isGerente) {
 		User = user;
 		Password = password;
+		this.isGerente = isGerente;
+	};
+	
+	public Funcionario(String user, String password,String name, Boolean isGerente) {
+		User = user;
+		Password = password;
+		Name = name;
+		this.isGerente = isGerente;
 	};
 	
 	public Funcionario(String user, String password, String name, String email, String adress, String phone) {
@@ -42,6 +60,27 @@ public class Funcionario {
 		Adress = adress;
 		Phone = phone;
 	};
+	
+	public Funcionario(String user, String password, String name, String email, String adress, String phone, Boolean isGerente) {
+		Name = name;
+		User = user;
+		Password = password;
+		Email = email;
+		Adress = adress;
+		Phone = phone;
+		this.isGerente = isGerente;
+	};
+	
+	/*public Funcionario(boolean isGerente, int iD, String Name, String Email, String User, String Password, String Adress, String Phone) {
+		this.isGerente = isGerente;
+		funcionarioID = iD;
+		this.Name = Name;
+		this.Email = Email;
+		this.User = User;
+		this.Password = Password;
+		this.Adress = Adress;
+		this.Phone = Phone; 
+	}*/
 	
 	public int getID() {
 		return funcionarioID;
@@ -97,6 +136,14 @@ public class Funcionario {
 
 	public void setPhone(String phone) {
 		Phone = phone;
+	}
+
+	public Boolean getIsGerente() {
+		return isGerente;
+	}
+
+	public void setIsGerente(Boolean isGerente) {
+		this.isGerente = isGerente;
 	}	
 	
 	

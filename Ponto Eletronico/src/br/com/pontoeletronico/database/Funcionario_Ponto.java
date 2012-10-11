@@ -12,19 +12,11 @@ public class Funcionario_Ponto {
 	@DatabaseField(columnName="funcionarioID", foreign=true, foreignAutoRefresh=true)
 	public Funcionario funcionario;
 
-	@DatabaseField(columnName="gerenteID", foreign=true, foreignAutoRefresh=true)
-	public Gerente gerente;
-	
 	@DatabaseField(columnName="pontoID", foreign=true, foreignAutoRefresh=true, canBeNull=false)
 	public Ponto ponto;
 	
 	public Funcionario_Ponto(Funcionario funcionario, Ponto ponto) {
 		this.funcionario = funcionario;
-		this.ponto = ponto;
-	}
-	
-	public Funcionario_Ponto(Gerente gerente, Ponto ponto) {
-		this.gerente = gerente;
 		this.ponto = ponto;
 	}
 	

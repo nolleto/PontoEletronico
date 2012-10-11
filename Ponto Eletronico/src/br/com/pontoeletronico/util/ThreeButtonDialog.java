@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import br.com.digitaldesk.pontoeletronico.R;
+import br.com.pontoeletronico.R;
 
 public class ThreeButtonDialog {
 

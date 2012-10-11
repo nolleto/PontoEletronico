@@ -1,15 +1,15 @@
 package br.com.pontoeletronico.activities;
 
-import java.util.List;
-
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-import br.com.digitaldesk.pontoeletronico.R;
+import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Funcionario;
-import br.com.pontoeletronico.database.Gerente;
+import br.com.pontoeletronico.util.CodeSnippet;
 import br.com.pontoeletronico.util.ThreeButtonDialog;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,9 +20,8 @@ import android.widget.EditText;
 public class ConfirmarCadastroActivity extends BaseActivity {
 	EditText txtUserAdmin, txtPasswordAdmin;
 	String strUser, strPassword, strNome, strEmail, strEndereco, strTelefone;
-	FuncionarioGerente userInfo;
+	Funcionario userInfo;
 	
-	RuntimeExceptionDao<Gerente, Integer> gerenteDao;
 	RuntimeExceptionDao<Funcionario, Integer> funcionarioDao;
 	
 	@Override
@@ -31,10 +30,9 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.confirmar_cadastro);
 		
-		gerenteDao = getHelper().getGerenteRuntimeDao();
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		
-		userInfo = (FuncionarioGerente) getIntent().getExtras().getSerializable("UserInfo");
+		userInfo = (Funcionario) getIntent().getExtras().getSerializable("UserInfo");
 		
 		txtUserAdmin = (EditText) findViewById(R.id.confCadastro_User);
 		txtPasswordAdmin = (EditText) findViewById(R.id.confCadastro_Password);
@@ -55,25 +53,14 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 			public void onClick(View v) {
 				if (txtUserAdmin.length() > 0) {
 					if (txtPasswordAdmin.length() > 0) {
-						RuntimeExceptionDao<Gerente, Integer> gerenteDao = getHelper().getGerenteRuntimeDao();
-						List<Gerente> gerentes = null;
 						
-						try {
-							gerentes = gerenteDao.query(gerenteDao.queryBuilder()
-									.where().eq("User", txtUserAdmin.getText().toString())
-									.and().eq("Password", txtPasswordAdmin.getText().toString()).prepare());
-							
-						} catch (Exception e) {
-							// TODO: handle exception
-						}
-						
-						if (gerentes.size() == 1) {
+						if (CodeSnippet.checkIfExistUserAndPassworl(getHelper(), txtUserAdmin.getText().toString(), txtPasswordAdmin.getText().toString())) {
 							AlertDialog.Builder alert = new AlertDialog.Builder(ConfirmarCadastroActivity.this);
 							alert.setCancelable(false).setTitle("Aviso").setMessage("Cadastrar usu�rio como Gerente ou Funcion�rio?").setPositiveButton("Funcion�rio", new DialogInterface.OnClickListener() {
 								
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									saveFuncionario();
+									saveFuncionario(false);
 									
 								}
 							});
@@ -82,7 +69,7 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 								
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									saveGerente();
+									saveFuncionario(true);
 									
 								}
 							});
@@ -164,30 +151,8 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 		alert.show();
 	}
 	
-	public void saveGerente() {
-		Gerente gerente = new Gerente(strNome, strUser, strPassword, strEmail, strEndereco, strTelefone);
-		Boolean sucess = true;
-		
-		try {
-			gerenteDao.create(gerente);
-		} catch (Exception e) {
-			sucess = false;
-		}
-		
-		if (sucess) {
-			makeMyDearAlert("Usu�rio criado com sucesso!");
-			
-			setResult(1);
-			finish();
-			
-		} else {
-			makeMyDearAlert("Erro ao criar usu�rio!!!");
-		}
-		
-	}
-	
-	public void saveFuncionario() {
-		Funcionario funcionario = new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone);
+	public void saveFuncionario(Boolean isGerente) {
+		Funcionario funcionario = new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone, isGerente);
 		Boolean sucess = true;
 		
 		try {
@@ -205,6 +170,14 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 		} else {
 			makeMyDearAlert("Erro ao criar usu�rio!!!");
 		}
+	}
+	
+	public static void startActivity(Activity activity, Funcionario funcionario) {
+		Intent confirmar = new Intent(activity, ConfirmarCadastroActivity.class);
+		Bundle extras = new Bundle();
+		extras.putSerializable("UserInfo", funcionario);
+		confirmar.putExtras(extras);
+		activity.startActivityForResult(confirmar, 1);
 	}
 	
 }

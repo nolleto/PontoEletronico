@@ -1,9 +1,12 @@
 package br.com.pontoeletronico.util;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.animation.ObjectAnimator;
+import br.com.pontoeletronico.database.DaoProvider;
+import br.com.pontoeletronico.database.Funcionario;
 
 public class CodeSnippet {
 	
@@ -30,6 +33,58 @@ public class CodeSnippet {
 		} else {
 			return false;
 		}
+	}
+	
+	public static Boolean checkIfExistUser(DaoProvider daoProvider, String user) {
+		List<Funcionario> funcionarios = null;
+		
+		try {
+			funcionarios = daoProvider.getFuncionarioRuntimeDao().query(daoProvider.getFuncionarioRuntimeDao().queryBuilder()
+					.where().eq("User", user)
+					.prepare());
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if (funcionarios.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static Boolean checkIfExistUserAndPassworl(DaoProvider daoProvider, String user, String pass) {
+		List<Funcionario> funcionarios = null;
+		
+		try {
+			funcionarios = daoProvider.getFuncionarioRuntimeDao().query(daoProvider.getFuncionarioRuntimeDao().queryBuilder()
+					.where().eq("User", user)
+					.and().eq("Password", pass)
+					.prepare());
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if (funcionarios.size() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static Boolean checkIsGerente(DaoProvider daoProvider, String user) {
+		Funcionario funcionario = daoProvider.getFuncionarioRuntimeDao().queryForEq("User", user).get(0);
+		
+		if (funcionario != null && funcionario.isGerente) {
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 	
 }
