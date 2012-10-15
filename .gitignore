@@ -30,3 +30,33 @@ local.properties
 *.tree
 
 *.resources
+
+.metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16-14-blacknotitlebar-37inwvganexusone/DigitalClock.png
+
+*.png
+
+*.properties
+
+*.xml
+
+.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
+
+.metadata/.plugins/org.eclipse.jdt.core/invalidArchivesCache
+
+*.txt
+
+.metadata/.plugins/org.eclipse.jdt.core/nonChainingJarsCache
+
+*.dat
+
+*.history
+
+.DS_Store
+
+.metadata/.lock
+
+.metadata/.log
+
+*.ini
+
+Ponto Eletronico/.classpath
