@@ -1,6 +1,34 @@
 #
-# generated on 2012/10/11 05:24:08
+# generated on 2012/10/15 05:39:01
 #
+# --table-start--
+dataClass=br.com.pontoeletronico.database.Configuracoes
+tableName=configuracoes
+# --table-fields-start--
+# --field-start--
+fieldName=idConfiguracoes
+id=true
+# --field-end--
+# --field-start--
+fieldName=checkInLimit
+canBeNull=false
+# --field-end--
+# --field-start--
+fieldName=checkOutLimit
+canBeNull=false
+# --field-end--
+# --field-start--
+fieldName=titleApk
+# --field-end--
+# --field-start--
+fieldName=emailNotification
+# --field-end--
+# --field-start--
+fieldName=phoneNotification
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
 # --table-start--
 dataClass=br.com.pontoeletronico.database.Funcionario
 tableName=funcionario

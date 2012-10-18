@@ -9,13 +9,14 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class AlterarLoginActivity extends BaseActivity {
+public class AlterarDadosLoginActivity extends BaseActivity {
 	RuntimeExceptionDao<Funcionario, Integer> funcionarioDao;
 	EditText txtUser, txtOldPass, txtNewPass1, txtNewPass2;
 	String strOldPass;
@@ -25,7 +26,7 @@ public class AlterarLoginActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.alterar_login);
+		setContentView(R.layout.alterar_dados_login);
 		
 		id = getIntent().getExtras().getInt("ID");
 		opcao = getIntent().getExtras().getInt("Opcao");
@@ -58,13 +59,13 @@ public class AlterarLoginActivity extends BaseActivity {
 			public void onClick(View v) {
 				if (opcao == 0) {
 					if (txtUser.length() > 0) {
-						if (CodeSnippet.checkIfExistUser(getHelper(), txtUser.getText().toString())) {
+						if (!CodeSnippet.checkIfExistUser(getHelper(), txtUser.getText().toString())) {
 							optionActivityAlert(new DialogInterface.OnClickListener() {
 								
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									Funcionario funcionario = funcionarioDao.queryForId(id);
-									funcionario.Name = txtUser.getText().toString();
+									funcionario.User = txtUser.getText().toString();
 										
 									funcionarioDao.update(funcionario);
 									
@@ -80,7 +81,15 @@ public class AlterarLoginActivity extends BaseActivity {
 						makeMyDearAlert("Complete o campo Nome!");
 					}
 				} else {
-					
+					if (CodeSnippet.checkPassword(txtNewPass1.getText().toString()) && txtNewPass1.getText().toString().equals(txtNewPass2.getText().toString())) {
+						Funcionario funcioanrio = funcionarioDao.queryForId(id);
+						funcioanrio.Password = txtNewPass1.getText().toString();
+						funcionarioDao.update(funcioanrio);
+						finish();
+						
+					} else {
+						makeMyDearAlert("Senha não confere com as esfecificações!");
+					}
 				}
 				
 			}
@@ -97,8 +106,18 @@ public class AlterarLoginActivity extends BaseActivity {
 		
 	}
 	
+	@Override
+	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			exitActivityAlert("Você realmente deseja sair?");
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+		
+	};
+	
 	public static void startActivity(Activity activity, int id,int opcao) {
-		Intent intent = new Intent(activity, AlterarLoginActivity.class);
+		Intent intent = new Intent(activity, AlterarDadosLoginActivity.class);
 		intent.putExtra("ID", id);
 		intent.putExtra("Opcao", opcao);
 		activity.startActivity(intent);

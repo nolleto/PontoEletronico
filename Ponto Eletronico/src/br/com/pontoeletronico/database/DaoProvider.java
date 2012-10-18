@@ -43,6 +43,7 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTableIfNotExists(connectionSource, Funcionario.class);
 			TableUtils.createTableIfNotExists(connectionSource, Funcionario_Ponto.class);
 			TableUtils.createTableIfNotExists(connectionSource, Ponto.class);
+			TableUtils.createTableIfNotExists(connectionSource, Configuracoes.class);
 		} catch (SQLException e) {
 			android.util.Log.e(DaoProvider.class.getName(), "Erro ao criar banco de dados", e);
 			throw new RuntimeException(e);
@@ -82,6 +83,7 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 					TableUtils.clearTable(connectionSource, Funcionario.class);
 					TableUtils.clearTable(connectionSource, Ponto.class);
 					TableUtils.clearTable(connectionSource, Funcionario_Ponto.class);
+					TableUtils.clearTable(connectionSource, Configuracoes.class);
 					return null;
 				}
 			});
@@ -121,10 +123,12 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 	private Dao<Funcionario, Integer> funcionarioDao;
 	private Dao<Ponto, Integer> pontoDao;
 	private Dao<Funcionario_Ponto, Integer> funcionarioPontoDao;
+	private Dao<Configuracoes, Integer> configuracoesDao;
 	
 	private RuntimeExceptionDao<Funcionario, Integer> funcionarioRuntimeDao;
 	private RuntimeExceptionDao<Ponto, Integer> pontoRuntimeDao;
 	private RuntimeExceptionDao<Funcionario_Ponto, Integer> funcionarioPontoRuntimeDao;
+	private RuntimeExceptionDao<Configuracoes, Integer> configuracoesRuntimeDao;
 
 	public Dao<Funcionario, Integer> getFuncionarioDao() throws SQLException {
 		if (funcionarioDao == null) {
@@ -138,6 +142,13 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 			pontoDao = getDao(Ponto.class);
 		}
 		return pontoDao;
+	}
+	
+	public Dao<Configuracoes, Integer> getConfiguracoesDao() throws SQLException {
+		if (configuracoesDao == null) {
+			configuracoesDao = getDao(Configuracoes.class);
+		}
+		return configuracoesDao;
 	}
 	
 	public Dao<Funcionario_Ponto, Integer> getFuncionario_PontoDao() throws SQLException {
@@ -168,16 +179,25 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 		return funcionarioPontoRuntimeDao;
 	}
 	
+	public RuntimeExceptionDao<Configuracoes, Integer> getConfiguracoesRuntimeDao() {
+		if (configuracoesRuntimeDao == null) {
+			configuracoesRuntimeDao = getRuntimeExceptionDao(Configuracoes.class);
+		}
+		return configuracoesRuntimeDao;
+	}
+	
 	@Override
 	public void close() {
 		super.close();
 		funcionarioDao = null;
 		pontoDao = null;
 		funcionarioPontoDao = null;
+		configuracoesDao = null;
 		
 		funcionarioRuntimeDao = null;
 		pontoRuntimeDao = null;
 		funcionarioPontoRuntimeDao = null;
+		configuracoesRuntimeDao = null;
 	}
 	
 }

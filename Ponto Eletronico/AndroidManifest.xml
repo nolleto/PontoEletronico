@@ -14,6 +14,7 @@
             android:name="br.com.pontoeletronico.activities.PontoEletronicoActivity"
             android:label="@string/app_name" 
             android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -94,7 +95,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="br.com.pontoeletronico.activities.AlterarLoginActivity"
+            android:name=".activities.AlterarDadosLoginActivity"
             android:label="AlterarLogin" 
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -113,6 +114,8 @@
                 <category android:name="android.intent.category.AlterarDadosPessoaisActivity" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.GerenciarFuncionariosActivity"></activity>
+        <activity android:name=".activities.TelaConfiguracoes"></activity>
     </application>
 
 </manifest>

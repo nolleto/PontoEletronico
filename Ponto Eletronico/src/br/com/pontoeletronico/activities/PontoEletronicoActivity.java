@@ -10,6 +10,7 @@ import br.com.pontoeletronico.util.CodeSnippet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -81,5 +82,14 @@ public class PontoEletronicoActivity extends BaseActivity {
         
     }
     
+    @Override
+	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			exitActivityAlert("Você realmente deseja sair?");
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+		
+	};
     
 }

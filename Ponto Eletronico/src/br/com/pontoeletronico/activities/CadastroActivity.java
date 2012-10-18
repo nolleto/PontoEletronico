@@ -193,7 +193,7 @@ public class CadastroActivity extends BaseActivity {
 				email = false;
 				
 				if (!hasFocus) {
-					if (txtEmail.length() > 0) {
+					if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
 						
 						/*String expression = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$";
 					    CharSequence inputStr = txtUser.getText().toString();
@@ -255,7 +255,7 @@ public class CadastroActivity extends BaseActivity {
 				telefone = false;
 				
 				if (!hasFocus) {
-					if (!hasFocus && txtTelefone.length() > 8) {
+					if (!hasFocus && CodeSnippet.checkPhone(txtTelefone.getText().toString())) {
 						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
 						telefone = true;
 					} else {

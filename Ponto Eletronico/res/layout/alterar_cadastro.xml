@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
-        android:text="ALterar dados pessoais"
+        android:text="Alterar dados pessoais"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView

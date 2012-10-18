@@ -123,6 +123,15 @@ public class TelaGerenteActivity extends BaseActivity {
 			}
 		});
 
+		btnConfig.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TelaConfiguracoes.startActivity(TelaGerenteActivity.this);
+				
+			}
+		});
+		
 	}
 
 	public void marcarEntrada() {
