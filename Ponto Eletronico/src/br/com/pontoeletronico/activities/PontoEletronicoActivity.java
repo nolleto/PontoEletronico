@@ -1,5 +1,6 @@
 package br.com.pontoeletronico.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
@@ -85,7 +86,7 @@ public class PontoEletronicoActivity extends BaseActivity {
     @Override
 	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			exitActivityAlert("Você realmente deseja sair?");
+			exitActivityAlert("VocÔøΩ realmente deseja sair?");
 	        return true;
 	    }
 	    return super.onKeyDown(keyCode, event);

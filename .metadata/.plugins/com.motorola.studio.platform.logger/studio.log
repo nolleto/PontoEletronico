@@ -1,0 +1,361 @@
+2012-10-19 21:59:40,560 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: OFF
+2012-10-19 21:59:40,567 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: com.motorola.studio.android.emulator.status.notavailable
+2012-10-19 21:59:40,666 [main] INFO  Studio for Android - Setting focus to Android Emulator View
+2012-10-19 21:59:40,670 [main] DEBUG class java.lang.Class - Read initial page property:studio.android.initial.page = null
+2012-10-19 21:59:40,670 [main] DEBUG class java.lang.Class - Use the default URL to be opened in the Web Browser Editor.
+2012-10-19 21:59:40,702 [main] DEBUG class java.lang.Class - Open new Web Browser Editor for: file:/C:/Users/Nolleto Netbook/Motorola Mobility/MOTODEV Studio for Android/MOTODEV/index.html
+2012-10-19 21:59:52,417 [Worker-2] INFO  Studio for Android - Updating Android Emulator viewers
+2012-10-19 21:59:53,276 [Worker-1] INFO  class com.motorola.studio.android.installer.startup.InstallationChecker - Is there any SDK set? false
+2012-10-19 21:59:53,516 [Worker-1] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Added SDK listener to perform configurations when an OPhone SDK is loaded.
+2012-10-19 21:59:53,902 [main] DEBUG Studio for Android - No active instance being shown at emulator view
+2012-10-19 21:59:53,933 [Worker-1] INFO  Studio for Android - [Status: id=IDLE;name=IDLE]
+2012-10-19 21:59:53,933 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offlineNoData;name=Offline (no user data)]
+2012-10-19 21:59:53,933 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.handset.status.handsetonline;name=Online]
+2012-10-19 21:59:53,934 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.online;name=Online]
+2012-10-19 21:59:53,934 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.connected;name=Connected]
+2012-10-19 21:59:53,934 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.notavailable;name=Not available]
+2012-10-19 21:59:53,934 [Worker-1] INFO  Studio for Android - [Status: id=OFF;name=OFF]
+2012-10-19 21:59:53,934 [Worker-1] INFO  Studio for Android - [Status: id=INACTIVE;name=INACTIVE]
+2012-10-19 21:59:53,934 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.disconnected;name=Disconnected]
+2012-10-19 21:59:53,934 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offline;name=Offline]
+2012-10-19 21:59:58,089 [Worker-0] DEBUG class com.motorola.studio.android.AndroidPlugin - Notify SDK loader listeners
+2012-10-19 21:59:58,098 [Worker-0] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.refresh.InstancesListRefresh.refresh(InstancesListRefresh.java:76)
+	at com.motorola.studio.android.emulator.EmulatorPlugin$3.run(EmulatorPlugin.java:216)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 9 more
+2012-10-19 21:59:58,099 [Worker-0] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin$1 - An SDK was just loaded. Check if it is an OPhone SDK
+2012-10-19 21:59:58,101 [Worker-0] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.ophone.OPhonePlugin$1.run(OPhonePlugin.java:51)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 8 more
+2012-10-19 21:59:58,263 [Worker-0] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.CreateAVDOnStartupListener$1.run(CreateAVDOnStartupListener.java:47)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 8 more
+2012-10-19 22:00:17,675 [main] INFO  Studio for Android - Setting focus to Android Emulator View
+2012-10-19 22:00:17,728 [main] DEBUG Studio for Android - Disposing View: class com.motorola.studio.android.emulator.ui.view.AndroidView
+2012-10-19 23:21:01,608 [main] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Removed SDK listener that performs OPhone configurations when an SDK is loaded.
+2012-10-19 23:21:01,861 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.wizard.DeviceWizardPlugin-SHUTDOWN
+2012-10-19 23:21:01,864 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.start.StartServicePlugin-SHUTDOWN
+2012-10-19 23:21:01,920 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.ui.DeviceUIPlugin-SHUTDOWN
+2012-10-19 23:21:01,921 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.stop.StopServicePlugin-SHUTDOWN
+2012-10-19 23:21:01,921 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.DevicePlugin-SHUTDOWN
+2012-10-20 17:57:31,839 [Worker-2] INFO  class com.motorola.studio.android.installer.startup.InstallationChecker - Is there any SDK set? true
+2012-10-20 17:57:31,855 [Worker-3] DEBUG class com.motorola.studio.android.AndroidPlugin - Notify SDK loader listeners
+2012-10-20 17:57:31,863 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: OFF
+2012-10-20 17:57:31,921 [Worker-3] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.CreateAVDOnStartupListener$1.run(CreateAVDOnStartupListener.java:47)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 8 more
+2012-10-20 17:57:31,925 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: com.motorola.studio.android.emulator.status.notavailable
+2012-10-20 17:57:31,937 [Worker-2] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Added SDK listener to perform configurations when an OPhone SDK is loaded.
+2012-10-20 17:57:31,947 [Worker-3] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.refresh.InstancesListRefresh.refresh(InstancesListRefresh.java:76)
+	at com.motorola.studio.android.emulator.EmulatorPlugin$3.run(EmulatorPlugin.java:216)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 9 more
+2012-10-20 17:57:32,269 [Worker-2] INFO  Studio for Android - [Status: id=IDLE;name=IDLE]
+2012-10-20 17:57:32,269 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offlineNoData;name=Offline (no user data)]
+2012-10-20 17:57:32,269 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.handset.status.handsetonline;name=Online]
+2012-10-20 17:57:32,270 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.online;name=Online]
+2012-10-20 17:57:32,270 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.connected;name=Connected]
+2012-10-20 17:57:32,270 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.notavailable;name=Not available]
+2012-10-20 17:57:32,270 [Worker-2] INFO  Studio for Android - [Status: id=OFF;name=OFF]
+2012-10-20 17:57:32,270 [Worker-2] INFO  Studio for Android - [Status: id=INACTIVE;name=INACTIVE]
+2012-10-20 17:57:32,270 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.disconnected;name=Disconnected]
+2012-10-20 17:57:32,270 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offline;name=Offline]
+2012-10-20 20:26:17,690 [Device List Monitor] DEBUG Studio for Android - Device connected: 3532D68C823900EC
+2012-10-20 20:26:28,089 [Device List Monitor] DEBUG Studio for Android - Device changed: 3532D68C823900EC
+2012-10-20 21:04:17,624 [Thread-304] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-20 21:04:17,628 [Thread-305] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-20 21:04:29,535 [Thread-309] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-20 21:04:29,540 [Thread-310] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-20 22:19:16,670 [Thread-327] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-20 23:04:18,380 [Thread-341] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-20 23:04:58,832 [Thread-357] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-20 23:51:13,707 [Thread-380] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:30:14,784 [Thread-406] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:31:21,387 [Thread-425] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:32:11,168 [Thread-464] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:32:11,262 [Thread-465] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:32:32,224 [Thread-484] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:32:55,580 [Thread-500] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:34:44,707 [Thread-538] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:34:52,291 [Thread-546] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:35:19,474 [Thread-560] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:36:28,705 [Thread-584] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:36:55,575 [Thread-600] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:37:10,409 [Thread-622] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 01:42:34,695 [Device List Monitor] DEBUG Studio for Android - Device disconnected: 3532D68C823900EC
+2012-10-21 01:44:22,075 [main] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Removed SDK listener that performs OPhone configurations when an SDK is loaded.
+2012-10-21 01:44:22,278 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.wizard.DeviceWizardPlugin-SHUTDOWN
+2012-10-21 01:44:22,574 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.start.StartServicePlugin-SHUTDOWN
+2012-10-21 01:44:23,276 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.ui.DeviceUIPlugin-SHUTDOWN
+2012-10-21 01:44:23,276 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.stop.StopServicePlugin-SHUTDOWN
+2012-10-21 01:44:23,276 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.DevicePlugin-SHUTDOWN
+2012-10-21 14:30:36,561 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: OFF
+2012-10-21 14:30:36,561 [Worker-1] DEBUG class com.motorola.studio.android.AndroidPlugin - Notify SDK loader listeners
+2012-10-21 14:30:36,577 [Worker-2] INFO  class com.motorola.studio.android.installer.startup.InstallationChecker - Is there any SDK set? true
+2012-10-21 14:30:36,577 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: com.motorola.studio.android.emulator.status.notavailable
+2012-10-21 14:30:36,702 [Worker-1] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.CreateAVDOnStartupListener$1.run(CreateAVDOnStartupListener.java:47)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 8 more
+2012-10-21 14:30:36,702 [Worker-1] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.refresh.InstancesListRefresh.refresh(InstancesListRefresh.java:76)
+	at com.motorola.studio.android.emulator.EmulatorPlugin$3.run(EmulatorPlugin.java:216)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 9 more
+2012-10-21 14:30:36,733 [Worker-2] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Added SDK listener to perform configurations when an OPhone SDK is loaded.
+2012-10-21 14:30:36,998 [Worker-2] INFO  Studio for Android - [Status: id=IDLE;name=IDLE]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offlineNoData;name=Offline (no user data)]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.handset.status.handsetonline;name=Online]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.online;name=Online]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.connected;name=Connected]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.notavailable;name=Not available]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=OFF;name=OFF]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=INACTIVE;name=INACTIVE]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.disconnected;name=Disconnected]
+2012-10-21 14:30:37,138 [Worker-2] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offline;name=Offline]
+2012-10-21 14:37:28,487 [Device List Monitor] DEBUG Studio for Android - Device connected: 3532D68C823900EC
+2012-10-21 14:37:38,748 [Device List Monitor] DEBUG Studio for Android - Device changed: 3532D68C823900EC
+2012-10-21 14:37:55,022 [Thread-42] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 15:28:49,418 [Device List Monitor] DEBUG Studio for Android - Device disconnected: 3532D68C823900EC
+2012-10-21 15:28:51,305 [Device List Monitor] DEBUG Studio for Android - Device connected: 3532D68C823900EC
+2012-10-21 15:29:01,761 [Device List Monitor] DEBUG Studio for Android - Device changed: 3532D68C823900EC
+2012-10-21 15:29:02,411 [Thread-421] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 15:54:06,541 [main] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Removed SDK listener that performs OPhone configurations when an SDK is loaded.
+2012-10-21 15:54:06,981 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.wizard.DeviceWizardPlugin-SHUTDOWN
+2012-10-21 15:54:06,986 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.start.StartServicePlugin-SHUTDOWN
+2012-10-21 15:54:06,995 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.ui.DeviceUIPlugin-SHUTDOWN
+2012-10-21 15:54:06,996 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.stop.StopServicePlugin-SHUTDOWN
+2012-10-21 15:54:06,996 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.DevicePlugin-SHUTDOWN
+2012-10-21 19:25:21,050 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: OFF
+2012-10-21 19:25:21,050 [Worker-1] INFO  class com.motorola.studio.android.installer.startup.InstallationChecker - Is there any SDK set? true
+2012-10-21 19:25:21,050 [Thread-10] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 19:25:21,050 [Worker-7] DEBUG class com.motorola.studio.android.AndroidPlugin - Notify SDK loader listeners
+2012-10-21 19:25:21,128 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: com.motorola.studio.android.emulator.status.notavailable
+2012-10-21 19:25:21,377 [Worker-7] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.CreateAVDOnStartupListener$1.run(CreateAVDOnStartupListener.java:47)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 8 more
+2012-10-21 19:25:21,455 [Worker-7] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.refresh.InstancesListRefresh.refresh(InstancesListRefresh.java:76)
+	at com.motorola.studio.android.emulator.EmulatorPlugin$3.run(EmulatorPlugin.java:216)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 9 more
+2012-10-21 19:25:21,455 [Worker-7] DEBUG Studio for Android - Device connected: 3532D68C823900EC
+2012-10-21 19:25:21,455 [Worker-7] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 19:25:21,486 [Worker-1] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Added SDK listener to perform configurations when an OPhone SDK is loaded.
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=IDLE;name=IDLE]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offlineNoData;name=Offline (no user data)]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.handset.status.handsetonline;name=Online]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.online;name=Online]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.connected;name=Connected]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.notavailable;name=Not available]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=OFF;name=OFF]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=INACTIVE;name=INACTIVE]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.disconnected;name=Disconnected]
+2012-10-21 19:25:21,698 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offline;name=Offline]
+2012-10-21 19:34:26,548 [Thread-204] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 20:36:43,300 [main] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Removed SDK listener that performs OPhone configurations when an SDK is loaded.
+2012-10-21 20:36:43,482 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.wizard.DeviceWizardPlugin-SHUTDOWN
+2012-10-21 20:36:43,485 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.start.StartServicePlugin-SHUTDOWN
+2012-10-21 20:36:43,490 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.ui.DeviceUIPlugin-SHUTDOWN
+2012-10-21 20:36:43,490 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.stop.StopServicePlugin-SHUTDOWN
+2012-10-21 20:36:43,491 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.DevicePlugin-SHUTDOWN
+2012-10-21 21:06:25,423 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: OFF
+2012-10-21 21:06:25,426 [Instance Event Manager] INFO  Studio for Android - The android device instance status was updated: Simulator Status: com.motorola.studio.android.emulator.status.notavailable
+2012-10-21 21:06:25,427 [Worker-1] INFO  class com.motorola.studio.android.installer.startup.InstallationChecker - Is there any SDK set? true
+2012-10-21 21:06:25,456 [Worker-1] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Added SDK listener to perform configurations when an OPhone SDK is loaded.
+2012-10-21 21:06:25,915 [Worker-1] INFO  Studio for Android - [Status: id=IDLE;name=IDLE]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offlineNoData;name=Offline (no user data)]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.handset.status.handsetonline;name=Online]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.online;name=Online]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.connected;name=Connected]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.notavailable;name=Not available]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=OFF;name=OFF]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=INACTIVE;name=INACTIVE]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.remote.status.disconnected;name=Disconnected]
+2012-10-21 21:06:25,926 [Worker-1] INFO  Studio for Android - [Status: id=com.motorola.studio.android.emulator.status.offline;name=Offline]
+2012-10-21 21:06:29,623 [Worker-4] DEBUG class com.motorola.studio.android.AndroidPlugin - Notify SDK loader listeners
+2012-10-21 21:06:29,623 [Worker-4] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin$1 - An SDK was just loaded. Check if it is an OPhone SDK
+2012-10-21 21:06:29,708 [Worker-4] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.ophone.OPhonePlugin$1.run(OPhonePlugin.java:51)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 8 more
+2012-10-21 21:06:29,713 [Worker-4] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.CreateAVDOnStartupListener$1.run(CreateAVDOnStartupListener.java:47)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 8 more
+2012-10-21 21:06:32,170 [Worker-4] DEBUG Studio for Android - Device connected: 3532D68C823900EC
+2012-10-21 21:06:37,500 [Worker-4] ERROR class com.motorola.studio.android.AndroidPlugin - Error while handling SDK loader procedure.
+java.lang.NoClassDefFoundError: com/android/sdklib/ISdkLog
+	at com.motorola.studio.android.emulator.device.refresh.InstancesListRefresh.refresh(InstancesListRefresh.java:76)
+	at com.motorola.studio.android.emulator.EmulatorPlugin$3.run(EmulatorPlugin.java:216)
+	at com.motorola.studio.android.AndroidPlugin$2.done(AndroidPlugin.java:151)
+	at org.eclipse.core.internal.jobs.JobListeners$3.notify(JobListeners.java:39)
+	at org.eclipse.core.internal.jobs.JobListeners.doNotify(JobListeners.java:96)
+	at org.eclipse.core.internal.jobs.JobListeners.done(JobListeners.java:152)
+	at org.eclipse.core.internal.jobs.JobManager.endJob(JobManager.java:647)
+	at org.eclipse.core.internal.jobs.WorkerPool.endJob(WorkerPool.java:105)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:71)
+Caused by: java.lang.ClassNotFoundException: com.android.sdklib.ISdkLog
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:513)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:429)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:417)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 9 more
+2012-10-21 21:06:54,430 [Thread-30] DEBUG Studio for Android - Completely Up Device: 3532D68C823900EC
+2012-10-21 21:54:51,948 [Device List Monitor] DEBUG Studio for Android - Device disconnected: 3532D68C823900EC
+2012-10-22 01:05:03,871 [main] DEBUG class com.motorola.studio.android.ophone.OPhonePlugin - Removed SDK listener that performs OPhone configurations when an SDK is loaded.
+2012-10-22 01:05:04,283 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.wizard.DeviceWizardPlugin-SHUTDOWN
+2012-10-22 01:05:04,293 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.start.StartServicePlugin-SHUTDOWN
+2012-10-22 01:05:04,323 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.ui.DeviceUIPlugin-SHUTDOWN
+2012-10-22 01:05:04,323 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.service.stop.StopServicePlugin-SHUTDOWN
+2012-10-22 01:05:04,323 [main] DEBUG Studio for Android - org.eclipse.sequoyah.device.framework.DevicePlugin-SHUTDOWN

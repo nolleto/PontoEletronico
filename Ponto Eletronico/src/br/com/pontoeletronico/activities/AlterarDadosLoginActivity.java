@@ -74,7 +74,7 @@ public class AlterarDadosLoginActivity extends BaseActivity {
 								}
 							}, "Salvar Nome?");
 						} else {
-							makeMyDearAlert("Nome de usuário ja existente!");
+							makeMyDearAlert("Nome de usuÔøΩrio ja existente!");
 						}
 						
 					} else {
@@ -88,7 +88,7 @@ public class AlterarDadosLoginActivity extends BaseActivity {
 						finish();
 						
 					} else {
-						makeMyDearAlert("Senha não confere com as esfecificações!");
+						makeMyDearAlert("Senha nÔøΩo confere com as esfecificaÔøΩÔøΩes!");
 					}
 				}
 				
@@ -109,7 +109,7 @@ public class AlterarDadosLoginActivity extends BaseActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			exitActivityAlert("Você realmente deseja sair?");
+			exitActivityAlert("VocÔøΩ realmente deseja sair?");
 	        return true;
 	    }
 	    return super.onKeyDown(keyCode, event);
