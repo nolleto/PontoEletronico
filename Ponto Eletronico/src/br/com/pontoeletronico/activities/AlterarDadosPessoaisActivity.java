@@ -3,9 +3,11 @@ package br.com.pontoeletronico.activities;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
+import br.com.pontoeletronico.database.Configuracoes;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.util.CodeSnippet;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.os.Bundle;
@@ -75,53 +77,7 @@ public class AlterarDadosPessoaisActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				switch (opcao) {
-				case 0:
-					if (txtName.length() > 0) {
-						funcionario.Name = txtName.getText().toString();
-						funcionarioDao.update(funcionario);
-						finish();
-						
-					} else {
-						errorMessage();
-					}
-					
-					break;
-				case 1:
-					if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
-						funcionario.Email = txtEmail.getText().toString();
-						funcionarioDao.update(funcionario);
-						finish();
-						
-					} else {
-						makeMyDearAlert("Email inválido");
-					}
-					
-					break;
-				case 2:
-					if (txtAdress.length() > 0) {
-						funcionario.Adress = txtAdress.getText().toString();
-						funcionarioDao.update(funcionario);
-						finish();
-						
-					} else {
-						errorMessage();
-					}
-					
-					break;
-
-				default:
-					if (CodeSnippet.checkPhone(txtPhone.getText().toString())) {
-						funcionario.Phone = txtPhone.getText().toString();
-						funcionarioDao.update(funcionario);
-						finish();
-						
-					} else {
-						errorMessage();
-					}
-					
-					break;
-				}
+				btnSalvar_Touch();
 				
 			}
 		});
@@ -135,6 +91,64 @@ public class AlterarDadosPessoaisActivity extends BaseActivity {
 			}
 		});
 		
+	}
+	
+	public void btnSalvar_Touch() {
+		switch (opcao) {
+		case 0:
+			if (txtName.length() > 0) {
+				funcionario.Name = txtName.getText().toString();
+				confirmarUpdate(funcionario);
+				
+			} else {
+				makeMyDearAlert("O campo Nome está vazio");
+			}
+			
+			break;
+		case 1:
+			if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
+				funcionario.Email = txtEmail.getText().toString();
+				confirmarUpdate(funcionario);
+				
+			} else {
+				makeMyDearAlert(CodeSnippet.problemEmail(txtEmail.getText().toString()));
+			}
+			
+			break;
+		case 2:
+			if (txtAdress.length() > 0) {
+				funcionario.Adress = txtAdress.getText().toString();
+				confirmarUpdate(funcionario);
+				
+			} else {
+				makeMyDearAlert("O campo Endereço está vazio");
+			}
+			
+			break;
+
+		default:
+			if (CodeSnippet.checkPhone(txtPhone.getText().toString())) {
+				funcionario.Phone = txtPhone.getText().toString();
+				confirmarUpdate(funcionario);
+				
+			} else {
+				makeMyDearAlert(CodeSnippet.problemPhone(txtPhone.getText().toString()));
+			}
+			
+			break;
+		}
+	}
+	
+	public void confirmarUpdate(final Funcionario funcionario) {
+		optionActivityAlert(new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				funcionarioDao.update(funcionario);
+				finish();
+				
+			}
+		}, "Salvar mudanças?");
 	}
 	
 	@Override

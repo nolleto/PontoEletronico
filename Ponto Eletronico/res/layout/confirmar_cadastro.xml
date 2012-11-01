@@ -19,23 +19,20 @@
         android:layout_weight="14"
         android:orientation="vertical"
         android:gravity="center_vertical">
-        
+
         <TextView
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:text="Usuário (Gerente/Admin)"
         	android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    	<EditText
+    	<AutoCompleteTextView
         	android:id="@+id/confCadastro_User"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:singleLine="true" 
         	android:imeOptions="actionNext"
-        	android:imeActionId="@+id/confCadastro_Password">
-
-        	<requestFocus />
-    	</EditText>
+        	android:imeActionId="@+id/confCadastro_Password"/>
 
     	<TextView
         	android:layout_width="wrap_content"

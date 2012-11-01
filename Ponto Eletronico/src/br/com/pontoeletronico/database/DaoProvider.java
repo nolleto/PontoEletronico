@@ -1,5 +1,6 @@
 package br.com.pontoeletronico.database;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.concurrent.Callable;
 
@@ -16,7 +17,7 @@ import com.j256.ormlite.table.TableUtils;
 import br.com.pontoeletronico.R;
 
 public class DaoProvider extends OrmLiteSqliteOpenHelper {
-	
+
 	// Nome do arquivo do banco de dados
 	private static final String DATABASE_NAME = "PontoEletronico.db";
 	// Vers�o do banco de dados. Incrementar sempre que altera��es forem feitas no banco.

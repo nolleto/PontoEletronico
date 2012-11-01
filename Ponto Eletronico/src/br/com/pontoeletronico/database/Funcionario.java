@@ -39,12 +39,6 @@ public class Funcionario implements Serializable {
 
 	public Funcionario() {};
 	
-	public Funcionario(String user, String password, Boolean isGerente) {
-		User = user;
-		Password = password;
-		this.isGerente = isGerente;
-	};
-	
 	public Funcionario(String user, String password,String name, Boolean isGerente) {
 		User = user;
 		Password = password;
@@ -59,6 +53,7 @@ public class Funcionario implements Serializable {
 		Email = email;
 		Adress = adress;
 		Phone = phone;
+		isGerente = false;
 	};
 	
 	public Funcionario(String user, String password, String name, String email, String adress, String phone, Boolean isGerente) {

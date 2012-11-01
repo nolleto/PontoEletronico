@@ -7,6 +7,7 @@ import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.database.Funcionario_Ponto;
 import br.com.pontoeletronico.database.Ponto;
+import br.com.pontoeletronico.util.CodeSnippet;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class TelaGerenteActivity extends BaseActivity {
@@ -29,9 +31,6 @@ public class TelaGerenteActivity extends BaseActivity {
 	RuntimeExceptionDao<Funcionario_Ponto, Integer> gerentePontoDao;
 	int id;
 
-	CharSequence[] items = { "Usuï¿½rio", "Senha", "Nome", "Email",
-			"Endereï¿½o", "Telefone" };
-	boolean[] itemsChecked = new boolean[items.length];
 	ArrayList<Integer> listaIDs;
 
 	@Override
@@ -60,6 +59,11 @@ public class TelaGerenteActivity extends BaseActivity {
 		Button btnGerenciarFunc = (Button) findViewById(R.id.telaGerente_Func);
 		Button btnConfig = (Button) findViewById(R.id.telaGerente_Config);
 
+		//Admin n‹o pode alterar seus dados
+		if (gerente.User.equals("admin")) {
+			btnAltCadastro.setVisibility(LinearLayout.GONE);
+		}
+		
 		btnPonto.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -74,13 +78,13 @@ public class TelaGerenteActivity extends BaseActivity {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-
+				
 				if (gerentePonto == null || 
 						(gerentePonto.ponto.inputDate != null && gerentePonto.ponto.outputDate != null)) {
-					marcarEntrada();
+					CodeSnippet.checkIn(getHelper(), gerente);
 				} else if (gerentePonto.ponto.inputDate != null && 
 						gerentePonto.ponto.outputDate == null) {
-					marcarSaida();
+					CodeSnippet.checkOut(getHelper(), gerentePonto);
 				} else {
 					makeMyDearAlert("Erro ap dar Ponto!!!");
 				}
@@ -132,25 +136,15 @@ public class TelaGerenteActivity extends BaseActivity {
 			}
 		});
 		
-	}
-
-	public void marcarEntrada() {
-		Ponto ponto = new Ponto();
-		ponto.inputDate = new Date();
-		pontoDao.create(ponto);
-
-		Funcionario_Ponto funcPonto = new Funcionario_Ponto(gerente, ponto);
-		gerentePontoDao.create(funcPonto);
-
-		makeMyDearAlert("Entrada!!!");
-	}
-
-	public void marcarSaida() {
-		Ponto ponto = gerentePonto.ponto;
-		ponto.outputDate = new Date();
-		pontoDao.update(ponto);
-
-		makeMyDearAlert("SaÃ­da!!!");
+		btnGerenciarFunc.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				GerenciarFuncionariosActivity.startActivity(TelaGerenteActivity.this, id);
+				
+			}
+		});
+		
 	}
 
 	public static void startActivity(Activity activity, int id) {

@@ -43,21 +43,20 @@ public class ListaPontosAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = (LinearLayout)View.inflate(context, R.layout.listview, null);
+			convertView = (LinearLayout)View.inflate(context, R.layout.item_listview, null);
 		}
 		Funcionario_Ponto item = list.get(position);
-		LinearLayout view = (LinearLayout)View.inflate(context, R.layout.listview, null);
 		
-		TextView entrada = (TextView) view.findViewById(R.id.listview_Text);
+		TextView entrada = (TextView) convertView.findViewById(R.id.listview_Text);
 		entrada.setText("Entrada: " + item.ponto.inputDate.toString());
 		
 		if (item.ponto.outputDate != null) {
-			TextView saida = (TextView) view.findViewById(R.id.listview_Text2);
+			TextView saida = (TextView) convertView.findViewById(R.id.listview_Text2);
 			saida.setVisibility(LinearLayout.VISIBLE);
 			saida.setText("Saida: "+ item.ponto.outputDate.toString());
 		}
 		
-		return view;
+		return convertView;
 	}
 
 }

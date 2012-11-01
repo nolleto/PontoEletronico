@@ -1,5 +1,9 @@
 package br.com.pontoeletronico.activities;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
@@ -14,11 +18,14 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class ConfirmarCadastroActivity extends BaseActivity {
-	EditText txtUserAdmin, txtPasswordAdmin;
+	AutoCompleteTextView txtUserAdmin;
+	EditText txtPasswordAdmin;
 	String strUser, strPassword, strNome, strEmail, strEndereco, strTelefone;
 	Funcionario userInfo;
 	
@@ -34,7 +41,7 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 		
 		userInfo = (Funcionario) getIntent().getExtras().getSerializable("UserInfo");
 		
-		txtUserAdmin = (EditText) findViewById(R.id.confCadastro_User);
+		txtUserAdmin = (AutoCompleteTextView) findViewById(R.id.confCadastro_User);
 		txtPasswordAdmin = (EditText) findViewById(R.id.confCadastro_Password);
 		
 		strUser = userInfo.User;
@@ -46,6 +53,26 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 		
 		Button btn_Cadastrar = (Button) findViewById(R.id.confCadastro_Cadastrar);
 		Button btn_Cancelar = (Button) findViewById(R.id.confCadastro_Cancelar);
+		
+		List<Funcionario> listaA = null;
+		try {
+			listaA = funcionarioDao.query(funcionarioDao.queryBuilder()
+					.orderBy("Name", true)
+					.where().eq("isGerente", true)
+					.prepare());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        ArrayList<String> listaB = new ArrayList<String>();
+        
+        for (Funcionario funcionario : listaA) {
+			listaB.add(funcionario.User);
+		}
+        
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, listaB);
+        txtUserAdmin.setAdapter(adapter);
+		
 		
 		btn_Cadastrar.setOnClickListener(new OnClickListener() {
 			

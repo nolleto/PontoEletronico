@@ -58,37 +58,23 @@ public class AlterarDadosLoginActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				if (opcao == 0) {
-					if (txtUser.length() > 0) {
-						if (!CodeSnippet.checkIfExistUser(getHelper(), txtUser.getText().toString())) {
-							optionActivityAlert(new DialogInterface.OnClickListener() {
-								
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									Funcionario funcionario = funcionarioDao.queryForId(id);
-									funcionario.User = txtUser.getText().toString();
-										
-									funcionarioDao.update(funcionario);
-									
-									finish();
-									
-								}
-							}, "Salvar Nome?");
-						} else {
-							makeMyDearAlert("Nome de usuÔøΩrio ja existente!");
-						}
+					if (CodeSnippet.checkUser(getHelper(), txtUser.getText().toString())) {
+						Funcionario funcionario = funcionarioDao.queryForId(id);
+						funcionario.User = txtUser.getText().toString();
+						confirmarUpdate(funcionario);
 						
 					} else {
-						makeMyDearAlert("Complete o campo Nome!");
+						makeMyDearAlert(CodeSnippet.problemUser(getHelper(), txtUser.getText().toString()));
 					}
+					
 				} else {
-					if (CodeSnippet.checkPassword(txtNewPass1.getText().toString()) && txtNewPass1.getText().toString().equals(txtNewPass2.getText().toString())) {
-						Funcionario funcioanrio = funcionarioDao.queryForId(id);
-						funcioanrio.Password = txtNewPass1.getText().toString();
-						funcionarioDao.update(funcioanrio);
-						finish();
+					if (CodeSnippet.checkPassword(txtNewPass1.getText().toString(), txtNewPass2.getText().toString())) {
+						Funcionario funcionario = funcionarioDao.queryForId(id);
+						funcionario.Password = txtNewPass1.getText().toString();
+						confirmarUpdate(funcionario);
 						
 					} else {
-						makeMyDearAlert("Senha nÔøΩo confere com as esfecificaÔøΩÔøΩes!");
+						makeMyDearAlert(CodeSnippet.problemPassword(txtNewPass1.getText().toString(), txtNewPass2.getText().toString()));
 					}
 				}
 				
@@ -104,6 +90,18 @@ public class AlterarDadosLoginActivity extends BaseActivity {
 			}
 		});
 		
+	}
+	
+	public void confirmarUpdate(final Funcionario funcionario) {
+		optionActivityAlert(new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				funcionarioDao.update(funcionario);
+				finish();
+				
+			}
+		}, "Salvar mudanças?");
 	}
 	
 	@Override

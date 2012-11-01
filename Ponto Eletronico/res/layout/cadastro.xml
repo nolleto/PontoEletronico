@@ -9,15 +9,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0px"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:textSize="40dp"
-        android:text="Cadastro =)" />
+        android:gravity="center"
+        android:text="Cadastro" />
 
     <ScrollView
         android:id="@+id/cadastro_Scroll"
         android:layout_width="fill_parent"
         android:layout_height="0px"
-        android:layout_weight="16" >
+        android:layout_weight="15" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -49,10 +50,8 @@
             <TextView 
                 android:id="@+id/text_UserName"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" 
-                android:alpha="0"
+                android:layout_height="wrap_content" 
+                android:visibility="gone"
                 android:text="Usuário Inválido!!!"/>
 
             <TextView
@@ -95,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:alpha="0"
+                android:visibility="gone"
                 android:text="Senhas não coincidem"/>
 
             <TextView
@@ -120,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:alpha="0"
+				android:visibility="gone"
                 android:text="Digite seu Nome!!!"/>
             
             <TextView
@@ -137,6 +136,7 @@
                 android:imeActionId="@+id/cadastro_Endereco"
                 android:imeOptions="actionNext"
                 android:singleLine="true" 
+                android:inputType="textEmailAddress"
                 android:hint="manuel@gmail.com"/>
             
             <TextView 
@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:alpha="0"
+                android:visibility="gone"
                 android:text="Email inválido!!!"/>
 
             <TextView
@@ -161,6 +161,7 @@
                 android:layout_height="wrap_content"
                 android:imeActionId="@+id/cadastro_Telefone"
                 android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
                 android:hint="Rua Colombo, 1054 \nPorto Alegre\nCep: 93155-000"/>
             
             <TextView 
@@ -169,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:alpha="0"
+                android:visibility="gone"
                 android:text="Digite seu endereço!!!"/>
 			
             <TextView
@@ -185,7 +186,8 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:singleLine="true" 
-                android:hint="(51) 3541-6872"/>
+                android:inputType="phone"
+                android:hint="555135416872"/>
             
             <TextView 
                 android:id="@+id/text_Telefone"
@@ -193,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:alpha="0"
+                android:visibility="gone"
                 android:text="Telefone inválido!!!"/>
             
         </LinearLayout>

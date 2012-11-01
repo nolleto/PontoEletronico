@@ -42,12 +42,11 @@ public class ListaContasAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = (LinearLayout)View.inflate(context, R.layout.listview, null);
+			convertView = (LinearLayout)View.inflate(context, R.layout.item_listview, null);
 		}
 		Funcionario item = list.get(position);
-		LinearLayout view = (LinearLayout)View.inflate(context, R.layout.listview, null);
 		
-		TextView name = (TextView) view.findViewById(R.id.listview_Text);
+		TextView name = (TextView) convertView.findViewById(R.id.listview_Text);
 		name.setText(item.User);
 		
 		if (item.isGerente) {
@@ -56,7 +55,7 @@ public class ListaContasAdapter extends BaseAdapter {
 			name.setTextSize(20);
 		}
 		
-		return view;
+		return convertView;
 	
 	}
 

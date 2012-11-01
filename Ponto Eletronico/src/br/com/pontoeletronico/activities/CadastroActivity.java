@@ -1,5 +1,6 @@
 package br.com.pontoeletronico.activities;
 
+import java.util.jar.Attributes.Name;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,14 +15,22 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class CadastroActivity extends BaseActivity {
 	EditText txtUser, txtSenha1, txtSenha2, txtNome, txtEmail, txtEndereco, txtTelefone;
@@ -46,228 +55,158 @@ public class CadastroActivity extends BaseActivity {
 		
 		user = password = nome = email = endereco = telefone = false;
 		
-		txtUser.setOnFocusChangeListener(new OnFocusChangeListener() {
+		txtUser.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				TextView textInfo = (TextView) findViewById(R.id.text_UserName);
-				ObjectAnimator fade = null;
-				user = false;
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				TextView info = (TextView) findViewById(R.id.text_UserName);
 				
-				if (!hasFocus) {
+				if (CodeSnippet.checkUser(getHelper() ,txtUser.getText().toString())) {
+					info.setVisibility(LinearLayout.GONE);
 					
-					String expression = "^[a-z0-9]*$";
-				    CharSequence inputStr = txtUser.getText().toString();
+					user = true;
+					
+				} else {
+					info.setVisibility(LinearLayout.VISIBLE);
+					info.setText(CodeSnippet.problemUser(getHelper() ,txtUser.getText().toString()));
+					user = false;
+				}
+				
+				if (user == false) {
+					return true;
+				}
+				return false;
+			}
+		});
+		
+		txtSenha1.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				TextView info = (TextView) findViewById(R.id.text_Password);
+				
+				if (txtSenha2.length() > 0) {
+					if (CodeSnippet.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
+						info.setVisibility(LinearLayout.GONE);
+						password = true;
+						
+					} else {
+						info.setVisibility(LinearLayout.VISIBLE);
+						info.setText(CodeSnippet.problemPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString()));
+						password = false;
+						
+					}
+				}
+					
+				return false;
+			}
+		});
+		
+		txtSenha2.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				TextView info = (TextView) findViewById(R.id.text_Password);
+				
+				if (txtSenha1.length() > 0) {
+					if (CodeSnippet.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
+						info.setVisibility(LinearLayout.GONE);
+						password = true;
+						
+					} else {
+						info.setVisibility(LinearLayout.VISIBLE);
+						info.setText(CodeSnippet.problemPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString()));
+						password = false;
+					
+						return true;
+					}
+				}
 
-				    Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-				    Matcher matcher = pattern.matcher(inputStr);
+				return false;
+			}
+		});
+		
+		txtNome.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				TextView info = (TextView) findViewById(R.id.text_Nome);
+				
+				if (txtNome.length() > 0) {
+					info.setVisibility(LinearLayout.GONE);
+					nome = true;
+				} else {
+					info.setVisibility(LinearLayout.VISIBLE);
+					info.setText("O campo Nome est‡ em branco");
+					nome = false;
 					
-					if (txtUser.length() >= 4 && txtUser.length() <= 25 && matcher.matches()) {
-						//((TextView) findViewById(R.id.text_UserName)).setVisibility(LinearLayout.GONE);
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
-						user = true;
+					return true;
+				}
+				
+				return false;
+			}
+		});
+		
+		txtEmail.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				TextView info = (TextView) findViewById(R.id.text_Email);
+				
+				if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
+					info.setVisibility(LinearLayout.GONE);
+					email = true;
 
-					} else {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-						
-					}
-				}
-				
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(fade);
-			    animatorSet.start();	
-			}	
-		});
-		
-		txtSenha1.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				TextView textInfo = (TextView) findViewById(R.id.text_Password);
-				ObjectAnimator fade = null;
-				password = false;
-				String senha1 = txtSenha1.getText().toString();
-				String senha2 = txtSenha2.getText().toString();
-				
-				if (!hasFocus) {
-					if (txtSenha1.length() >= 8 && txtSenha1.length() <= 20) {
-						if (txtSenha2.length() > 0) {
-							if (senha1.equals(senha2)) {
-								password = true;
-								fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
-							} else {
-								fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-								textInfo.setText("Senhas nï¿½o coincidem");
-							}
-						} else {
-							fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
-						}
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
+				} else {
+					info.setVisibility(LinearLayout.VISIBLE);
+					info.setText(CodeSnippet.problemEmail(txtEmail.getText().toString()));
+					email = false;
 					
-					} else {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-						textInfo.setText("A senha deve conter entre 8 a 20 caracteres");
-						
-					}
-				} else {
-					//int altura1 = txtSenha2.getHeight();
-					//int altura2 = ((TextView) findViewById(R.id.text_Password)).getHeight();
-						
-					//scrollMain.scrollBy(0, altura1 + altura2 + txtSenha1.getHeight());
+					return true;
 				}
 				
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(fade);
-			    animatorSet.start();
+				return false;
 			}
 		});
 		
-		txtSenha2.setOnFocusChangeListener(new OnFocusChangeListener() {
+		txtEndereco.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				TextView textInfo = (TextView) findViewById(R.id.text_Password);
-				ObjectAnimator fade = null;
-				password = false;
-				String senha1 = txtSenha1.getText().toString();
-				String senha2 = txtSenha2.getText().toString();
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				TextView info = (TextView) findViewById(R.id.text_Endereco);
 				
-				if (!hasFocus) {
-					if (senha1.equals(senha2)) {
-				
-						if (txtSenha2.length() >= 8 && txtSenha2.length() <= 20) {
-							fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
-							password = true;
-						
-						} else {
-							fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-							textInfo.setText("A senha deve conter entre 8 a 20 caracteres");
-						
-						}
+				if (txtEndereco.length() > 0) {
+					info.setVisibility(LinearLayout.GONE);
+					endereco = true;
+				} else {
+					info.setVisibility(LinearLayout.VISIBLE);
+					info.setText("O campo Endereo est‡ em branco");
+					endereco = false;
 					
-					} else {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-						textInfo.setText("Senhas nï¿½o coincidem");
-					}
-				} else {
-					//scrollMain.scrollBy(0, txtSenha2.getHeight() + ((TextView) findViewById(R.id.text_Password)).getHeight());
-				}			
+					return true;
+				}
 				
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(fade);
-			    animatorSet.start();
+				return false;
 			}
 		});
 		
-		txtNome.setOnFocusChangeListener(new OnFocusChangeListener() {
+		txtTelefone.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				TextView textInfo = (TextView) findViewById(R.id.text_Nome);
-				ObjectAnimator fade = null;
-				nome = false;
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				TextView info = (TextView) findViewById(R.id.text_Telefone);
 				
-				if (!hasFocus) {
-					if (txtNome.length() > 0) {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
-						nome = true;
-					} else {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-					}
+				if (CodeSnippet.checkPhone(txtTelefone.getText().toString())) {
+					info.setVisibility(LinearLayout.GONE);
+					telefone = true;
 				} else {
-					//scrollMain.scrollBy(0, txtNome.getHeight() + ((TextView) findViewById(R.id.text_Nome)).getHeight());
+					info.setVisibility(LinearLayout.VISIBLE);
+					info.setText(CodeSnippet.problemPhone(txtTelefone.getText().toString()));
+					telefone = false;
+					
+					return true;
 				}
-				
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(fade);
-			    animatorSet.start();
-			}
-		});
-		
-		txtEmail.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				TextView textInfo = (TextView) findViewById(R.id.text_Email);
-				ObjectAnimator fade = null;
-				email = false;
-				
-				if (!hasFocus) {
-					if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
-						
-						/*String expression = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$";
-					    CharSequence inputStr = txtUser.getText().toString();
-
-					    Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-					    Matcher matcher = pattern.matcher(inputStr);
-						
-					    if (matcher.matches()) {*/
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
-					    	email = true;
-						/*} else {
-							((TextView) findViewById(R.id.text_Email)).setVisibility(LinearLayout.VISIBLE);
-						}*/
-						
-					} else {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-					}
-				} else {
-					//scrollMain.scrollBy(0, txtEmail.getHeight() + ((TextView) findViewById(R.id.text_Email)).getHeight());
-				}
-				
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(fade);
-			    animatorSet.start();
-			}
-		});
-		
-		txtEndereco.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				TextView textInfo = (TextView) findViewById(R.id.text_Endereco);
-				ObjectAnimator fade = null;
-				endereco = false;
-				
-				if (!hasFocus) {
-					if (!hasFocus && txtEndereco.length() > 0) {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
-						endereco = true;
-					} else {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-					}
-				} else {
-					//scrollMain.scrollBy(0, txtEndereco.getHeight() + ((TextView) findViewById(R.id.text_Endereco)).getHeight());
-				}
-				
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(fade);
-			    animatorSet.start();
-			}
-		});
-		
-		txtTelefone.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				TextView textInfo = (TextView) findViewById(R.id.text_Telefone);
-				ObjectAnimator fade = null;
-				telefone = false;
-				
-				if (!hasFocus) {
-					if (!hasFocus && CodeSnippet.checkPhone(txtTelefone.getText().toString())) {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 0f).setDuration(2000);
-						telefone = true;
-					} else {
-						fade = ObjectAnimator.ofFloat(textInfo, "alpha", 100f).setDuration(2000);
-					}
-				} else {
-					//scrollMain.scrollBy(0, txtTelefone.getHeight() + ((TextView) findViewById(R.id.text_Telefone)).getHeight());
-				}
-				
-				AnimatorSet animatorSet = new AnimatorSet();
-				animatorSet.play(fade);
-			    animatorSet.start();
+				return false;
 			}
 		});
 		
@@ -303,12 +242,29 @@ public class CadastroActivity extends BaseActivity {
 		
 	};
 	
-	
+	public void checkAllFields() {
+		if (!user && CodeSnippet.checkUser(getHelper(), txtUser.getText().toString())) {
+			user = true;
+		} 
+		if (!password && CodeSnippet.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
+			password = true;
+		}
+		if (!nome && txtNome.getText().toString().length() > 0) {
+			nome = true;
+		}
+		if (!email && CodeSnippet.checkEmail(txtEmail.getText().toString())) {
+			email = true;
+		}
+		if (!endereco && txtEndereco.getText().toString().length() > 0) {
+			endereco = true;
+		}
+		if (!telefone && CodeSnippet.checkPhone(txtTelefone.getText().toString())) {
+			telefone = true;
+		}
+	}
 	
 	public void btnSalvar_touch() {
-		TextView textInfo = (TextView) findViewById(R.id.text_Nome);
-		textInfo.setFocusableInTouchMode(true);
-		textInfo.requestFocus();
+		checkAllFields();
 		
 		if (user && password && nome && email && endereco && telefone) {
 			openConfirmarCadastro();
@@ -364,8 +320,6 @@ public class CadastroActivity extends BaseActivity {
 				alert.create().show();
 			}
 		}
-		
-		textInfo.setFocusableInTouchMode(false);
 	}
 	
 	public void btnCancelar_touch() {

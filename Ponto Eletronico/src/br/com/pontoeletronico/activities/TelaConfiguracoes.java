@@ -7,6 +7,7 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Configuracoes;
+import br.com.pontoeletronico.util.CodeSnippet;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -32,57 +33,54 @@ import android.widget.ToggleButton;
 public class TelaConfiguracoes extends BaseActivity {
 	EditText txtTitleApk, txtPhone, txtEmail;
 	Button btnCheckIn, btnCheckOut;
+	ToggleButton btnToggleEmail, btnTogglePhone;
 	RuntimeExceptionDao<Configuracoes, Integer> configuracoesDao;
-	Configuracoes configuracoes;
-	Boolean checkInSelected;
+	Configuracoes configuracoesNaoSalvas;
+	Date dateCheckOut;
+	Boolean checkInSelected, titleApk;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tela_configuracoes);
+		setContentView(R.layout.configuracoes);
 		
 		configuracoesDao = getHelper().getConfiguracoesRuntimeDao();
-		configuracoes = configuracoesDao.queryForId(1);
+		configuracoesNaoSalvas = configuracoesDao.queryForId(1);
 		
 		txtTitleApk = (EditText) findViewById(R.id.config_txtTitleApk);
 		txtEmail = (EditText) findViewById(R.id.config_txtEmail);
 		txtPhone = (EditText) findViewById(R.id.config_txtPhone);
+		txtTitleApk.clearFocus();
+		CodeSnippet.closeKeyboard(this);
 		
 		btnCheckIn = (Button) findViewById(R.id.config_btnCheckIn);
 		btnCheckOut = (Button) findViewById(R.id.config_btnCheckOut);
 		
-		if (configuracoes == null) {
-			configuracoes = new Configuracoes(1, new Date(2012, 1, 1, 7, 30), new Date(2012, 1, 1, 18, 0));
-			configuracoesDao.create(configuracoes);
+		if (configuracoesNaoSalvas.titleApk == null || configuracoesNaoSalvas.titleApk.isEmpty()) {
+			txtTitleApk.setHint("App sem nome");
+			titleApk = false;
+			makeMyDearAlert("Atenção, o aplicativo nessecita de um Titulo.");
+			
+		} else {
+			txtTitleApk.setText(configuracoesNaoSalvas.titleApk);
+			titleApk = true;
 		}
 		
-		txtTitleApk.setHint(configuracoes.titleApk == null ? "App sem nome" : configuracoes.titleApk);
-		
+		dateCheckOut = new Date(2012, 01, 01, configuracoesNaoSalvas.checkOutLimit.getHours(), configuracoesNaoSalvas.checkOutLimit.getMinutes());
 		refreshCheckIn();
 		refreshCheckOut();
 		
 		Button btnSalvar = (Button) findViewById(R.id.config_BtnSalvar);
 		Button btnCancelar = (Button) findViewById(R.id.config_BtnCancelar);
 		
-		ToggleButton btnEmail = (ToggleButton) findViewById(R.id.config_Toggle_Email);
-		ToggleButton btnPhone = (ToggleButton) findViewById(R.id.config_Toggle_Phone);
+		btnToggleEmail = (ToggleButton) findViewById(R.id.config_Toggle_Email);
+		btnTogglePhone = (ToggleButton) findViewById(R.id.config_Toggle_Phone);
 		
-		btnEmail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+btnToggleEmail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				/*ScaleAnimation scale;
-				
-				if (isChecked) {
-					scale = expandirAnimacaoExpansao();
-				} else {
-					scale = reduzirAnimacaoExpansao();
-				}
-				
-				txtTitleApk.setAnimation(scale);
-				txtTitleApk.startAnimation(scale);*/
-				
 				if (isChecked) {
 					txtEmail.setVisibility(LinearLayout.VISIBLE);
 				} else {
@@ -92,7 +90,7 @@ public class TelaConfiguracoes extends BaseActivity {
 			}
 		});
 		
-		btnPhone.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		btnTogglePhone.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -109,20 +107,15 @@ public class TelaConfiguracoes extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				if (txtTitleApk.length() > 0 || configuracoes.titleApk.length() > 0) {
+				optionActivityAlert(new DialogInterface.OnClickListener() {
 					
-					optionActivityAlert(new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						salvarAlteracoes();
 						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							finish();
-							
-						}
-					}, "VocÔøΩ realmente deseja salvar essa configuraÔøΩÔøΩes?");
-				} else {
-					makeMyDearAlert("O nome do aplicativo nao pode ficar em branco!");
-				}
-				
+					}
+				}, "VocÔøΩ realmente deseja salvar essa configuraÔøΩÔøΩes?");
+
 			}
 			
 		});
@@ -131,7 +124,7 @@ public class TelaConfiguracoes extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				exitActivityAlert("VocÔøΩ realmente deseja sair?");
+				exitActivity();
 				
 			}
 		});
@@ -164,18 +157,22 @@ public class TelaConfiguracoes extends BaseActivity {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         	
             if (checkInSelected) {
-				configuracoes.checkInLimit.setHours(hourOfDay);
-				configuracoes.checkInLimit.setMinutes(minute);
-				
-				configuracoesDao.update(configuracoes);
+            	if (hourOfDay > configuracoesNaoSalvas.checkOutLimit.getHours() || (hourOfDay == configuracoesNaoSalvas.checkOutLimit.getHours() && minute > configuracoesNaoSalvas.checkOutLimit.getMinutes())) {
+					makeMyDearAlert("O horário de saida nao pode ser maior q o horário de entrada.");
+				} else {
+					configuracoesNaoSalvas.checkInLimit.setHours(hourOfDay);
+					configuracoesNaoSalvas.checkInLimit.setMinutes(minute);
+				}
 				
 				refreshCheckIn();
             	
 			} else {
-				configuracoes.checkOutLimit.setHours(hourOfDay);
-				configuracoes.checkOutLimit.setMinutes(minute);
-				
-				configuracoesDao.update(configuracoes);
+				if (hourOfDay < configuracoesNaoSalvas.checkInLimit.getHours() || (hourOfDay == configuracoesNaoSalvas.checkInLimit.getHours() && minute < configuracoesNaoSalvas.checkInLimit.getMinutes())) {
+					makeMyDearAlert("O horário de saida nao pode ser maior q o horário de entrada.");
+				} else {
+					configuracoesNaoSalvas.checkOutLimit.setHours(hourOfDay);
+					configuracoesNaoSalvas.checkOutLimit.setMinutes(minute);
+				}
 				
 				refreshCheckOut();
 			}
@@ -189,81 +186,105 @@ public class TelaConfiguracoes extends BaseActivity {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
+        if (checkInSelected) {
+			hour = configuracoesNaoSalvas.checkInLimit.getHours();
+			minute = configuracoesNaoSalvas.checkInLimit.getMinutes();
+		} else {
+			hour = configuracoesNaoSalvas.checkOutLimit.getHours();
+			minute = configuracoesNaoSalvas.checkOutLimit.getMinutes();
+		}
+        
 		TimePickerDialog picker = new TimePickerDialog(TelaConfiguracoes.this, new TimePickHandler(), hour, minute, DateFormat.is24HourFormat(TelaConfiguracoes.this));
 		picker.setTitle(title);
 		picker.show();
 	}
 	
 	public void refreshCheckIn() {
-		String hora = configuracoes.checkInLimit.getHours() == 0 ? "00" : String.valueOf(configuracoes.checkInLimit.getHours());
-		String minutos = configuracoes.checkInLimit.getMinutes() == 0 ? "00" :  String.valueOf(configuracoes.checkInLimit.getMinutes());
+		String hora = configuracoesNaoSalvas.checkInLimit.getHours() == 0 ? "00" : String.valueOf(configuracoesNaoSalvas.checkInLimit.getHours());
+		String minutos = configuracoesNaoSalvas.checkInLimit.getMinutes() == 0 ? "00" :  String.valueOf(configuracoesNaoSalvas.checkInLimit.getMinutes());
 		
 		btnCheckIn.setText(hora + ":" + minutos);
     }
 	
 	public void refreshCheckOut() {
-		String hora = configuracoes.checkOutLimit.getHours() == 0 ? "00" :  String.valueOf(configuracoes.checkOutLimit.getHours());
-		String minutos = configuracoes.checkOutLimit.getMinutes() == 0 ? "00" :  String.valueOf(configuracoes.checkOutLimit.getMinutes());
+		String hora = configuracoesNaoSalvas.checkOutLimit.getHours() == 0 ? "00" :  String.valueOf(configuracoesNaoSalvas.checkOutLimit.getHours());
+		String minutos = configuracoesNaoSalvas.checkOutLimit.getMinutes() == 0 ? "00" :  String.valueOf(configuracoesNaoSalvas.checkOutLimit.getMinutes());
 		
 		btnCheckOut.setText(hora + ":" + minutos);
     }
 	
 	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			exitActivityAlert("VocÔøΩ realmente deseja sair?");
+			exitActivity();
 	        return true;
 	    }
 	    return super.onKeyDown(keyCode, event);
 		
 	};
 	
-	private ScaleAnimation expandirAnimacaoExpansao() {
-		ScaleAnimation scaleAnim;
-				
-		// Expand
-		scaleAnim = new ScaleAnimation(0.5f, 1, 1, 1);
-		scaleAnim.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				
-			}
-		});
-		
-		scaleAnim.setDuration(2000);
-				
-		return scaleAnim;
+	public void checkTitle() {
+		if (txtTitleApk.length() > 0) {
+			titleApk = true;
+		} else {
+			titleApk = false;
+		}
 	}
 	
-	private ScaleAnimation reduzirAnimacaoExpansao() {
-		ScaleAnimation scaleAnim;
-				
-		scaleAnim = new ScaleAnimation(1, 0.5f, 1, 1);
-		scaleAnim.setAnimationListener(new AnimationListener() {
-			@Override
-			public void onAnimationStart(Animation animation) {
-				
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animation animation) {}
-			
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				
-			}
-		});
+	public void salvarAlteracoes() {
+		checkTitle();
 		
-		scaleAnim.setDuration(2000);
-				
-		return scaleAnim;
+		if (titleApk && !txtTitleApk.getText().toString().equals(configuracoesNaoSalvas.titleApk)) {
+			configuracoesNaoSalvas.titleApk = txtTitleApk.getText().toString();
+		}
+		if (btnToggleEmail.isChecked()) {
+			if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
+				configuracoesNaoSalvas.emailNotification = txtEmail.getText().toString();
+			} else {
+				makeMyDearAlert(CodeSnippet.problemEmail(txtEmail.getText().toString()));
+				return;
+			}
+		} else {
+			configuracoesNaoSalvas.emailNotification = null;
+		}
+		
+		if (btnTogglePhone.isChecked()) {
+			if (CodeSnippet.checkPhone(txtPhone.getText().toString())) {
+				configuracoesNaoSalvas.phoneNotification = txtPhone.getText().toString(); 
+			} else {
+				makeMyDearAlert(CodeSnippet.problemPhone(txtPhone.getText().toString()));
+				return;
+			}
+		} else {
+			configuracoesNaoSalvas.phoneNotification = null;
+		}
+		
+		configuracoesDao.update(configuracoesNaoSalvas); //Salva as configurações
+		
+		int a, b, c, d;
+		a = dateCheckOut.getMinutes();
+		b = configuracoesNaoSalvas.checkOutLimit.getMinutes(); 
+		c = dateCheckOut.getHours() ;
+		d = configuracoesNaoSalvas.checkOutLimit.getHours();
+		
+		if (dateCheckOut.getMinutes() != configuracoesNaoSalvas.checkOutLimit.getMinutes() || dateCheckOut.getHours() != configuracoesNaoSalvas.checkOutLimit.getHours()) {
+			CodeSnippet.startCheckOutService(getApplicationContext(), getHelper());
+		}
+		
+		if (titleApk) {
+			finish();
+		} else {
+			makeMyDearAlert("O aplicativo necessita de um titulo!");
+		}
+	}
+	
+	public void exitActivity() {
+		checkTitle();
+		if (titleApk) {
+			exitActivityAlert("VocÔøΩ realmente deseja sair?");
+		} else {
+			makeMyDearAlert("O aplicativo necessita de um titulo!");
+		}
+		
 	}
 	
 	public static void startActivity(Activity activity) {

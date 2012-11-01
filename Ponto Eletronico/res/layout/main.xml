@@ -7,10 +7,12 @@
     android:weightSum="20" >
 
     <TextView
+        android:id="@+id/main_txtTitulo"
         android:layout_width="wrap_content"
         android:layout_height="0px"
         android:layout_weight="3"
         android:textSize="40dp"
+        android:gravity="center"
         android:text="Titulo =)" />
     
     <LinearLayout 
@@ -29,13 +31,14 @@
     	    android:textSize="20dp"
     	    android:text="Usuário:"/>
     	
-    	<EditText 
-        	android:id="@+id/userName"
+    	<AutoCompleteTextView 
+    	    android:id="@+id/main_userName"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:singleLine="true"
         	android:imeOptions="actionNext"
         	android:imeActionId="@+id/password"
+        	android:selectAllOnFocus="true"
         	android:text="admin"/>
     	
     	<TextView 
@@ -46,13 +49,20 @@
     	    android:text="Senha:"/>
     	
     	<EditText 
-        	android:id="@+id/password"
+        	android:id="@+id/main_Password"
         	android:layout_width="fill_parent"
         	android:inputType="textPassword"
         	android:singleLine="true"
         	android:layout_height="wrap_content"
         	android:imeOptions="actionDone"
+        	android:selectAllOnFocus="true"
         	android:text="1234"/>
+
+    	<Button
+    	    android:id="@+id/btn_create_users_debug"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:text="Create Users Debug" />
     	
     </LinearLayout>
 
@@ -61,25 +71,25 @@
 	    android:layout_height="0px"
 	    android:layout_weight="4"
 	    android:orientation="horizontal"
-	    android:gravity="center_horizontal"
+	    android:gravity="center"
 	    android:weightSum="6">
 
     	<Button
-        	android:id="@+id/btn_Entrar"
+        	android:id="@+id/main_btnEntrar"
         	android:layout_width="0px"
         	android:layout_height="wrap_content"
         	android:layout_weight="2"
         	android:text="Entrar" />
 
     	<Button 
-    	    android:id="@+id/btn_Cadastros"
+    	    android:id="@+id/main_btnCadastros"
     	    android:layout_width="0px"
     	    android:layout_height="wrap_content"
     	    android:layout_weight="2"
     	    android:text="Cadastros"/>
     	
     	<Button
-    	    android:id="@+id/btn_Cadastrar"
+    	    android:id="@+id/main_btnCadastrar"
     	    android:layout_width="0px"
     	    android:layout_height="wrap_content"
     	    android:layout_weight="2"

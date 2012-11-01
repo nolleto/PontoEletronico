@@ -9,6 +9,7 @@ import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.database.Funcionario_Ponto;
 import br.com.pontoeletronico.database.Ponto;
+import br.com.pontoeletronico.util.CodeSnippet;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TelaFuncionarioActivity extends BaseActivity {
+	Date dateCheckInLimit;
 	ImageView imgPonto;
 	Funcionario funcionario;
 	Funcionario_Ponto funcionarioPonto;
@@ -39,6 +41,8 @@ public class TelaFuncionarioActivity extends BaseActivity {
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		funcionario = funcionarioDao.queryForId(id);
 		
+		dateCheckInLimit = getHelper().getConfiguracoesRuntimeDao().queryForId(1).checkInLimit;
+		
 		imgPonto = (ImageView) findViewById(R.id.telaFuncionario_Img);
 		
 		TextView txtNome = (TextView) findViewById(R.id.telaFuncionario_Nome);
@@ -53,7 +57,6 @@ public class TelaFuncionarioActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				List<Funcionario_Ponto> list;
 				
 				try {
 					funcionarioPonto = funcionarioPontoDao.queryForFirst(funcionarioPontoDao.queryBuilder()
@@ -66,9 +69,9 @@ public class TelaFuncionarioActivity extends BaseActivity {
 				}
 				
 				if (funcionarioPonto == null || (funcionarioPonto.ponto.inputDate != null && funcionarioPonto.ponto.outputDate != null)) {
-					marcarEntrada();
+					CodeSnippet.checkIn(getHelper(), funcionario);
 				} else if (funcionarioPonto.ponto.inputDate != null && funcionarioPonto.ponto.outputDate == null){
-					marcarSaida();
+					CodeSnippet.checkOut(getHelper(), funcionarioPonto);
 				} else {
 					makeMyDearAlert("Erro ap dar Ponto!!!");
 				}
@@ -101,25 +104,6 @@ public class TelaFuncionarioActivity extends BaseActivity {
 		
 	
 		
-	}
-	
-	public void marcarEntrada() {
-		Ponto ponto = new Ponto();
-		ponto.inputDate = new Date();
-		pontoDao.create(ponto);
-		
-		Funcionario_Ponto funcPonto = new Funcionario_Ponto(funcionario, ponto);
-		funcionarioPontoDao.create(funcPonto);
-		
-		makeMyDearAlert("Entrada!!!");
-	}
-	
-	public void marcarSaida() {
-		Ponto ponto = funcionarioPonto.ponto;
-		ponto.outputDate = new Date();
-		pontoDao.update(ponto);
-		
-		makeMyDearAlert("Sa�da!!!");
 	}
 	
 	public static void startActivity(Activity activity, int id) {
