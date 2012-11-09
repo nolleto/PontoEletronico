@@ -21,9 +21,9 @@ public class ListaContasActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.lista_contas);
+		setContentView(R.layout.listview);
 		
-		listView = (ListView) findViewById(R.id.listContas_ListView);
+		listView = (ListView) findViewById(R.id.listView);
 		
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		

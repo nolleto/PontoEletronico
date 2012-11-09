@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
+import br.com.pontoeletronico.database.Configuracoes;
 import br.com.pontoeletronico.database.DaoProvider;
 import br.com.pontoeletronico.database.Ponto;
 import android.app.Service;
@@ -22,6 +23,38 @@ public class CheckOutService extends Service {
 		
 		Log.i("CheckOutService", "onStartCommand");
 		
+		android.os.Debug.waitForDebugger();
+		
+		Context context = getApplication().getApplicationContext();
+		DaoProvider daoProvider = new DaoProvider(context);
+		
+		RuntimeExceptionDao<Ponto, Integer> pontoDao = daoProvider.getPontoRuntimeDao();
+		RuntimeExceptionDao<Configuracoes, Integer> configuracoesDao = daoProvider.getConfiguracoesRuntimeDao();
+		
+		Configuracoes configuracoes = configuracoesDao.queryForId(1);
+		Date dateCheckOut = configuracoes.checkOutLimit;
+		Date now = new Date(); 
+		
+		if (dateCheckOut.getHours() == now.getHours() && (dateCheckOut.getMinutes() >= now.getMinutes() && dateCheckOut.getMinutes() <= now.getMinutes() + 5)) {
+			List<Ponto> list = null;
+			
+			try {
+				list = pontoDao.query(pontoDao.queryBuilder()
+						.where().isNull("outputDate")
+						.prepare());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			for (Ponto ponto : list) {
+				ponto.outputDate = new Date();
+				pontoDao.update(ponto);
+			}
+			
+			Toast.makeText(getApplicationContext(), "Hor‡rio de sa’da marcado para " + list.size() + " funcion‡rio(s) esquecido(s)!", Toast.LENGTH_LONG).show();
+					
+		}
+		
 		return super.onStartCommand(intent, flags, startId);
 	}
 	
@@ -29,29 +62,6 @@ public class CheckOutService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		Log.i("CheckOutService", "onStart");
-		
-		//android.os.Debug.waitForDebugger();
-		
-		Context context = getApplication().getApplicationContext();
-		DaoProvider daoProvider = new DaoProvider(context);
-		
-		RuntimeExceptionDao<Ponto, Integer> pontoDao = daoProvider.getPontoRuntimeDao();
-		List<Ponto> list = null;
-		
-		try {
-			list = pontoDao.query(pontoDao.queryBuilder()
-					.where().isNull("outputDate")
-					.prepare());
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		for (Ponto ponto : list) {
-			ponto.outputDate = new Date();
-			pontoDao.update(ponto);
-		}
-		
-		Toast.makeText(getApplicationContext(), "Hor‡rio de sa’da marcado para " + list.size() + " funcion‡rio(s) esquecido(s)! =)", Toast.LENGTH_LONG).show();
 		
 	}
 	

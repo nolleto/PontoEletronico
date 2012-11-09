@@ -24,6 +24,8 @@ public class GerenciarFuncionariosActivity extends BaseActivity {
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		ListView listaView = (ListView) findViewById(R.id.gerencFuncionarios_ListView);
 		
+		setTitleInActionBar("Somente Teste");
+		
 		List<Funcionario> list = null;
 		try {
 			list = funcionarioDao.query(funcionarioDao.queryBuilder()

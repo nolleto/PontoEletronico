@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import br.com.pontoeletronico.R;
+import br.com.pontoeletronico.data.controller.PontoController;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.database.Funcionario_Ponto;
 import br.com.pontoeletronico.database.Ponto;
@@ -14,8 +15,12 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import android.app.Activity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class TelaGerenteActivity extends BaseActivity {
-	ImageView imgPonto;
 	Funcionario gerente;
 	Funcionario_Ponto gerentePonto;
 	RuntimeExceptionDao<Funcionario, Integer> gerenteDao;
@@ -32,28 +36,33 @@ public class TelaGerenteActivity extends BaseActivity {
 	int id;
 
 	ArrayList<Integer> listaIDs;
-
+	
 	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.tela_funcionario);
+	}
+	
+	/*@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tela_gerente);
+		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		id = getIntent().getExtras().getInt("ID");
 		listaIDs = new ArrayList<Integer>();
-
+		
 		pontoDao = getHelper().getPontoRuntimeDao();
 		gerentePontoDao = getHelper().getFuncionario_PontoRuntimeDao();
 		gerenteDao = getHelper().getFuncionarioRuntimeDao();
 		gerente = gerenteDao.queryForId(id);
-
-		imgPonto = (ImageView) findViewById(R.id.telaGerente_Img);
-
-		TextView txtNome = (TextView) findViewById(R.id.telaGerente_Nome);
-		txtNome.setText(gerente.Name);
-
+		
+		setTitleInActionBar(gerente.Name);
+		
 		Button btnPonto = (Button) findViewById(R.id.telaGerente_Ponto);
-		Button btnErroPonto = (Button) findViewById(R.id.telaGerente_ErroPonto);
 		Button btnAltCadastro = (Button) findViewById(R.id.telaGerente_AlterarUserInfo);
 		Button btnListaPontos = (Button) findViewById(R.id.telaGerente_LogPontos);
 		Button btnGerenciarFunc = (Button) findViewById(R.id.telaGerente_Func);
@@ -81,10 +90,10 @@ public class TelaGerenteActivity extends BaseActivity {
 				
 				if (gerentePonto == null || 
 						(gerentePonto.ponto.inputDate != null && gerentePonto.ponto.outputDate != null)) {
-					CodeSnippet.checkIn(getHelper(), gerente);
+					PontoController.checkIn(getHelper(), gerente);
 				} else if (gerentePonto.ponto.inputDate != null && 
 						gerentePonto.ponto.outputDate == null) {
-					CodeSnippet.checkOut(getHelper(), gerentePonto);
+					PontoController.checkOut(getHelper(), gerentePonto);
 				} else {
 					makeMyDearAlert("Erro ap dar Ponto!!!");
 				}
@@ -145,7 +154,7 @@ public class TelaGerenteActivity extends BaseActivity {
 			}
 		});
 		
-	}
+	}*/
 
 	public static void startActivity(Activity activity, int id) {
 		Intent intent = new Intent(activity, TelaGerenteActivity.class);

@@ -7,6 +7,7 @@ import java.util.List;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
+import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.util.CodeSnippet;
 import br.com.pontoeletronico.util.ThreeButtonDialog;
@@ -22,6 +23,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class ConfirmarCadastroActivity extends BaseActivity {
 	AutoCompleteTextView txtUserAdmin;
@@ -51,94 +54,18 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 		strEndereco = userInfo.Adress;
 		strTelefone = userInfo.Phone;
 		
-		Button btn_Cadastrar = (Button) findViewById(R.id.confCadastro_Cadastrar);
-		Button btn_Cancelar = (Button) findViewById(R.id.confCadastro_Cancelar);
+        txtUserAdmin.setAdapter(FuncionarioController.getArrayAdapter(getHelper(), this, 3));
 		
-		List<Funcionario> listaA = null;
-		try {
-			listaA = funcionarioDao.query(funcionarioDao.queryBuilder()
-					.orderBy("Name", true)
-					.where().eq("isGerente", true)
-					.prepare());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        ArrayList<String> listaB = new ArrayList<String>();
-        
-        for (Funcionario funcionario : listaA) {
-			listaB.add(funcionario.User);
-		}
-        
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, listaB);
-        txtUserAdmin.setAdapter(adapter);
-		
-		
-		btn_Cadastrar.setOnClickListener(new OnClickListener() {
+		txtPasswordAdmin.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public void onClick(View v) {
-				if (txtUserAdmin.length() > 0) {
-					if (txtPasswordAdmin.length() > 0) {
-						
-						if (CodeSnippet.checkIfExistUserAndPassworl(getHelper(), txtUserAdmin.getText().toString(), txtPasswordAdmin.getText().toString())) {
-							AlertDialog.Builder alert = new AlertDialog.Builder(ConfirmarCadastroActivity.this);
-							alert.setCancelable(false).setTitle("Aviso").setMessage("Cadastrar usu�rio como Gerente ou Funcion�rio?").setPositiveButton("Funcion�rio", new DialogInterface.OnClickListener() {
-								
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									saveFuncionario(false);
-									
-								}
-							});
-							
-							alert.setNegativeButton("Gerente", new DialogInterface.OnClickListener() {
-								
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									saveFuncionario(true);
-									
-								}
-							});
-							
-							alert.create().show();
-							
-							
-						} else {
-							makeMyDearAlert("Nenhum usu�rio com esse login encontrado.\nCetifique-se que seu Usu�rio e Senha estejam digitados corretamente.");
-						}
-						
-						
-					} else {
-						makeMyDearAlert("Digite sua Senha!");
-					}
-					
-				} else {
-					makeMyDearAlert("Digite seu Usu�rio!");
-				}
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				onCreateFuncionario();
 				
+				return false;
 			}
 		});
-		
-		btn_Cancelar.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				btnCancelar_touch();
-				
-			}
-		});
-		
 	}
-	
-	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-	        btnCancelar_touch();
-	        return true;
-	    }
-	    return super.onKeyDown(keyCode, event);
-		
-	};
 	
 	public void btnCancelar_touch() {
 		final ThreeButtonDialog alert = new ThreeButtonDialog(this);
@@ -178,24 +105,57 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 		alert.show();
 	}
 	
-	public void saveFuncionario(Boolean isGerente) {
-		Funcionario funcionario = new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone, isGerente);
-		Boolean sucess = true;
-		
-		try {
-			funcionarioDao.create(funcionario);
-		} catch (Exception e) {
-			sucess = false;
-		}
-		
-		if (sucess) {
-			makeMyDearAlert("Usu�rio criado com sucesso!");
-			
-			setResult(1);
-			finish();
+	public void onCreateFuncionario() {
+		if (txtUserAdmin.length() > 0) {
+			if (txtPasswordAdmin.length() > 0) {
+				
+				if (FuncionarioController.checkIfExistUserAndPassworl(getHelper(), txtUserAdmin.getText().toString(), txtPasswordAdmin.getText().toString())) {
+					AlertDialog.Builder alert = new AlertDialog.Builder(ConfirmarCadastroActivity.this);
+					alert.setCancelable(false).setTitle(ConfirmarCadastroActivity.this.getString(R.string.simpleWord_Aviso)).setMessage(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Complete)).setPositiveButton(ConfirmarCadastroActivity.this.getString(R.string.simpleWord_Funcionario), new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (FuncionarioController.createFuncionario(getHelper(), new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone, false))) {
+								makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Sucess));
+								setResult(1);
+								finish();
+								
+							} else {
+								makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Fail));
+							}
+							
+						}
+					});
+					
+					alert.setNegativeButton(ConfirmarCadastroActivity.this.getString(R.string.simpleWord_Gerente), new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (FuncionarioController.createFuncionario(getHelper(), new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone, true))) {
+								makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Sucess));
+								setResult(1);
+								finish();
+								
+							} else {
+								makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Fail));
+							}
+							
+						}
+					});
+					
+					alert.create().show();
+					
+					
+				} else {
+					makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_Error_FindUser));
+				}
+				
+			} else {
+				makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_SubTitle_Password));
+			}
 			
 		} else {
-			makeMyDearAlert("Erro ao criar usu�rio!!!");
+			makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_SubTitle_User));
 		}
 	}
 	

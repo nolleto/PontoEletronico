@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:weightSum="3" >
+    android:orientation="horizontal" >
 
     <fragment
         android:id="@+id/listFragment"
@@ -11,9 +10,15 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:layout_marginTop="?android:attr/actionBarSize"
-        class="br.com.pontoeletronico.fragment.TelaFuncionarioLista" ></fragment>
+        class="br.com.pontoeletronico.fragment.MyListFragment" ></fragment>
 
-    <FrameLayout 
-        ></FrameLayout>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        class="br.com.pontoeletronico.fragment.DetailFragment" >
+        <!-- Preview: layout=@layout/details -->
+    </fragment>
 
 </LinearLayout> 

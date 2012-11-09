@@ -1,41 +1,36 @@
 package br.com.pontoeletronico.activities;
 
-import java.util.jar.Attributes.Name;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.lang.reflect.Method;
+
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
+import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Funcionario;
-import br.com.pontoeletronico.util.CodeSnippet;
+import br.com.pontoeletronico.util.FormValidator;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class CadastroActivity extends BaseActivity {
 	EditText txtUser, txtSenha1, txtSenha2, txtNome, txtEmail, txtEndereco, txtTelefone;
-	ScrollView scrollMain;
-	Boolean user, password, nome, email, endereco,telefone;
+	
+	RuntimeExceptionDao<Funcionario, Integer> funcionarioDao = getHelper().getFuncionarioRuntimeDao();
+	Funcionario novoFuncionario = new Funcionario();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +38,10 @@ public class CadastroActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cadastro);
 		
-		scrollMain = (ScrollView) findViewById(R.id.cadastro_Scroll);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		setTitleInActionBar(this.getString(R.string.activity_Cadastro));
+		//scrollMain = (ScrollView) findViewById(R.id.cadastro_Scroll);
 		
 		txtUser = (EditText) findViewById(R.id.cadastro_UserName);
 		txtSenha1 = (EditText) findViewById(R.id.cadastro_password1);
@@ -53,7 +51,6 @@ public class CadastroActivity extends BaseActivity {
 		txtEndereco = (EditText) findViewById(R.id.cadastro_Endereco);
 		txtTelefone = (EditText) findViewById(R.id.cadastro_Telefone);
 		
-		user = password = nome = email = endereco = telefone = false;
 		
 		txtUser.setOnEditorActionListener(new OnEditorActionListener() {
 			
@@ -61,20 +58,16 @@ public class CadastroActivity extends BaseActivity {
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				TextView info = (TextView) findViewById(R.id.text_UserName);
 				
-				if (CodeSnippet.checkUser(getHelper() ,txtUser.getText().toString())) {
+				if (FormValidator.checkUser(getHelper() ,txtUser.getText().toString())) {
 					info.setVisibility(LinearLayout.GONE);
-					
-					user = true;
 					
 				} else {
 					info.setVisibility(LinearLayout.VISIBLE);
-					info.setText(CodeSnippet.problemUser(getHelper() ,txtUser.getText().toString()));
-					user = false;
-				}
-				
-				if (user == false) {
+					info.setText(FormValidator.problemUser(getHelper() ,txtUser.getText().toString()));
+					
 					return true;
 				}
+				
 				return false;
 			}
 		});
@@ -86,14 +79,14 @@ public class CadastroActivity extends BaseActivity {
 				TextView info = (TextView) findViewById(R.id.text_Password);
 				
 				if (txtSenha2.length() > 0) {
-					if (CodeSnippet.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
+					if (FormValidator.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
 						info.setVisibility(LinearLayout.GONE);
-						password = true;
 						
 					} else {
 						info.setVisibility(LinearLayout.VISIBLE);
-						info.setText(CodeSnippet.problemPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString()));
-						password = false;
+						info.setText(FormValidator.problemPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString()));
+
+						return true;
 						
 					}
 				}
@@ -109,14 +102,12 @@ public class CadastroActivity extends BaseActivity {
 				TextView info = (TextView) findViewById(R.id.text_Password);
 				
 				if (txtSenha1.length() > 0) {
-					if (CodeSnippet.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
+					if (FormValidator.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
 						info.setVisibility(LinearLayout.GONE);
-						password = true;
 						
 					} else {
 						info.setVisibility(LinearLayout.VISIBLE);
-						info.setText(CodeSnippet.problemPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString()));
-						password = false;
+						info.setText(FormValidator.problemPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString()));
 					
 						return true;
 					}
@@ -134,11 +125,10 @@ public class CadastroActivity extends BaseActivity {
 				
 				if (txtNome.length() > 0) {
 					info.setVisibility(LinearLayout.GONE);
-					nome = true;
+
 				} else {
 					info.setVisibility(LinearLayout.VISIBLE);
-					info.setText("O campo Nome está em branco");
-					nome = false;
+					info.setText(CadastroActivity.this.getString(R.string.str_Error_FieldUser));
 					
 					return true;
 				}
@@ -153,14 +143,12 @@ public class CadastroActivity extends BaseActivity {
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				TextView info = (TextView) findViewById(R.id.text_Email);
 				
-				if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
+				if (FormValidator.checkEmail(txtEmail.getText().toString())) {
 					info.setVisibility(LinearLayout.GONE);
-					email = true;
 
 				} else {
 					info.setVisibility(LinearLayout.VISIBLE);
-					info.setText(CodeSnippet.problemEmail(txtEmail.getText().toString()));
-					email = false;
+					info.setText(FormValidator.problemEmail(txtEmail.getText().toString()));
 					
 					return true;
 				}
@@ -177,11 +165,10 @@ public class CadastroActivity extends BaseActivity {
 				
 				if (txtEndereco.length() > 0) {
 					info.setVisibility(LinearLayout.GONE);
-					endereco = true;
+
 				} else {
 					info.setVisibility(LinearLayout.VISIBLE);
-					info.setText("O campo Endereço está em branco");
-					endereco = false;
+					info.setText(CadastroActivity.this.getString(R.string.str_Error_FieldAdress));
 					
 					return true;
 				}
@@ -196,13 +183,12 @@ public class CadastroActivity extends BaseActivity {
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				TextView info = (TextView) findViewById(R.id.text_Telefone);
 				
-				if (CodeSnippet.checkPhone(txtTelefone.getText().toString())) {
+				if (FormValidator.checkPhone(txtTelefone.getText().toString())) {
 					info.setVisibility(LinearLayout.GONE);
-					telefone = true;
+
 				} else {
 					info.setVisibility(LinearLayout.VISIBLE);
-					info.setText(CodeSnippet.problemPhone(txtTelefone.getText().toString()));
-					telefone = false;
+					info.setText(FormValidator.problemPhone(txtTelefone.getText().toString()));
 					
 					return true;
 				}
@@ -210,142 +196,104 @@ public class CadastroActivity extends BaseActivity {
 			}
 		});
 		
-		Button btnSalvar = (Button) findViewById(R.id.cadastro_BtnSalvar);
-		btnSalvar.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				btnSalvar_touch();
-				
-			}
-		});
+	}
+	
+	/**
+	 * Verifica todos os campos do cadastro, caso exista campos que não foram verificados ainda, o metodo irá 
+	 * verificar ou se o campo foi alterado, ele irá verificar novamente.
+	 * <br/>
+	 * <br/>Campos:
+	 * <br/><br/>	Usuário
+	 * <br/>		Senha
+	 * <br/>		E-mail
+	 * <br/>		Endereço
+	 * <br/>		Telefone
+	 * 
+	 */
+	public void checkAllFields() {
+		if (txtUser != null && !txtUser.getText().toString().isEmpty() && FormValidator.checkUser(getHelper(), txtUser.getText().toString())) {
+			novoFuncionario.User = txtUser.getText().toString();
+		} 
+		if (txtSenha1 != null && !txtSenha1.getText().toString().isEmpty() && FormValidator.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
+			novoFuncionario.Password = txtSenha1.getText().toString();
+		}
+		if (txtNome != null && !txtNome.getText().toString().isEmpty() && txtNome.getText().toString().length() > 0) {
+			novoFuncionario.Name = txtNome.getText().toString();
+		}
+		if (txtEmail != null && !txtEmail.getText().toString().isEmpty() && FormValidator.checkEmail(txtEmail.getText().toString())) {
+			novoFuncionario.Email = txtEmail.getText().toString();
+		}
+		if (txtEndereco != null && !txtEndereco.getText().toString().isEmpty() && txtEndereco.getText().toString().length() > 0) {
+			novoFuncionario.Adress = txtEndereco.getText().toString();
+		}
+		if (txtTelefone != null && !txtTelefone.getText().toString().isEmpty() && FormValidator.checkPhone(txtTelefone.getText().toString())) {
+			novoFuncionario.Phone = txtTelefone.getText().toString();
+		}
+	}
+	
+	/**
+	 * Continua o processo de codastrar um funcionário, nesse metodo ele irá reconfirmar os campos
+	 * digitados, e logo em seguida ele irá tomar a ação mais adequada.
+	 * 
+	 */
+	public void continuarCadastro() {
+		checkAllFields();
 		
-		Button btnCancelar = (Button) findViewById(R.id.cadastro_BtnCancelar);
-		btnCancelar.setOnClickListener(new OnClickListener() {
+		if (novoFuncionario.User != null && novoFuncionario.Password != null && novoFuncionario.Name != null && novoFuncionario.Email != null && novoFuncionario.Adress != null && novoFuncionario.Phone != null) {
+			ConfirmarCadastroActivity.startActivity(this, novoFuncionario);
+		} else if (novoFuncionario.User != null && novoFuncionario.Password != null && novoFuncionario.Name != null) {
+			String message = this.getString(R.string.str_CreateUser_CompleteFieldsBegin);
+
+			message = novoFuncionario.Email == null ? message + "\nE-mail" : message;
+			message = novoFuncionario.Adress == null ? message + "\n" + this.getString(R.string.simpleWord_Endereco) : message;
+			message = novoFuncionario.Phone == null ? message + "\nTelefone" : message;
 			
-			@Override
-			public void onClick(View v) {
-				btnCancelar_touch();
+			message = message + "\n" + this.getString(R.string.str_CreateUser_CompleteFieldsEnd);
+			
+			optionActivityAlert(new DialogInterface.OnClickListener() {
 				
-			}
-		});
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					ConfirmarCadastroActivity.startActivity(CadastroActivity.this, novoFuncionario);
+					
+				}
+			}, message);
+			
+		} else {
+			String message = this.getString(R.string.str_CreateUser_CompleteFieldsBeginError) + "\n" + this.getString(R.string.simpleWord_Obrigatorios);
+			
+			message = novoFuncionario.User == null ? message + "\n" + this.getString(R.string.simpleWord_Usuario) : message;
+			message = novoFuncionario.Password == null ? message + "\n" + this.getString(R.string.simpleWord_Senha) : message;
+			message = novoFuncionario.Name == null ? message + "\n" + this.getString(R.string.simpleWord_Nome) : message;
+			
+			message = message + "\n\n" + this.getString(R.string.simpleWord_Restante);
+			
+			message = novoFuncionario.Email == null ? message + "\nE-mail" : message;
+			message = novoFuncionario.Adress == null ? message + "\n" + this.getString(R.string.simpleWord_Endereco) : message;
+			message = novoFuncionario.Phone == null ? message + "\nTelefone" : message;
+			
+			message = message + "\n" + this.getString(R.string.str_CreateUser_CompleteFieldsEndError);
+			
+			makeMyDearAlert(message);
+		}
 		
 	}
 	
 	@Override
-	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-	        btnCancelar_touch();
-	        return true;
-	    }
-	    return super.onKeyDown(keyCode, event);
-		
-	};
-	
-	public void checkAllFields() {
-		if (!user && CodeSnippet.checkUser(getHelper(), txtUser.getText().toString())) {
-			user = true;
-		} 
-		if (!password && CodeSnippet.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
-			password = true;
-		}
-		if (!nome && txtNome.getText().toString().length() > 0) {
-			nome = true;
-		}
-		if (!email && CodeSnippet.checkEmail(txtEmail.getText().toString())) {
-			email = true;
-		}
-		if (!endereco && txtEndereco.getText().toString().length() > 0) {
-			endereco = true;
-		}
-		if (!telefone && CodeSnippet.checkPhone(txtTelefone.getText().toString())) {
-			telefone = true;
-		}
-	}
-	
-	public void btnSalvar_touch() {
-		checkAllFields();
-		
-		if (user && password && nome && email && endereco && telefone) {
-			openConfirmarCadastro();
-		} else {
-			if (user && password && nome) {
-				String message = "Os campos:\n\n";
-				
-				message = email == false ? message + "Email\n" : message;
-				message = endereco == false ? message + "EndereÔøΩo\n" : message;
-				message = telefone == false ? message + "Telefone\n" : message;
-				
-				message = message + "\nEstÔøΩo vazios ou invÔøΩlidos.\nContinuar mesmo assim?";
-				
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setCancelable(false).setTitle("Aviso").setMessage(message).setPositiveButton("Continuar", new AlertDialog.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						openConfirmarCadastro();
-						
-					}
-				});
-				alert.setNegativeButton("Cancelar",	new AlertDialog.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						
-					}
-				});
-				
-				alert.create().show();
-				
-			} else {
-				String message = "Complete correteamente pelo menos os Campos:\n\n";
-				
-				message = user == false ? message + "UsuÔøΩrio para Login\n" : message;
-				message = password == false ? message + "Senha\n" : message;
-				message = nome == false ? message + "Nome\n" : message;
-				
-				message = message + "\nPara criar um novo cadastro.";
-				
-				AlertDialog.Builder alert = new AlertDialog.Builder(this);
-				alert.setCancelable(false).setTitle("Aviso").setMessage(message).setNeutralButton("OK", new AlertDialog.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						
-					}
-				});
-				
-				alert.create().show();
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+        	case android.R.id.home:
+        		backActivity();
+
+	            return true;
+        	  
+        	case R.id.actionCadastro_CreateUser:
+        		continuarCadastro();
+        		
+            	break;
+            	
 			}
-		}
-	}
-	
-	public void btnCancelar_touch() {
-		exitActivityAlert("Voc√™ realmente deseja cancelar o cadastro?");
-	
-	}
-	
-	public void openConfirmarCadastro() {
-		
-		if (!CodeSnippet.checkIfExistUser(getHelper(), txtUser.getText().toString())) {
-			String strUser, strPassword, strNome, strEmail, strEndereco, strTelefone;
-			
-			strUser = txtUser.getText().toString();
-			strPassword = txtSenha1.getText().toString();
-			strNome = txtNome.getText().toString();
-			strEmail = txtEmail.getText().toString();
-			strEndereco = txtEndereco.getText().toString();
-			strTelefone = txtTelefone.getText().toString();
-						
-			Funcionario funcionario = new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone);
-			
-			ConfirmarCadastroActivity.startActivity(CadastroActivity.this, funcionario);
-			
-		} else {
-			makeMyDearAlert("Nome de UsuÔøΩrio ja cadastrado!!!");
-		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override

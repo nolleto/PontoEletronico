@@ -6,11 +6,13 @@ import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Configuracoes;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.util.CodeSnippet;
+import br.com.pontoeletronico.util.FormValidator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,9 +20,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class AlterarDadosPessoaisActivity extends BaseActivity {
-	EditText txtName, txtEmail, txtAdress, txtPhone;
+	EditText txtCurrent, txtField;
 	Funcionario funcionario;
 	RuntimeExceptionDao<Funcionario, Integer> funcionarioDao;
 	int id, opcao;
@@ -37,102 +40,93 @@ public class AlterarDadosPessoaisActivity extends BaseActivity {
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		funcionario = funcionarioDao.queryForId(id);
 
-		txtName = (EditText) findViewById(R.id.altPessoais_NewName);
-		txtEmail = (EditText) findViewById(R.id.altPessoais_NewEmail);
-		txtAdress = (EditText) findViewById(R.id.altPessoais_NewAdress);
-		txtPhone = (EditText) findViewById(R.id.altPessoais_NewPhone);
+		txtCurrent = (EditText) findViewById(R.id.altPessoais_txtCurrentField); //Dados Atual
+		txtField = (EditText) findViewById(R.id.altPessoais_NewInfo); //Campo Atual
+		
 		
 		switch (opcao) {
 		case 0:
-			((LinearLayout) findViewById(R.id.altPessoais_Linear_Name)).setVisibility(LinearLayout.VISIBLE);
-			((TextView) findViewById(R.id.altPessoais_txtCurrent_Name)).setText("Nome atual: " + funcionario.Name);
+			txtCurrent.setText("Nome atual: " + funcionario.Name);
+			txtField.setInputType(InputType.TYPE_CLASS_TEXT);
 			
 			break;
 		case 1:
-			((LinearLayout) findViewById(R.id.altPessoais_Linear_Email)).setVisibility(LinearLayout.VISIBLE);
 			String email = funcionario.Email == null ? "Nenhum email registrado!" : funcionario.Email;
-			((TextView) findViewById(R.id.altPessoais_txtCurrent_Email)).setText("Email atual: " + email);
+			txtCurrent.setText(email);
+			txtField.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 			
 			break;
 		case 2:
-			((LinearLayout) findViewById(R.id.altPessoais_Linear_Adress)).setVisibility(LinearLayout.VISIBLE);
 			String adress = funcionario.Adress == null ? "Nenhum endereço resgistrado!" : funcionario.Adress;
-			((TextView) findViewById(R.id.altPessoais_txtCurrent_Adress)).setText("Endereço atual: " + adress);
+			txtCurrent.setText(adress);
+			txtField.setInputType(InputType.TYPE_CLASS_TEXT);
 			
 			break;
 
 		default:
-			((LinearLayout) findViewById(R.id.altPessoais_Linear_Phone)).setVisibility(LinearLayout.VISIBLE);
 			String phone = funcionario.Phone == null ? "Nenhum telefone registrado!" : funcionario.Phone;
-			((TextView) findViewById(R.id.altPessoais_txtCurrent_Phone)).setText("Telefone atual: " + phone);
+			txtCurrent.setText(phone);
+			txtField.setInputType(InputType.TYPE_CLASS_PHONE);
 			
 			break;
 		}
 		
-		
-		Button btnSalvar = (Button) findViewById(R.id.altPessoais_BtnSalvar);
-		Button btnCancelar = (Button) findViewById(R.id.altPessoais_BtnCancelar);
-		
-		btnSalvar.setOnClickListener(new OnClickListener() {
+		txtField.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public void onClick(View v) {
-				btnSalvar_Touch();
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				saveInfo();
 				
-			}
-		});
-		
-		btnCancelar.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				exitActivityAlert("Você realmente deseja sair?");
-				
+				return false;
 			}
 		});
 		
 	}
 	
-	public void btnSalvar_Touch() {
+	/**
+	 * Sava as mudanças feitas pelo usuário no Banco de Dado.
+	 * 
+	 */
+	public void saveInfo() {
 		switch (opcao) {
 		case 0:
-			if (txtName.length() > 0) {
-				funcionario.Name = txtName.getText().toString();
+			if (txtField.length() > 0) {
+				funcionario.Name = txtField.getText().toString();
 				confirmarUpdate(funcionario);
 				
 			} else {
-				makeMyDearAlert("O campo Nome está vazio");
+				makeMyDearAlert(AlterarDadosPessoaisActivity.this.getString(R.string.str_Error_FieldUser));
 			}
 			
 			break;
 		case 1:
-			if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
-				funcionario.Email = txtEmail.getText().toString();
+			if (FormValidator.checkEmail(txtField.getText().toString())) {
+				funcionario.Email = txtField.getText().toString();
 				confirmarUpdate(funcionario);
 				
 			} else {
-				makeMyDearAlert(CodeSnippet.problemEmail(txtEmail.getText().toString()));
+				makeMyDearAlert(FormValidator.problemEmail(txtField.getText().toString()));
 			}
 			
 			break;
 		case 2:
-			if (txtAdress.length() > 0) {
-				funcionario.Adress = txtAdress.getText().toString();
+			if (txtField.length() > 0) {
+				funcionario.Adress = txtField.getText().toString();
 				confirmarUpdate(funcionario);
 				
 			} else {
-				makeMyDearAlert("O campo Endereço está vazio");
+				makeMyDearAlert(AlterarDadosPessoaisActivity.this.getString(R.string.str_Error_FieldAdress));
 			}
 			
 			break;
 
 		default:
-			if (CodeSnippet.checkPhone(txtPhone.getText().toString())) {
-				funcionario.Phone = txtPhone.getText().toString();
+			if (FormValidator.checkPhone(txtField.getText().toString())) {
+				funcionario.Phone = txtField.getText().toString();
 				confirmarUpdate(funcionario);
 				
 			} else {
-				makeMyDearAlert(CodeSnippet.problemPhone(txtPhone.getText().toString()));
+				makeMyDearAlert(FormValidator.problemPhone(txtField.getText().toString()));
 			}
 			
 			break;
@@ -148,18 +142,8 @@ public class AlterarDadosPessoaisActivity extends BaseActivity {
 				finish();
 				
 			}
-		}, "Salvar mudanças?");
+		}, AlterarDadosPessoaisActivity.this.getString(R.string.str_SaveChanges));
 	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			exitActivityAlert("Você realmente deseja sair?");
-	        return true;
-	    }
-	    return super.onKeyDown(keyCode, event);
-		
-	};
 	
 	public void errorMessage() {
 		makeMyDearAlert("Complete o campo acima!");

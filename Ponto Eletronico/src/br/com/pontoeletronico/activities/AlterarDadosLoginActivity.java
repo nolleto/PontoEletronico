@@ -3,9 +3,12 @@ package br.com.pontoeletronico.activities;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
+import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.util.CodeSnippet;
+import br.com.pontoeletronico.util.FormValidator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +18,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class AlterarDadosLoginActivity extends BaseActivity {
 	RuntimeExceptionDao<Funcionario, Integer> funcionarioDao;
 	EditText txtUser, txtOldPass, txtNewPass1, txtNewPass2;
 	String strOldPass;
+	Funcionario funcionario;
 	int id, opcao;
 	
 	@Override
@@ -32,6 +38,7 @@ public class AlterarDadosLoginActivity extends BaseActivity {
 		opcao = getIntent().getExtras().getInt("Opcao");
 		
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
+		funcionario = funcionarioDao.queryForId(id);
 		
 		LinearLayout linearUser = (LinearLayout) findViewById(R.id.altLogin_Linear_User);
 		LinearLayout linearPassword = (LinearLayout) findViewById(R.id.altLogin_LinearPass);
@@ -50,58 +57,61 @@ public class AlterarDadosLoginActivity extends BaseActivity {
 		txtNewPass1 = (EditText) findViewById(R.id.altLogin_NewPass1);
 		txtNewPass2 = (EditText) findViewById(R.id.altLogin_NewPass2);
 		
-		Button btnSalvar = (Button) findViewById(R.id.altLogin_BtnSalvar);
-		Button btnCancelar = (Button) findViewById(R.id.altLogin_BtnCancelar);
-		
-		btnSalvar.setOnClickListener(new OnClickListener() {
+		txtNewPass2.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public void onClick(View v) {
-				if (opcao == 0) {
-					if (CodeSnippet.checkUser(getHelper(), txtUser.getText().toString())) {
-						Funcionario funcionario = funcionarioDao.queryForId(id);
-						funcionario.User = txtUser.getText().toString();
-						confirmarUpdate(funcionario);
-						
-					} else {
-						makeMyDearAlert(CodeSnippet.problemUser(getHelper(), txtUser.getText().toString()));
-					}
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (FormValidator.checkPassword(txtNewPass1.getText().toString(), txtNewPass2.getText().toString())) {
+					funcionario.Password = txtNewPass1.getText().toString();
+					confirmarUpdate();
 					
 				} else {
-					if (CodeSnippet.checkPassword(txtNewPass1.getText().toString(), txtNewPass2.getText().toString())) {
-						Funcionario funcionario = funcionarioDao.queryForId(id);
-						funcionario.Password = txtNewPass1.getText().toString();
-						confirmarUpdate(funcionario);
-						
-					} else {
-						makeMyDearAlert(CodeSnippet.problemPassword(txtNewPass1.getText().toString(), txtNewPass2.getText().toString()));
-					}
+					makeMyDearAlert(FormValidator.problemPassword(txtNewPass1.getText().toString(), txtNewPass2.getText().toString()));
 				}
 				
+				return false;
 			}
 		});
 		
-		btnCancelar.setOnClickListener(new OnClickListener() {
+		txtUser.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public void onClick(View v) {
-				exitActivityAlert("Voc√™ realmente deseja sair?");
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (FormValidator.checkUser(getHelper(), txtUser.getText().toString())) {
+					funcionario.User = txtUser.getText().toString();
+					confirmarUpdate();
+					
+				} else {
+					makeMyDearAlert(FormValidator.problemUser(getHelper(), txtUser.getText().toString()));
+				}
 				
+				return false;
 			}
 		});
 		
 	}
 	
-	public void confirmarUpdate(final Funcionario funcionario) {
+	/**
+	 * O metodo simplesmente mostra para usuário um {@link AlertDialog} com uma menssagem perguntando
+	 * se ele deseja alterar os dados de login dele.
+	 * 
+	 */
+	public void confirmarUpdate() {
+		
+		
 		optionActivityAlert(new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				funcionarioDao.update(funcionario);
-				finish();
+				if (FuncionarioController.updateFuncionario(getHelper(), funcionario)) {
+					finish();
+				} else {
+					makeMyDearAlert(AlterarDadosLoginActivity.this.getString(R.string.str_Error_UpdateUser));
+				}
+				
 				
 			}
-		}, "Salvar mudanças?");
+		}, AlterarDadosLoginActivity.this.getString(R.string.str_SaveChanges));
 	}
 	
 	@Override

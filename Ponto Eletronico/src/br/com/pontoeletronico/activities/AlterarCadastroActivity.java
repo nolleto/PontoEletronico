@@ -23,6 +23,8 @@ public class AlterarCadastroActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.alterar_cadastro);
 		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		id = getIntent().getExtras().getInt("ID");
 		
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
@@ -34,6 +36,8 @@ public class AlterarCadastroActivity extends BaseActivity {
 		txtEmail = (TextView) findViewById(R.id.alterarCadastro_Email);
 		txtEndereco = (TextView) findViewById(R.id.alterarCadastro_Endereco);
 		txtTelefone = (TextView) findViewById(R.id.alterarCadastro_Telefone);
+		
+		setTitleInActionBar(this.getString(R.string.activity_AlterarCadastro));
 		
 		txtUser.setOnClickListener(new OnClickListener() {
 			

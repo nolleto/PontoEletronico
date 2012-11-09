@@ -24,15 +24,15 @@ public class ListaPontosActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.lista_contas);
+		setContentView(R.layout.listview);
 		
 		int id = getIntent().getExtras().getInt("ID");
-		listView = (ListView) findViewById(R.id.listContas_ListView);
+		listView = (ListView) findViewById(R.id.listView);
 		
 		funcionarioPontoDao = getHelper().getFuncionario_PontoRuntimeDao();
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		
-		TextView txtTitulo = (TextView) findViewById(R.id.textView1);
+		TextView txtTitulo = (TextView) findViewById(R.id.listView_textView1);
 		txtTitulo.setText("Pontos do Usu�rio");
 		
 		Funcionario funcionario = funcionarioDao.queryForId(id);

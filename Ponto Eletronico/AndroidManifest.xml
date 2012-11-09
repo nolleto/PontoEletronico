@@ -8,82 +8,81 @@
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.SET_TIME"/>
-    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/timericon"
         android:label="@string/app_name" 
-        android:theme="@android:style/Theme.Black.NoTitleBar">
+        android:theme="@android:style/Theme.Holo">
         
         <activity
             android:name="br.com.pontoeletronico.activities.PontoEletronicoActivity"
             android:label="@string/app_name" 
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="br.com.pontoeletronico.activities.CadastroActivity"
             android:label="Cadastro" 
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.CadastroActivity" />
-
                 <category android:name="android.intent.category.CadastroActivity" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="br.com.pontoeletronico.activities.ConfirmarCadastroActivity"
-            android:theme="@android:style/Theme.Dialog"
+            android:theme="@android:style/Theme.Holo.Dialog"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.ConfirmarCadastroActivity" />
-
                 <category android:name="android.intent.category.ConfirmarCadastroActivity" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="br.com.pontoeletronico.activities.ListaContasActivity"
             android:label="ListaContas" 
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.ListaContasActivity" />
-
                 <category android:name="android.intent.category.ListaContasActivity" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="br.com.pontoeletronico.activities.TelaFuncionarioActivity"
             android:label="Funcionario" 
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.TelaFuncionarioActivity" />
-
                 <category android:name="android.intent.category.TelaFuncionarioActivity" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="br.com.pontoeletronico.activities.TelaGerenteActivity"
             android:label="Gerente" 
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.TelaGerenteActivity" />
-
                 <category android:name="android.intent.category.TelaGerenteActivity" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="br.com.pontoeletronico.activities.ListaPontosActivity"
             android:label="ListaPontos" 
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.ListaPontosActivity" />
-
                 <category android:name="android.intent.category.ListaPontosActivity" />
             </intent-filter>
         </activity>
@@ -94,37 +93,61 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.AlterarCadastroActivity" />
-
                 <category android:name="android.intent.category.AlterarCadastroActivity" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name=".activities.AlterarDadosLoginActivity"
             android:label="AlterarLogin" 
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.AlterarLoginActivity" />
-
                 <category android:name="android.intent.category.AlterarLoginActivity" />
             </intent-filter>
         </activity>
+        
         <activity
             android:name="br.com.pontoeletronico.activities.AlterarDadosPessoaisActivity"
             android:label="AlterarDadosPessoais" 
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.AlterarDadosPessoaisActivity" />
-
                 <category android:name="android.intent.category.AlterarDadosPessoaisActivity" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.GerenciarFuncionariosActivity"></activity>
-        <activity android:name=".activities.TelaConfiguracoes"></activity>
         
-        <activity android:name=".activities.InfoFuncionarioActivity"></activity>
+        <activity 
+            android:name=".activities.GerenciarFuncionariosActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.GerenciarFuncionariosActivity" />
+                <category android:name="android.intent.category.GerenciarFuncionariosActivity" />
+            </intent-filter>
+        </activity>
+        
+        <activity 
+            android:name=".activities.TelaConfiguracoes"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.TelaConfiguracoes" />
+                <category android:name="android.intent.category.TelaConfiguracoes" />
+            </intent-filter>
+        </activity>
+        
+        <activity 
+            android:name=".activities.InfoFuncionarioActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.InfoFuncionarioActivity" />
+                <category android:name="android.intent.category.InfoFuncionarioActivity" />
+            </intent-filter>
+        </activity>
+        
+        
         <service 
             android:name=".services.CheckOutService"
-            android:process=":checkout_process"></service>
+            android:process=":remote"></service>
         <receiver android:name=".services.CheckOutBroadcastReceiver"></receiver>
         <service android:name=".services.EmailSenderService"></service>
         

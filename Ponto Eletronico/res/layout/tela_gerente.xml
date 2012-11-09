@@ -3,55 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:gravity="center_horizontal"
-    android:weightSum="20">
-    
-    <TextView 
-        android:id="@+id/telaGerente_Nome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20dp" />
+    android:gravity="center_horizontal">
     
     <Button
         android:id="@+id/telaGerente_Ponto" 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Marcar Ponto"/>
-    
-    <Button 
-        android:id="@+id/telaGerente_ErroPonto"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Marquei o Ponto errado ou mais de uma vez."/>
+        android:text="@string/str_Button_CheckInOut"/>    
     
     <Button 
         android:id="@+id/telaGerente_AlterarUserInfo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Alterar informações do usuário"/>
+        android:text="@string/str_Button_ChangeUserInfo" />
     
     <Button 
         android:id="@+id/telaGerente_LogPontos"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Lista de Pontos"/>
+        android:text="@string/str_Button_ListCheckInOut"/>
 
     <Button
         android:id="@+id/telaGerente_Func"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Gerenciar dos funcionarios" />
+        android:text="@string/activity_GerenciarFuncionarios" />
 
     <Button
         android:id="@+id/telaGerente_Config"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Configuracoes" />
-    
-    <ImageView 
-        android:id="@+id/telaGerente_Img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="@string/activity_Configuracoes" />
 
 </LinearLayout>

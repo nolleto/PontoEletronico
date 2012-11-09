@@ -8,6 +8,7 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.database.Configuracoes;
 import br.com.pontoeletronico.util.CodeSnippet;
+import br.com.pontoeletronico.util.FormValidator;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -16,6 +17,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -39,7 +41,6 @@ public class TelaConfiguracoes extends BaseActivity {
 	Date dateCheckOut;
 	Boolean checkInSelected, titleApk;
 	
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
@@ -237,10 +238,10 @@ btnToggleEmail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			configuracoesNaoSalvas.titleApk = txtTitleApk.getText().toString();
 		}
 		if (btnToggleEmail.isChecked()) {
-			if (CodeSnippet.checkEmail(txtEmail.getText().toString())) {
+			if (FormValidator.checkEmail(txtEmail.getText().toString())) {
 				configuracoesNaoSalvas.emailNotification = txtEmail.getText().toString();
 			} else {
-				makeMyDearAlert(CodeSnippet.problemEmail(txtEmail.getText().toString()));
+				makeMyDearAlert(FormValidator.problemEmail(txtEmail.getText().toString()));
 				return;
 			}
 		} else {
@@ -248,10 +249,10 @@ btnToggleEmail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 		}
 		
 		if (btnTogglePhone.isChecked()) {
-			if (CodeSnippet.checkPhone(txtPhone.getText().toString())) {
+			if (FormValidator.checkPhone(txtPhone.getText().toString())) {
 				configuracoesNaoSalvas.phoneNotification = txtPhone.getText().toString(); 
 			} else {
-				makeMyDearAlert(CodeSnippet.problemPhone(txtPhone.getText().toString()));
+				makeMyDearAlert(FormValidator.problemPhone(txtPhone.getText().toString()));
 				return;
 			}
 		} else {
@@ -267,7 +268,7 @@ btnToggleEmail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 		d = configuracoesNaoSalvas.checkOutLimit.getHours();
 		
 		if (dateCheckOut.getMinutes() != configuracoesNaoSalvas.checkOutLimit.getMinutes() || dateCheckOut.getHours() != configuracoesNaoSalvas.checkOutLimit.getHours()) {
-			CodeSnippet.startCheckOutService(getApplicationContext(), getHelper());
+			CodeSnippet.checkOutBroadCastReceiver(getApplicationContext(), getHelper());
 		}
 		
 		if (titleApk) {

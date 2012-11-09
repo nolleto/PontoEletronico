@@ -1,5 +1,6 @@
 package br.com.pontoeletronico.activities;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,12 +8,29 @@ import java.util.List;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
+import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Configuracoes;
 import br.com.pontoeletronico.database.Funcionario;
+import br.com.pontoeletronico.database.Funcionario_Ponto;
+import br.com.pontoeletronico.database.Ponto;
+import br.com.pontoeletronico.services.CheckOutBroadcastReceiver;
 import br.com.pontoeletronico.util.CodeSnippet;
+import br.com.pontoeletronico.util.ExcelFile;
+import br.com.pontoeletronico.util.FormValidator;
+import br.com.pontoeletronico.util.GMailSender;
+import br.com.pontoeletronico.util.Mail;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -21,12 +39,22 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 public class PontoEletronicoActivity extends BaseActivity {
     /** Called when the activity is first created. */
 	RuntimeExceptionDao<Funcionario,Integer> funcionarioDao;
 	AutoCompleteTextView txtUser;
-	Button btnEntrar, btnCadastrar, btnCadastroList;
+	TextView txtPassword;
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		//Toast.makeText(this, "Sample Action Bar Menu Example  - ", Toast.LENGTH_SHORT).show();
+		
+		return super.onOptionsItemSelected(item);
+	}
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,80 +63,100 @@ public class PontoEletronicoActivity extends BaseActivity {
         
         //DEBUG
         Button btn_Debug = (Button) findViewById(R.id.btn_create_users_debug);
-        /*btn_Debug.setOnClickListener(new OnClickListener() {
+        /*btn_Debug.setText("Star broadCast");
+        btn_Debug.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startAlert(null);
+				
+			}
+		});*/
+        btn_Debug.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				createUsersDEBUG();
 				
 			}
-		});*/
-        btn_Debug.setText("Enviar um Email danadinho de bom!");
+		});
+        
+        /*btn_Debug.setText("Enviar Email");
         btn_Debug.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				CodeSnippet.sendEmail(PontoEletronicoActivity.this);
+				Mail mail = new Mail("exemplo01012010@gmail.com", "Teste91testE");
 				
+				String[] toArr = {"felipe.nolleto@digitaldesk.com.br","felipenolletonascimento@gmail.com"};
+				mail.setTo(toArr);			
+				mail.setFrom("felipe.nolleto@terra.com.br");
+				mail.setSubject("Android Email");
+				mail.setBody("If you received this Email, you're a locky bastard man.\n\nCongratulations.");
+				
+				try { 
+			        if(mail.send()) { 
+			          Toast.makeText(PontoEletronicoActivity.this, "Email was sent successfully.", Toast.LENGTH_LONG).show(); 
+			        } else { 
+			          Toast.makeText(PontoEletronicoActivity.this, "Email was not sent.", Toast.LENGTH_LONG).show(); 
+			        } 
+			      } catch(Exception e) { 
+			        Toast.makeText(PontoEletronicoActivity.this, "There was a problem sending the email.", Toast.LENGTH_LONG).show(); 
+			        Log.e("MailApp", "Could not send email", e); 
+			      } 
 			}
-		});
+		});*/
+        
+        /*btn_Debug.setText("Criar Excel File.");
+        btn_Debug.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				ExcelFile.CreateFile(getHelper());
+	
+			}
+		});*/
         
         CodeSnippet.initDB(getHelper());
         
-        CodeSnippet.startCheckOutService(getApplicationContext(), getHelper());
-        
-        txtUser = (AutoCompleteTextView) findViewById(R.id.main_userName);
-        btnEntrar = (Button) findViewById(R.id.main_btnEntrar);
-        btnCadastrar = (Button) findViewById(R.id.main_btnCadastrar);
-        
-        final TextView txtPassword = (TextView) findViewById(R.id.main_Password);
+        //CodeSnippet.checkOutBroadCastReceiver(getApplicationContext(), getHelper());
+       
+        txtUser = (AutoCompleteTextView) findViewById(R.id.main_userName);        
+        txtPassword = (TextView) findViewById(R.id.main_Password);
         
         funcionarioDao = getHelper().getFuncionarioRuntimeDao();   
         
-        btnEntrar.setOnClickListener(new OnClickListener() {
+        txtPassword.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public void onClick(View v) {
-				if (CodeSnippet.checkIfExistUser(getHelper(), txtUser.getText().toString())){
-					Funcionario funcionario = funcionarioDao.queryForEq("User", txtUser.getText().toString()).get(0);
-					
-					if (CodeSnippet.checkIfExistUserAndPassworl(getHelper(), txtUser.getText().toString(), txtPassword.getText().toString())) {
-						if (CodeSnippet.checkIsGerente(getHelper(), txtUser.getText().toString())) {
-							TelaGerenteActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
-						} else {
-							TelaFuncionarioActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
-						}
-						
-					} else {
-						makeMyDearAlert("A Senha incorreta!");
-					}
-					
-				} else {
-					makeMyDearAlert("Usu‡rio " + txtUser.getText().toString() + " n‹o existe!");
-				}
-				
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				enterWithUser();
+
+				return false;
 			}
 		});
-        
-        btnCadastrar.setOnClickListener(new OnClickListener() {
+     
+    }
+    
+    /**
+     * Verifica se o usu‡rio relamente existe e se o Nome us Usu‡rio e Senha est‡ correto, sen‹o ir‡ aparecer uma {@link AlertDialog} com a
+     * mensagem do erro.
+     * 
+     */
+    private void enterWithUser() {
+    	if (FuncionarioController.checkIfExistUser(getHelper(), txtUser.getText().toString())){
+			Funcionario funcionario = funcionarioDao.queryForEq("User", txtUser.getText().toString()).get(0);
 			
-			@Override
-			public void onClick(View v) {
-				CadastroActivity.startActivity(PontoEletronicoActivity.this);
+			if (FuncionarioController.checkIfExistUserAndPassworl(getHelper(), txtUser.getText().toString(), txtPassword.getText().toString())) {
+				TelaFuncionarioActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
 				
+			} else {
+				makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.str_Error_Password));
 			}
-		});
-        
-        btnCadastroList = (Button) findViewById(R.id.main_btnCadastros);
-        btnCadastroList.setOnClickListener(new OnClickListener() {
 			
-			@Override
-			public void onClick(View v) {
-				ListaContasActivity.startActivity(PontoEletronicoActivity.this);
-				
-			}
-		});
-        
+		} else {
+			makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.simpleWord_Usuario) + " " + txtUser.getText().toString() + " " + PontoEletronicoActivity.this.getString(R.string.simpleWord_NaoExiste) + "!");
+		}
     }
     
     @Override
@@ -116,7 +164,6 @@ public class PontoEletronicoActivity extends BaseActivity {
     	// TODO Auto-generated method stub
     	super.onResume();
     	
-    	TextView txtTitulo = (TextView) findViewById(R.id.main_txtTitulo);
     	Configuracoes config = getHelper().getConfiguracoesRuntimeDao().queryForId(1);
     	
     	if (config.titleApk == null || config.titleApk.length() == 0) {
@@ -124,18 +171,9 @@ public class PontoEletronicoActivity extends BaseActivity {
 			return;
 		}
     	
-    	txtTitulo.setText(config.titleApk == null || config.titleApk.isEmpty() ? "Titulo =)" : config.titleApk );
+    	setTitleInActionBar(config.titleApk);
     	
-    	List<Funcionario> listaA = funcionarioDao.queryForAll();
-        ArrayList<String> listaB = new ArrayList<String>();
-        
-        for (Funcionario funcionario : listaA) {
-			listaB.add(funcionario.User);
-		}
-        
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, listaB);
-        
-        txtUser.setAdapter(adapter);
+        txtUser.setAdapter(FuncionarioController.getArrayAdapter(getHelper(), this, 1));
     	
     }
     
@@ -163,15 +201,5 @@ public class PontoEletronicoActivity extends BaseActivity {
     	
     	makeMyDearAlert("Usu‡rios Criados");
     }
-    
-    @Override
-	public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			exitActivityAlert("Vocï¿½ realmente deseja sair?");
-	        return true;
-	    }
-	    return super.onKeyDown(keyCode, event);
-		
-	};
     
 }

@@ -3,16 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:weightSum="20" >
+    android:gravity="center_horizontal" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0px"
-        android:layout_weight="3"
-        android:textSize="40dp"
-        android:gravity="center"
-        android:text="Cadastro" />
 
     <ScrollView
         android:id="@+id/cadastro_Scroll"
@@ -202,28 +194,4 @@
         
     </ScrollView>
 
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="2"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:weightSum="10">
-        
-        <Button 
-            android:id="@+id/cadastro_BtnSalvar"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Salvar"/>
-        
-        <Button 
-            android:id="@+id/cadastro_BtnCancelar"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Cancelar"/>
-        
-    </LinearLayout>
-    
 </LinearLayout>

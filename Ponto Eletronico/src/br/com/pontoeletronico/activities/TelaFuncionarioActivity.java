@@ -6,6 +6,7 @@ import java.util.List;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
+import br.com.pontoeletronico.data.controller.PontoController;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.database.Funcionario_Ponto;
 import br.com.pontoeletronico.database.Ponto;
@@ -34,16 +35,21 @@ public class TelaFuncionarioActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tela_funcionario);
 		
-		int id = getIntent().getExtras().getInt("ID");
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
+		setTitleInActionBar(funcionarioDao.queryForId(getIntent().getExtras().getInt("ID")).Name);
+		
+		/*int id = getIntent().getExtras().getInt("ID");
 		
 		pontoDao = getHelper().getPontoRuntimeDao();
 		funcionarioPontoDao = getHelper().getFuncionario_PontoRuntimeDao();
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		funcionario = funcionarioDao.queryForId(id);
 		
-		dateCheckInLimit = getHelper().getConfiguracoesRuntimeDao().queryForId(1).checkInLimit;
+		dateCheckInLimit = getHelper().getConfiguracoesRuntimeDao().queryForId(1).checkInLimit;*/
 		
-		imgPonto = (ImageView) findViewById(R.id.telaFuncionario_Img);
+		/*imgPonto = (ImageView) findViewById(R.id.telaFuncionario_Img);
 		
 		TextView txtNome = (TextView) findViewById(R.id.telaFuncionario_Nome);
 		txtNome.setText(funcionario.Name);
@@ -69,9 +75,9 @@ public class TelaFuncionarioActivity extends BaseActivity {
 				}
 				
 				if (funcionarioPonto == null || (funcionarioPonto.ponto.inputDate != null && funcionarioPonto.ponto.outputDate != null)) {
-					CodeSnippet.checkIn(getHelper(), funcionario);
+					PontoController.checkIn(getHelper(), funcionario);
 				} else if (funcionarioPonto.ponto.inputDate != null && funcionarioPonto.ponto.outputDate == null){
-					CodeSnippet.checkOut(getHelper(), funcionarioPonto);
+					PontoController.checkOut(getHelper(), funcionarioPonto);
 				} else {
 					makeMyDearAlert("Erro ap dar Ponto!!!");
 				}
@@ -102,7 +108,7 @@ public class TelaFuncionarioActivity extends BaseActivity {
 			}
 		});
 		
-	
+	*/
 		
 	}
 	

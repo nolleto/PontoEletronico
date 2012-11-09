@@ -5,162 +5,26 @@
     android:orientation="vertical" 
     android:gravity="center_horizontal"
     android:weightSum="20" >
-    
-    <TextView 
-        android:id="@+id/altPessoais_txtTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="0px"
-        android:layout_weight="3"
-        android:textSize="20dp"
-        android:layout_marginBottom="40dp"
-        android:text="Teste"/>
-    
-    <LinearLayout 
-        android:id="@+id/altPessoais_Linear_Name"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="14"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:visibility="gone">
-        
-        <TextView 
-            android:id="@+id/altPessoais_txtCurrent_Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Name: Ricardo"/>
-        
-        <TextView 
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:text="Corrija seu nome:"/>
-        
-        <EditText 
-            android:id="@+id/altPessoais_NewName"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:singleLine="true"/>
-        
-    </LinearLayout>
-    
-    <LinearLayout 
-        android:id="@+id/altPessoais_Linear_Email"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="14"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:visibility="gone">
-        
-        <TextView 
-            android:id="@+id/altPessoais_txtCurrent_Email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Email: katDiNoia@quentemail.com"/>
-        
-        <TextView 
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:text="Digite seu Email:"/>
-        
-        <EditText 
-            android:id="@+id/altPessoais_NewEmail"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:singleLine="true"/>
-        
-    </LinearLayout>
-    
-    <LinearLayout 
-        android:id="@+id/altPessoais_Linear_Adress"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="14"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:visibility="gone">
-        
-        <TextView 
-            android:id="@+id/altPessoais_txtCurrent_Adress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Adress: Rua SeiLaOque"/>
-        
-        <TextView 
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:text="Digite seu endereço:"/>
-        
-        <EditText 
-            android:id="@+id/altPessoais_NewAdress"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"/>
-        
-    </LinearLayout>
-    
-    <LinearLayout 
-        android:id="@+id/altPessoais_Linear_Phone"
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="14"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:visibility="gone">
-        
-        <TextView 
-            android:id="@+id/altPessoais_txtCurrent_Phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Phone: 9669-1122"/>
-        
-        <TextView 
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:text="Digite seu telefone:"/>
-        
-        <EditText 
-            android:id="@+id/altPessoais_NewPhone"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:singleLine="true"/>
-        
-    </LinearLayout>
-    
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="3"
-        android:orientation="horizontal"
-        android:weightSum="10">
-        
-        <Button 
-            android:id="@+id/altPessoais_BtnSalvar"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Salvar"
-            />
-        
-        <Button 
-            android:id="@+id/altPessoais_BtnCancelar"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Cancelar"/>
-        
-    </LinearLayout>
-    
+  
+   <TextView 
+       android:id="@+id/altPessoais_txtCurrentField"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+   
+   <TextView 
+       android:id="@+id/altPessoais_txtInfo"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="30dp"
+       android:layout_marginBottom="20dp"
+       android:text="@string/str_Info_Password"/>
+   
+   <EditText 
+       android:id="@+id/altPessoais_NewInfo"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:imeOptions="actionDone"
+       android:inputType="textCapWords"
+       android:singleLine="true"/>
 
 </LinearLayout>

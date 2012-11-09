@@ -3,21 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Informações do Usuário"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:text="Alterar Login"
+        android:text="@string/str_SubTitle_ChangeUserLogin"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -26,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
-        android:text="Usuário" />
+        android:text="@string/str_SubTitle_User" />
 
     <TextView
         android:id="@+id/alterarCadastro_Password"
@@ -34,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
-        android:text="Senha" />
+        android:text="@string/str_SubTitle_Password" />
     
 
     
@@ -43,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
-        android:text="Alterar dados pessoais"
+        android:text="@string/str_SubTitle_ChangeUserInfo"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -52,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
-        android:text="Nome" />
+        android:text="@string/str_SubTitle_Name" />
 
     <TextView
         android:id="@+id/alterarCadastro_Email"
@@ -60,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
-        android:text="Email" />
+        android:text="@string/str_SubTitle_Email" />
 
     <TextView
         android:id="@+id/alterarCadastro_Endereco"
@@ -68,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
-        android:text="Endereço" />
+        android:text="@string/str_SubTitle_Adress" />
 
     <TextView
         android:id="@+id/alterarCadastro_Telefone"
@@ -76,6 +68,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
-        android:text="Telefone" />
+        android:text="@string/str_SubTitle_Phone" />
 
 </LinearLayout>
