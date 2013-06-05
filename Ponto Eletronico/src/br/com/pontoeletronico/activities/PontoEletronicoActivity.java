@@ -1,9 +1,6 @@
 package br.com.pontoeletronico.activities;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
@@ -11,33 +8,20 @@ import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Configuracoes;
 import br.com.pontoeletronico.database.Funcionario;
-import br.com.pontoeletronico.database.Funcionario_Ponto;
-import br.com.pontoeletronico.database.Ponto;
-import br.com.pontoeletronico.services.CheckOutBroadcastReceiver;
+import br.com.pontoeletronico.util.AlertWithEditText;
+import br.com.pontoeletronico.util.AlertWithEditText.OnConfirmationEventListener;
 import br.com.pontoeletronico.util.CodeSnippet;
-import br.com.pontoeletronico.util.ExcelFile;
-import br.com.pontoeletronico.util.FormValidator;
-import br.com.pontoeletronico.util.GMailSender;
-import br.com.pontoeletronico.util.Mail;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.res.Resources;
+import android.app.Dialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -47,6 +31,7 @@ public class PontoEletronicoActivity extends BaseActivity {
 	RuntimeExceptionDao<Funcionario,Integer> funcionarioDao;
 	AutoCompleteTextView txtUser;
 	TextView txtPassword;
+	int optionOnEnterUser;
 	
 	
 	@Override
@@ -76,10 +61,35 @@ public class PontoEletronicoActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				createUsersDEBUG();
+				ShowLoad();
+				
+				AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
+					
+					@Override
+					protected Void doInBackground(Void... params) {
+						createUsersDEBUG();
+						return null;
+					}
+					
+					@Override
+					protected void onPostExecute(Void result) {
+						PontoEletronicoActivity.this.runOnUiThread(new Runnable() {
+							
+							@Override
+							public void run() {
+								HideLoad();
+								makeMyDearAlert("Usu‡rios Criados");
+								
+							}
+						});
+						super.onPostExecute(result);
+					}
+				};
+				asyncTask.execute();
 				
 			}
 		});
+        //btn_Debug.setVisibility(LinearLayout.GONE);
         
         /*btn_Debug.setText("Enviar Email");
         btn_Debug.setOnClickListener(new OnClickListener() {
@@ -130,8 +140,9 @@ public class PontoEletronicoActivity extends BaseActivity {
 			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				enterWithUser();
-
+				ShowLoad();
+				enterWithUser(true);
+				
 				return false;
 			}
 		});
@@ -142,20 +153,70 @@ public class PontoEletronicoActivity extends BaseActivity {
      * Verifica se o usu‡rio relamente existe e se o Nome us Usu‡rio e Senha est‡ correto, sen‹o ir‡ aparecer uma {@link AlertDialog} com a
      * mensagem do erro.
      * 
+     * @param inThread -
+     * 		
      */
-    private void enterWithUser() {
-    	if (FuncionarioController.checkIfExistUser(getHelper(), txtUser.getText().toString())){
-			Funcionario funcionario = funcionarioDao.queryForEq("User", txtUser.getText().toString()).get(0);
+    private void enterWithUser(Boolean inThread) {
+		if (inThread) {
 			
-			if (FuncionarioController.checkIfExistUserAndPassworl(getHelper(), txtUser.getText().toString(), txtPassword.getText().toString())) {
-				TelaFuncionarioActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
+			AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
 				
-			} else {
-				makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.str_Error_Password));
-			}
+				@Override
+				protected Void doInBackground(Void... params) {
+					if (FuncionarioController.checkIfExistUser(getHelper(), txtUser.getText().toString())){
+						funcionario = funcionarioDao.queryForEq("User", txtUser.getText().toString()).get(0);
+						
+						if (FuncionarioController.checkIfExistUserAndPassworl(getHelper(), txtUser.getText().toString(), txtPassword.getText().toString())) {
+							optionOnEnterUser = 1;
+							//TelaFuncionarioActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
+						} else {
+							optionOnEnterUser = 2;
+							//makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.str_Error_Password));
+							
+						}
+						
+					} else {
+						optionOnEnterUser = 3;
+						//makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.simpleWord_Usuario) + " " + txtUser.getText().toString() + " " + PontoEletronicoActivity.this.getString(R.string.simpleWord_NaoExiste) + "!");
+							
+					}
+					
+					PontoEletronicoActivity.this.runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							HideLoad();
+							if (optionOnEnterUser == 1) {
+								TelaFuncionarioActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
+							} else if (optionOnEnterUser == 2) {
+								makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.str_Error_Password));
+							} else if (optionOnEnterUser == 3) {
+								makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.simpleWord_Usuario) + " " + txtUser.getText().toString() + " " + PontoEletronicoActivity.this.getString(R.string.simpleWord_NaoExiste) + "!");
+							}
+							
+							
+						}
+					});
+					
+					return null;
+				}
+			};
+			asyncTask.execute();
 			
 		} else {
-			makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.simpleWord_Usuario) + " " + txtUser.getText().toString() + " " + PontoEletronicoActivity.this.getString(R.string.simpleWord_NaoExiste) + "!");
+			if (FuncionarioController.checkIfExistUser(getHelper(), txtUser.getText().toString())){
+				Funcionario funcionario = funcionarioDao.queryForEq("User", txtUser.getText().toString()).get(0);
+				
+				if (FuncionarioController.checkIfExistUserAndPassworl(getHelper(), txtUser.getText().toString(), txtPassword.getText().toString())) {
+					TelaFuncionarioActivity.startActivity(PontoEletronicoActivity.this, funcionario.funcionarioID);
+					
+				} else {
+					makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.str_Error_Password));
+				}
+				
+			} else {
+				makeMyDearAlert(PontoEletronicoActivity.this.getString(R.string.simpleWord_Usuario) + " " + txtUser.getText().toString() + " " + PontoEletronicoActivity.this.getString(R.string.simpleWord_NaoExiste) + "!");
+			}
 		}
     }
     
@@ -167,7 +228,25 @@ public class PontoEletronicoActivity extends BaseActivity {
     	Configuracoes config = getHelper().getConfiguracoesRuntimeDao().queryForId(1);
     	
     	if (config.titleApk == null || config.titleApk.length() == 0) {
-			TelaConfiguracoes.startActivity(this);
+    		AlertWithEditText alert = new AlertWithEditText(this, getHelper(),"Titulo da aplica‹o", new OnConfirmationEventListener() {
+
+				@Override
+				public void onButtonClickListener(String editText, Button button, Dialog dialog) {
+					if (editText.length() > 0) {
+						Configuracoes config = getHelper().getConfiguracoesRuntimeDao().queryForId(1);
+						config.titleApk = editText;
+						getHelper().getConfiguracoesRuntimeDao().update(config);
+						setTitleInActionBar(editText);
+						
+						Toast.makeText(PontoEletronicoActivity.this, PontoEletronicoActivity.this.getString(R.string.str_Info_TitleApk) + " " + editText, Toast.LENGTH_LONG).show();
+						dialog.dismiss();
+					}
+					
+				}
+
+			});
+    		alert.setCancelable(false);
+        	alert.show();
 			return;
 		}
     	
@@ -177,29 +256,32 @@ public class PontoEletronicoActivity extends BaseActivity {
     	
     }
     
-    
-    
     private void createUsersDEBUG() {
-    	for (int i = 1; i <= 100; i++) {
-			Funcionario func = null;
-			String myPassword = "1234";
-			
-			if ((i % 2) == 0) {
-				func = new Funcionario("user" + i, myPassword, "User " + i, null, "Rua Bartolomeu\n Novo Hamburgo", null);
-			} else if ((i % 3) == 0) {
-				func = new Funcionario("usuario" + i, myPassword, "Usu‡rio Teste da Silva Sauro " + i, true);
-			} else if ((i % 5) == 0) {
-				func = new Funcionario("joao" + i, myPassword, "Jo‹o Henrique " + i, "joao_nh" + i + "@hotmail.com", "Rua craktos\nNumero 3946\nEstacia Nova", "(52) 62" + i + "85465", false);
-			} else if ((i % 7) == 0) {
-				func = new Funcionario("gerente" + i, myPassword, "Gerente Dion’sio " + i, "cablocomaneiro" + i + "@gmail.com", null, null, true);
-			} else {
-				func = new Funcionario("funcionario" + i, myPassword, "Funcionario Le‹o Correia Lima da Silva Monteiro dos Santos " + i, false);
-			}
-			
-			funcionarioDao.createIfNotExists(func);
-		}
+    	Funcionario admin = FuncionarioController.getFuncionarioForId(getHelper(), 1);
     	
-    	makeMyDearAlert("Usu‡rios Criados");
+    	if (FuncionarioController.getFuncionarioWithUserAndPassword(getHelper(), "joao5", "1234") == null) {
+	    	for (int i = 1; i <= 100; i++) {
+				Funcionario func = null;
+				String myPassword = "1234";
+				
+				if ((i % 2) == 0) {
+					func = new Funcionario("user" + i, myPassword, "User " + i, null, "Rua Bartolomeu\n Novo Hamburgo", null, false);
+				} else if ((i % 3) == 0) {
+					func = new Funcionario("usuario" + i, myPassword, "Usu‡rio Teste da Silva Sauro " + i, true);
+				} else if ((i % 5) == 0) {
+					func = new Funcionario("joao" + i, myPassword, "Jo‹o Henrique " + i, "joao_nh" + i + "@hotmail.com", "Rua craktos\nNumero 3946\nEstacia Nova", "(52) 62" + i + "85465", false);
+				} else if ((i % 7) == 0) {
+					func = new Funcionario("gerente" + i, myPassword, "Gerente Dion’sio " + i, "cablocomaneiro" + i + "@gmail.com", null, null, true);
+				} else {
+					func = new Funcionario("funcionario" + i, myPassword, "Funcionario Le‹o Correia Lima da Silva Monteiro dos Santos " + i, false);
+				}
+				
+				func.DateCreated = new Date();
+				func.GerenteDelegate = admin;
+				funcionarioDao.createIfNotExists(func);
+			}
+    	}
+    	txtUser.setAdapter(FuncionarioController.getArrayAdapter(getHelper(), this, 1));
     }
     
 }

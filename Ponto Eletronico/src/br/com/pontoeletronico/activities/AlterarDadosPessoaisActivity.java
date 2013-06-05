@@ -3,28 +3,21 @@ package br.com.pontoeletronico.activities;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
-import br.com.pontoeletronico.database.Configuracoes;
 import br.com.pontoeletronico.database.Funcionario;
-import br.com.pontoeletronico.util.CodeSnippet;
 import br.com.pontoeletronico.util.FormValidator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.FeatureInfo;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class AlterarDadosPessoaisActivity extends BaseActivity {
-	EditText txtCurrent, txtField;
-	Funcionario funcionario;
+	TextView txtCurrent, txtInfo;
+	EditText txtField;
 	RuntimeExceptionDao<Funcionario, Integer> funcionarioDao;
 	int id, opcao;
 	
@@ -40,31 +33,41 @@ public class AlterarDadosPessoaisActivity extends BaseActivity {
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		funcionario = funcionarioDao.queryForId(id);
 
-		txtCurrent = (EditText) findViewById(R.id.altPessoais_txtCurrentField); //Dados Atual
+		txtCurrent = (TextView) findViewById(R.id.altPessoais_txtCurrentField); //Dados Atual
+		txtInfo = (TextView) findViewById(R.id.altPessoais_txtInfo); 
 		txtField = (EditText) findViewById(R.id.altPessoais_NewInfo); //Campo Atual
 		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		switch (opcao) {
 		case 0:
-			txtCurrent.setText("Nome atual: " + funcionario.Name);
+			setTitleInActionBar(this.getString(R.string.str_SubTitle_ChangeUserName));
+			txtCurrent.setText(this.getString(R.string.str_Current_Name) + " " + funcionario.Name);
+			txtInfo.setText(this.getString(R.string.str_SubTitle_NewName));
 			txtField.setInputType(InputType.TYPE_CLASS_TEXT);
 			
 			break;
 		case 1:
-			String email = funcionario.Email == null ? "Nenhum email registrado!" : funcionario.Email;
+			setTitleInActionBar(this.getString(R.string.str_SubTitle_ChangeUserEmail));
+			String email = funcionario.Email == null ? this.getString(R.string.str_Current_Email_Empty) : this.getString(R.string.str_Current_Email) + " " + funcionario.Email;
+			txtInfo.setText(this.getString(R.string.str_SubTitle_NewEmail));
 			txtCurrent.setText(email);
 			txtField.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 			
 			break;
 		case 2:
-			String adress = funcionario.Adress == null ? "Nenhum endereço resgistrado!" : funcionario.Adress;
+			setTitleInActionBar(this.getString(R.string.str_SubTitle_ChangeUserAdress));
+			String adress = funcionario.Adress == null ?this.getString(R.string.str_Current_Adress_Empty) : this.getString(R.string.str_Current_Adress) + " " + funcionario.Adress;
+			txtInfo.setText(this.getString(R.string.str_SubTitle_NewAdress));
 			txtCurrent.setText(adress);
 			txtField.setInputType(InputType.TYPE_CLASS_TEXT);
 			
 			break;
 
 		default:
-			String phone = funcionario.Phone == null ? "Nenhum telefone registrado!" : funcionario.Phone;
+			setTitleInActionBar(this.getString(R.string.str_SubTitle_ChangeUserPhone));
+			String phone = funcionario.Phone == null ? this.getString(R.string.str_Current_Phone_Empty) : this.getString(R.string.str_Current_Phone) + " " + funcionario.Phone;
+			txtInfo.setText(this.getString(R.string.str_SubTitle_NewPhone));
 			txtCurrent.setText(phone);
 			txtField.setInputType(InputType.TYPE_CLASS_PHONE);
 			

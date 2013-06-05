@@ -23,16 +23,35 @@
     <string name="str_CreateUser_Sucess">Usuário criado com sucesso!</string>
     <string name="str_CreateUser_Fail">Erro ao criar usuário!</string>
     
+    <string name="str_Message_DeleteItemListPonto">Deletar esse registro?</string>
+    <string name="str_Message_CreatedXLS">Arquivo criado com sucesso!</string>
+    
+    <string name="str_Current_Email">Seu email atual é </string>
+    <string name="str_Current_Phone">Seu telefone atual é </string>
+    <string name="str_Current_Adress">Seu endereço atual é </string>
+    <string name="str_Current_Name">Seu nome atual é </string>
+    
+    <string name="str_Current_Email_Empty">Nenhum endereço resgistrado!</string>
+    <string name="str_Current_Phone_Empty">Nenhum telefone resgistrado!</string>
+    <string name="str_Current_Adress_Empty">Nenhum endereço resgistrado!</string>
+    <string name="str_Current_FuncConfig_CheckInOut_Empty">Nenhum horário cadastrado!</string>
+    
     <string name="simpleWord_Usuario">Usuário</string>
     <string name="simpleWord_NaoExiste">não existe</string>
     <string name="simpleWord_Senha">Senha</string>
     <string name="simpleWord_Nome">Nome</string>
+    <string name="simpleWord_Telefone">Telefone</string>
+    <string name="simpleWord_Email">Email</string>
     <string name="simpleWord_Endereco">Endereço</string>
     <string name="simpleWord_Obrigatorios">Obrigaórios</string>
     <string name="simpleWord_Restante">Restantes</string>
     <string name="simpleWord_Gerente">Gerente</string>
     <string name="simpleWord_Funcionario">Funcionário</string>
     <string name="simpleWord_Aviso">Aviso</string>
+    <string name="simpleWord_Entrada">Entrada</string>
+    <string name="simpleWord_Saida">Saída</string>
+    <string name="simpleWord_Sim">Sim</string>
+    <string name="simpleWord_Nao">Não</string>
     
     <string name="str_Error_Password">Senha incorreta!</string>
     <string name="str_Error_FieldUser">O campo Nome está em branco</string>
@@ -40,21 +59,40 @@
     <string name="str_Error_CreateUser">Senha incorreta!</string>
     <string name="str_Error_FindUser">Nome de usuário ou senha incorreto!</string>
     <string name="str_Error_UpdateUser">Erro ao salvar informações do usuário!</string>
+    <string name="str_Error_CheckIn">Data de Check In não pode ser maior do que a do Check Out!</string>
+    <string name="str_Error_CheckOut">Data de Check Out não pode ser menor do que a do Check In!</string>
+    <string name="str_Error_FindXLS">Nenhum arquivo encontrado. Gere o arquivo primeiro!</string>
+    <string name="str_Error_CreateXLS_WithoutCheckOut">Usuário não tem o Ponto de saída!</string>
     
-    <string name="listView_Empty_Ponto">Esse usuário aind não possui nenhum ponto.</string>
+    
+    <string name="listView_Empty_Ponto">Esse usuário ainda não possui nenhum ponto.</string>
     <string name="listView_Empty_GerenciarFuncionarios">Não existem funcionários cadastrados.</string>
+    <string name="listView_Empty_GerenciarFuncionarios_Search">Não foram encontrado funcionários cadastrados com as informações fornecidas.</string>
     
     <string name="str_Enter">Entrar</string>
     <string name="str_Save">Salvar</string>
     <string name="str_Cancel">Cancelar</string>
     <string name="str_SaveChanges">Salvar mudanças?</string>
+    <string name="str_Ok">OK</string>
     
     <string name="str_Action_AddUser">Novo Usuário</string>
     <string name="str_Action_ListUsers">Cadastros</string>
     <string name="str_Action_CreateUser">Criar Usuário</string>
+    <string name="str_Action_CheckInOut">Check In/Out</string>
+    <string name="str_Action_ListPontos">Lista de Pontos</string>
+    <string name="str_Action_DeleteUser">Deletar usuário</string>
+    <string name="str_Action_DeleteList">Deletar lista de Pontos</string>
+    <string name="str_Action_FuncionarioConfiguracoes">Configurações do Funcionário</string>
+    <string name="str_Action_FuncionarioConfiguracoes_DeleteAll">Resetar tudo</string>
+    <string name="str_Action_FuncionarioConfiguracoes_DeleteCheckIn">Resetar CheckIn</string>
+    <string name="str_Action_FuncionarioConfiguracoes_DeleteCheckOut">Resetar CheckOut</string>
+    
+    <string name="str_Action_DeleteUser_Touch">Você realmente deseja deletar esse funcionário?</string>
+    <string name="str_Action_DeleteList_Touch">Você realmente deseja deletar a lista de pontos desse funcionário?</string>
     
     <string name="str_Info_Password">A senha deve conter entre 8 a 20 letras ou numero.</string>
     <string name="str_Info_User">O usuário deve conter entr 4 a 25 charaters e pode conter apenas letras e números.</string>
+    <string name="str_Info_TitleApk">Título da aplicação mudado para </string>
 
     <string name="str_SubTitle_User">Digite seu Usuário: </string>
     <string name="str_SubTitle_UserAdmin">Usuário (Gerente/Admin): </string>
@@ -68,27 +106,49 @@
     <string name="str_SubTitle_NewPassword">Digite sua nova Senha: </string>
     <string name="str_SubTitle_OldPassword">Digite sua antiga Senha: </string>
     <string name="str_SubTitle_CorrectName">Corriga seu Nome: </string>
-    <string name="str_SubTitle_NewName">Digite seu novo Nome: </string>
+    <string name="str_SubTitle_NewName">Corrija seu Nome: </string>
     <string name="str_SubTitle_NewEmail">Digite seu novo Email: </string>
     <string name="str_SubTitle_NewAdress">Digite seu novo Endereço: </string>
     <string name="str_SubTitle_NewPhone">Digite seu novo Telefone: </string>
     
     <string name="str_Title_UserInfo">Informações do Usuário</string>
     <string name="str_Title_Finish_CreateUser">Concluir cadastro</string>
+    <string name="str_Title_InfoUser">Informações do Usuário</string>
     
     <string name="str_SubTitle_ChangeUserLogin">Alterar Login</string>
     <string name="str_SubTitle_ChangeUserInfo">Alterar dados pessoais</string>
+    <string name="str_SubTitle_ChangeUserUser">Alterar Usuário</string>
+    <string name="str_SubTitle_ChangeUserName">Alterar Nome</string>
+    <string name="str_SubTitle_ChangeUserPassword">Alterar Senha</string>
+    <string name="str_SubTitle_ChangeUserEmail">Alterar Email</string>
+    <string name="str_SubTitle_ChangeUserAdress">Alterar Endereço</string>
+    <string name="str_SubTitle_ChangeUserPhone">Alterar Telefone</string>
+    
+    <string name="str_SubTitle_EmailNotification">Email para noticar caso funcionário chegue atrasado</string>
+    <string name="str_SubTitle_PhoneNotification">Telefone para noticar caso funcionário chegue atrasado</string>
+    <string name="str_SubTitle_CheckIn">Horário limite para funcionário entrar na empresa</string>
+    <string name="str_SubTitle_CheckOut">Horário limite para funcionário sair na empresa</string>
+    
+    <string name="str_SubTitle_ChangeUserCheckIn">Horário limite Check In</string>
+    <string name="str_SubTitle_ChangeUserCheckOut">Horário limite Check Out</string>
+    
+    <string name="str_SubTitle_UserCreated">Dia do cadastro</string>
+    <string name="str_SubTitle_UserDelegate">Usuário responsável</string>
     
     <string name="str_Hint_User">Ex. lucas85</string>
     <string name="str_Hint_Password">Ex. Confirmar Senha</string>
     <string name="str_Hint_Name">Ex. Fábio</string>
     <string name="str_Hint_Email">Ex. fernando.luis@gmail.com</string>
     <string name="str_Hint_Adress">Ex. </string>
-    <string name="str_Hint_Phone">Ex. 555195348201</string>
+    <string name="str_Hint_Phone">Ex. 5195348201</string>
     
     <string name="str_Button_CheckInOut">Marcar Ponto</string>
     <string name="str_Button_ListCheckInOut">Lista de Pontos</string>
     <string name="str_Button_Configurations">Configurações</string>
     <string name="str_Button_ChangeUserInfo">Alterar Dados</string>
+    
+    <string name="str_Button_CreateXLS">Gerar arquivo XLS</string>
+    <string name="str_Button_SendXLS">Enviar arquivo XLS por Email</string>
+    <string name="str_Button_OpenXLS">Abrir arquivo XLS</string>
 
 </resources>

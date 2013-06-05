@@ -1,6 +1,8 @@
 package br.com.pontoeletronico.util;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -19,6 +21,8 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
+import br.com.pontoeletronico.data.controller.ConfiguracoesController;
+import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Configuracoes;
 import br.com.pontoeletronico.database.DaoProvider;
 import br.com.pontoeletronico.database.Funcionario;
@@ -43,6 +47,45 @@ public class CodeSnippet {
 		
 		
 		return true;
+	}
+	
+	/**
+	 * Retira de uma {@link String} de data um {@link Date}.
+	 * 
+	 * @param date -	
+	 * 		{@link String} com a data.
+	 * @param format -	
+	 * 		Formatdo que est‡ a {@ink String} com a data.
+	 * @return
+	 * 		{@link Date} com a data da {@ink String}. 
+	 */
+	public static Date getDateFromString(String date, String format) {
+		Date finalDate = null;		  
+    	try {
+			finalDate = new SimpleDateFormat(format).parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		 
+		return finalDate;
+	}
+	
+	/**
+	 * Formata um {@link Date} de acordo com o formatdo desejado.
+	 * 
+	 * @param date	-
+	 * 		{@link Date} que deseja formatar.
+	 * @param format -	
+	 * 		Formatdo desejado da data.(dd/MM/yyyy)
+	 * @return
+	 * 		{@link String} com a data formatado.
+	 */
+	public static String getStringFromDate(Date date, String format) {
+		String finalDate = null;
+		finalDate = new SimpleDateFormat(format).format(date);
+		
+		return finalDate;
 	}
 	
 	public static void checkOutBroadCastReceiver(Context context, DaoProvider daoProvider) {
@@ -138,22 +181,32 @@ public class CodeSnippet {
 	}
 	
 	public static void initDB(DaoProvider daoProvider) {
-		RuntimeExceptionDao<Configuracoes, Integer> configDao = daoProvider.getConfiguracoesRuntimeDao();
-		RuntimeExceptionDao<Funcionario, Integer> funcDao = daoProvider.getFuncionarioRuntimeDao();
-		
-		Configuracoes config = configDao.queryForId(1);
-		List<Funcionario> func = funcDao.queryForEq("User", "admin");
+		Configuracoes config = ConfiguracoesController.getConfiguracoes(daoProvider);
+		if (config != null)
+			return;
+		Funcionario admin = FuncionarioController.getFuncionarioAdmin(daoProvider);
 		
 		if (config == null) {
-			config = new Configuracoes(1, new Date(2012, 1, 1, 7, 30), new Date(2012, 1, 1, 18, 30));
-			configDao.createIfNotExists(config);
-			
+			ConfiguracoesController.setConfiguracoesDefault(daoProvider);
 		}
-		if (func == null || func.size() <= 0) {
-			Funcionario funcionario = new Funcionario("admin", "1234", "Admin", true);
-			funcDao.createIfNotExists(funcionario);
+		if (admin == null) {
+			FuncionarioController.setFuncionarioAdmin(daoProvider);
 		}
+	}
+	
+	public static Date getDateCheckIn(DaoProvider daoProvider, Funcionario funcionario) {
+		Date date = new Date();
 		
+		Date date2 = ConfiguracoesController.getConfiguracoes(daoProvider).checkInLimit;
+		
+		if (funcionario.funcionarioConfiguracoes != null && funcionario.funcionarioConfiguracoes.FuncionarioCheckIn != null) 
+			date2 = funcionario.funcionarioConfiguracoes.FuncionarioCheckIn;
+		
+		date.setHours(date2.getHours());
+		date.setMinutes(date2.getMinutes());
+		date.setSeconds(date2.getSeconds());
+		
+		return date;
 	}
 	
 	/**

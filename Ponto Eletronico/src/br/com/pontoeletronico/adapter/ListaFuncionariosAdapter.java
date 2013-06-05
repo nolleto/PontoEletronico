@@ -48,9 +48,9 @@ public class ListaFuncionariosAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
-		return position;
+		return list.get(position).funcionarioID;
 	}
-
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
@@ -129,9 +129,11 @@ public class ListaFuncionariosAdapter extends BaseAdapter {
 			
 		} else {
 			on_off.setText("OFF");
+			
 			status.setText("Status: Sem atividade.");
+			
 		}
-		
+				
 		return convertView;
 	}
 

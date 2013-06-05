@@ -3,21 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal" 
-    android:weightSum="20">
-    
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="0px"
-        android:layout_weight="3"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:text="Configurações"/>
+    android:gravity="center_horizontal" >
     
     <ScrollView 
         android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="14">
+        android:layout_height="fill_parent" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:inputType="text"
                 android:layout_marginBottom="30dp" />
 
             <TextView
@@ -43,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
 				android:layout_marginBottom="10dp"
-                android:text="Email para notificação" />
+                android:text="@string/str_SubTitle_EmailNotification" />
             
             <ToggleButton 
                 android:id="@+id/config_Toggle_Email"
@@ -59,6 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp" 
+                android:singleLine="true"
+                android:hint="@string/str_Hint_Email"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
                 android:visibility="gone"/>
 
             <TextView
@@ -66,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
 				android:layout_marginBottom="10dp"
-                android:text="Telefone para notificação" />
+                android:text="@string/str_SubTitle_PhoneNotification" />
 
             <ToggleButton 
                 android:id="@+id/config_Toggle_Phone"
@@ -83,6 +78,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:inputType="phone"
+                android:singleLine="true"
+                android:hint="@string/str_Hint_Phone"
+                android:imeOptions="actionDone"
                 android:visibility="gone" />
 
             <TextView
@@ -90,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
 				android:layout_marginBottom="10dp"
-                android:text="Horário limite para entrar" />
+                android:text="@string/str_SubTitle_CheckIn" />
 
             <Button
                 android:id="@+id/config_btnCheckIn"
@@ -104,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
 				android:layout_marginBottom="10dp"
-                android:text="Horário limite saída" />
+                android:text="@string/str_SubTitle_CheckOut" />
             
             <Button
                 android:id="@+id/config_btnCheckOut"
@@ -112,32 +110,33 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:layout_marginBottom="10dp"  />
+            
+            <Button
+                android:id="@+id/config_btnCreateXLS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="10dp"
+                android:text="@string/str_Button_CreateXLS" />
+            
+            <Button
+                android:id="@+id/config_btnSendXLS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="10dp"
+                android:text="@string/str_Button_SendXLS" />
 
-
+			  <Button
+                android:id="@+id/config_btnOpenXLS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="10dp"
+                android:text="@string/str_Button_OpenXLS" />
+            
         </LinearLayout>
         
     </ScrollView>
-
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="3"
-        android:weightSum="10">
-        
-        <Button 
-            android:id="@+id/config_BtnSalvar"
-            android:layout_width="0px" 
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Salvar"/>
-        
-        <Button 
-            android:id="@+id/config_BtnCancelar"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Cancelar"/>
-        
-    </LinearLayout>
     
 </LinearLayout>

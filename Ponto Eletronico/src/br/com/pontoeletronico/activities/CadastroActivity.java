@@ -1,28 +1,19 @@
 package br.com.pontoeletronico.activities;
 
-import java.lang.reflect.Method;
-
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
-import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.util.FormValidator;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -210,24 +201,36 @@ public class CadastroActivity extends BaseActivity {
 	 * <br/>		Telefone
 	 * 
 	 */
-	public void checkAllFields() {
+	public void refreshAllFields() {
 		if (txtUser != null && !txtUser.getText().toString().isEmpty() && FormValidator.checkUser(getHelper(), txtUser.getText().toString())) {
 			novoFuncionario.User = txtUser.getText().toString();
-		} 
+		}  else {
+			novoFuncionario.User = null;
+		}
 		if (txtSenha1 != null && !txtSenha1.getText().toString().isEmpty() && FormValidator.checkPassword(txtSenha1.getText().toString(), txtSenha2.getText().toString())) {
 			novoFuncionario.Password = txtSenha1.getText().toString();
-		}
+		}  else {
+			novoFuncionario.Password = null;
+		} 
 		if (txtNome != null && !txtNome.getText().toString().isEmpty() && txtNome.getText().toString().length() > 0) {
 			novoFuncionario.Name = txtNome.getText().toString();
+		}  else {
+			novoFuncionario.Name = null;
 		}
 		if (txtEmail != null && !txtEmail.getText().toString().isEmpty() && FormValidator.checkEmail(txtEmail.getText().toString())) {
 			novoFuncionario.Email = txtEmail.getText().toString();
+		}  else {
+			novoFuncionario.Email = null;
 		}
 		if (txtEndereco != null && !txtEndereco.getText().toString().isEmpty() && txtEndereco.getText().toString().length() > 0) {
 			novoFuncionario.Adress = txtEndereco.getText().toString();
+		}  else {
+			novoFuncionario.Adress = null;
 		}
 		if (txtTelefone != null && !txtTelefone.getText().toString().isEmpty() && FormValidator.checkPhone(txtTelefone.getText().toString())) {
 			novoFuncionario.Phone = txtTelefone.getText().toString();
+		}  else {
+			novoFuncionario.Phone = null;
 		}
 	}
 	
@@ -237,11 +240,11 @@ public class CadastroActivity extends BaseActivity {
 	 * 
 	 */
 	public void continuarCadastro() {
-		checkAllFields();
+		refreshAllFields();
 		
-		if (novoFuncionario.User != null && novoFuncionario.Password != null && novoFuncionario.Name != null && novoFuncionario.Email != null && novoFuncionario.Adress != null && novoFuncionario.Phone != null) {
+		if (checkAllFields()) {
 			ConfirmarCadastroActivity.startActivity(this, novoFuncionario);
-		} else if (novoFuncionario.User != null && novoFuncionario.Password != null && novoFuncionario.Name != null) {
+		} else if (checkEssentialFields()) {
 			String message = this.getString(R.string.str_CreateUser_CompleteFieldsBegin);
 
 			message = novoFuncionario.Email == null ? message + "\nE-mail" : message;
@@ -277,6 +280,22 @@ public class CadastroActivity extends BaseActivity {
 			makeMyDearAlert(message);
 		}
 		
+	}
+	
+	private boolean checkAllFields() {
+		if (checkEssentialFields() && novoFuncionario.Email != null && novoFuncionario.Adress != null && novoFuncionario.Phone != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean checkEssentialFields() {
+		if (novoFuncionario.User != null && novoFuncionario.Password != null && novoFuncionario.Name != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	@Override

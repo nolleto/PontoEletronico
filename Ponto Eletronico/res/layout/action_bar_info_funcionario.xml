@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+   <item android:id="@+id/actionInfoFunc_ListPontos"
+    android:title="@string/str_Action_ListPontos"  
+    android:showAsAction="ifRoom|withText"/>
+    
+  <item android:id="@+id/actionInfoFunc_DeleteFunc"
+    android:title="@string/str_Action_DeleteUser"  
+    android:showAsAction="ifRoom|withText"/>
+  
+  <item android:id="@+id/actionInfoFunc_DeleteList"
+    android:title="@string/str_Action_DeleteList"  
+    android:showAsAction="ifRoom|withText"/>
+  
+</menu>

@@ -1,6 +1,5 @@
 package br.com.pontoeletronico.database;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.concurrent.Callable;
 
@@ -24,7 +23,7 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 	// Modificado dia 20/07/2012
 	private static final int DATABASE_VERSION = 1;
 	
-	private Context context;
+	public Context context;
 	
 	public DaoProvider(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
@@ -41,6 +40,7 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 	public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
 		try {
 			android.util.Log.i(DaoProvider.class.getName(), "onCreate");
+			TableUtils.createTableIfNotExists(connectionSource, FuncionarioConfiguracoes.class);
 			TableUtils.createTableIfNotExists(connectionSource, Funcionario.class);
 			TableUtils.createTableIfNotExists(connectionSource, Funcionario_Ponto.class);
 			TableUtils.createTableIfNotExists(connectionSource, Ponto.class);
@@ -81,6 +81,7 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 				@Override
 				public Void call() throws Exception {
 					android.util.Log.i(DaoProvider.class.getName(), "cleanDatabase");
+					TableUtils.clearTable(connectionSource, FuncionarioConfiguracoes.class);
 					TableUtils.clearTable(connectionSource, Funcionario.class);
 					TableUtils.clearTable(connectionSource, Ponto.class);
 					TableUtils.clearTable(connectionSource, Funcionario_Ponto.class);
@@ -125,11 +126,13 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 	private Dao<Ponto, Integer> pontoDao;
 	private Dao<Funcionario_Ponto, Integer> funcionarioPontoDao;
 	private Dao<Configuracoes, Integer> configuracoesDao;
+	private Dao<FuncionarioConfiguracoes, Integer> funcionarioConfiguracoesDao;
 	
 	private RuntimeExceptionDao<Funcionario, Integer> funcionarioRuntimeDao;
 	private RuntimeExceptionDao<Ponto, Integer> pontoRuntimeDao;
 	private RuntimeExceptionDao<Funcionario_Ponto, Integer> funcionarioPontoRuntimeDao;
 	private RuntimeExceptionDao<Configuracoes, Integer> configuracoesRuntimeDao;
+	private RuntimeExceptionDao<FuncionarioConfiguracoes, Integer> funcionarioConfiguracoesRuntimeDao;
 
 	public Dao<Funcionario, Integer> getFuncionarioDao() throws SQLException {
 		if (funcionarioDao == null) {
@@ -157,6 +160,13 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 			funcionarioPontoDao = getDao(Funcionario_Ponto.class);
 		}
 		return funcionarioPontoDao;
+	}
+	
+	public Dao<FuncionarioConfiguracoes, Integer> getFuncionario_ConfiguracoesDao() throws SQLException {
+		if (funcionarioConfiguracoesDao == null) {
+			funcionarioConfiguracoesDao = getDao(FuncionarioConfiguracoes.class);
+		}
+		return funcionarioConfiguracoesDao;
 	}
 	
 	public RuntimeExceptionDao<Funcionario, Integer> getFuncionarioRuntimeDao() {
@@ -187,6 +197,13 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 		return configuracoesRuntimeDao;
 	}
 	
+	public RuntimeExceptionDao<FuncionarioConfiguracoes, Integer> getFuncionario_ConfiguracoesRuntimeDao() {
+		if (funcionarioConfiguracoesRuntimeDao == null) {
+			funcionarioConfiguracoesRuntimeDao = getRuntimeExceptionDao(FuncionarioConfiguracoes.class);
+		}
+		return funcionarioConfiguracoesRuntimeDao;
+	}
+	
 	@Override
 	public void close() {
 		super.close();
@@ -194,11 +211,13 @@ public class DaoProvider extends OrmLiteSqliteOpenHelper {
 		pontoDao = null;
 		funcionarioPontoDao = null;
 		configuracoesDao = null;
+		funcionarioConfiguracoesDao = null;
 		
 		funcionarioRuntimeDao = null;
 		pontoRuntimeDao = null;
 		funcionarioPontoRuntimeDao = null;
 		configuracoesRuntimeDao = null;
+		funcionarioConfiguracoesRuntimeDao = null;
 	}
 	
 }

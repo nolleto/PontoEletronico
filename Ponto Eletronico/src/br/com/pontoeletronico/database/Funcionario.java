@@ -1,6 +1,7 @@
 package br.com.pontoeletronico.database;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.j256.ormlite.field.DatabaseField;
 
@@ -18,9 +19,6 @@ public class Funcionario implements Serializable {
 
 	@DatabaseField(canBeNull=false)
 	public String Name;
-
-	@DatabaseField
-	public String Email;
 	
 	@DatabaseField(canBeNull=false, unique=true)
 	public String User;
@@ -29,10 +27,22 @@ public class Funcionario implements Serializable {
 	public String Password;
 	
 	@DatabaseField
+	public String Email;
+	
+	@DatabaseField
 	public String Adress;
 	
 	@DatabaseField
 	public String Phone;
+	
+	@DatabaseField(canBeNull=false)
+	public Date DateCreated;
+	
+	@DatabaseField(canBeNull=true, columnName="funcionarioGerenteID", foreign=true, foreignAutoRefresh=true)
+	public Funcionario GerenteDelegate;
+	
+	@DatabaseField(canBeNull=true, columnName="funcionarioConfiguracoesID", foreign=true, foreignAutoRefresh=true)
+	public FuncionarioConfiguracoes funcionarioConfiguracoes;
 	
 	@DatabaseField
 	public Boolean isGerente;
@@ -46,24 +56,17 @@ public class Funcionario implements Serializable {
 		this.isGerente = isGerente;
 	};
 	
-	public Funcionario(String user, String password, String name, String email, String adress, String phone) {
-		Name = name;
-		User = user;
-		Password = password;
+	public Funcionario(String user, String password, String name, String email, String adress, String phone, Boolean isGerente) {
+		this(user, password, name, isGerente);
 		Email = email;
 		Adress = adress;
 		Phone = phone;
-		isGerente = false;
 	};
 	
-	public Funcionario(String user, String password, String name, String email, String adress, String phone, Boolean isGerente) {
-		Name = name;
-		User = user;
-		Password = password;
-		Email = email;
-		Adress = adress;
-		Phone = phone;
-		this.isGerente = isGerente;
+	public Funcionario(String user, String password, String name, String email, String adress, String phone, Boolean isGerente, Funcionario funcionarioDelegate, Date date) {
+		this(user, password, name, email, adress, phone, isGerente);		
+		this.GerenteDelegate = funcionarioDelegate;
+		this.DateCreated = date;
 	};
 	
 	/*public Funcionario(boolean isGerente, int iD, String Name, String Email, String User, String Password, String Adress, String Phone) {
@@ -77,6 +80,10 @@ public class Funcionario implements Serializable {
 		this.Phone = Phone; 
 	}*/
 	
+	public Funcionario(int id) {
+		this.funcionarioID = id;
+	}
+
 	public int getID() {
 		return funcionarioID;
 	}
@@ -139,8 +146,41 @@ public class Funcionario implements Serializable {
 
 	public void setIsGerente(Boolean isGerente) {
 		this.isGerente = isGerente;
-	}	
-	
-	
+	}
 
+	public FuncionarioConfiguracoes getFuncionarioConfiguracoes() {
+		return funcionarioConfiguracoes;
+	}
+
+	public void setFuncionarioConfiguracoes(
+			FuncionarioConfiguracoes funcionarioConfiguracoes) {
+		this.funcionarioConfiguracoes = funcionarioConfiguracoes;
+	}
+
+	public int getFuncionarioID() {
+		return funcionarioID;
+	}
+
+	public void setFuncionarioID(int funcionarioID) {
+		this.funcionarioID = funcionarioID;
+	}
+
+	public Date getDateCreated() {
+		return DateCreated;
+	}
+
+	public void setDateCreated(Date dateCreated) {
+		DateCreated = dateCreated;
+	}
+
+	public Funcionario getGerenteDelegate() {
+		return GerenteDelegate;
+	}
+
+	public void setGerenteDelegate(Funcionario gerenteDelegate) {
+		GerenteDelegate = gerenteDelegate;
+	}	
+
+	
+	
 }

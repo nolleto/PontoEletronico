@@ -1,15 +1,12 @@
 package br.com.pontoeletronico.activities;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Funcionario;
-import br.com.pontoeletronico.util.CodeSnippet;
 import br.com.pontoeletronico.util.ThreeButtonDialog;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,9 +16,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -109,13 +104,15 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 		if (txtUserAdmin.length() > 0) {
 			if (txtPasswordAdmin.length() > 0) {
 				
-				if (FuncionarioController.checkIfExistUserAndPassworl(getHelper(), txtUserAdmin.getText().toString(), txtPasswordAdmin.getText().toString())) {
+				if (FuncionarioController.checkIfExistUserAndPassworl(getHelper(), txtUserAdmin.getText().toString(), txtPasswordAdmin.getText().toString(), true)) {
+					funcionario = FuncionarioController.getFuncionarioWithUserAndPassword(getHelper(), txtUserAdmin.getText().toString(), txtPasswordAdmin.getText().toString());
+					
 					AlertDialog.Builder alert = new AlertDialog.Builder(ConfirmarCadastroActivity.this);
-					alert.setCancelable(false).setTitle(ConfirmarCadastroActivity.this.getString(R.string.simpleWord_Aviso)).setMessage(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Complete)).setPositiveButton(ConfirmarCadastroActivity.this.getString(R.string.simpleWord_Funcionario), new DialogInterface.OnClickListener() {
+					alert.setCancelable(true).setTitle(ConfirmarCadastroActivity.this.getString(R.string.simpleWord_Aviso)).setMessage(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Complete)).setPositiveButton(ConfirmarCadastroActivity.this.getString(R.string.simpleWord_Funcionario), new DialogInterface.OnClickListener() {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							if (FuncionarioController.createFuncionario(getHelper(), new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone, false))) {
+							if (FuncionarioController.createFuncionario(getHelper(), new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone, false, funcionario, new Date()))) {
 								makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Sucess));
 								setResult(1);
 								finish();
@@ -131,7 +128,7 @@ public class ConfirmarCadastroActivity extends BaseActivity {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							if (FuncionarioController.createFuncionario(getHelper(), new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone, true))) {
+							if (FuncionarioController.createFuncionario(getHelper(), new Funcionario(strUser, strPassword, strNome, strEmail, strEndereco, strTelefone, true, funcionario, new Date()))) {
 								makeMyDearAlert(ConfirmarCadastroActivity.this.getString(R.string.str_CreateUser_Sucess));
 								setResult(1);
 								finish();

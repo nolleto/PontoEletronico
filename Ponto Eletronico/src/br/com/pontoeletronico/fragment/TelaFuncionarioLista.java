@@ -6,21 +6,28 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.activities.BaseActivity;
-import br.com.pontoeletronico.activities.GerenciarFuncionariosActivity;
+import br.com.pontoeletronico.activities.TelaFuncionarioActivity;
+import br.com.pontoeletronico.adapter.ListaMenuFuncionarioAdapter;
 import br.com.pontoeletronico.database.Funcionario;
-import android.app.Activity;
+import br.com.pontoeletronico.util.CodeSnippet;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
-import android.net.NetworkInfo.DetailedState;
+import android.content.AsyncTaskLoader;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 
 public class TelaFuncionarioLista extends ListFragment {
+	TelaFuncionarioActivity activity;
 	RuntimeExceptionDao<Funcionario, Integer> funcionarioDao;
+	ListaMenuFuncionarioAdapter adapter;
 	Funcionario funcionario;
 	ArrayList<String> items;
 	SparseArray<Fragment> fragments;
@@ -29,7 +36,7 @@ public class TelaFuncionarioLista extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		BaseActivity activity = (BaseActivity) getActivity();
+		activity = (TelaFuncionarioActivity) getActivity().getIntent().getSerializableExtra("Activity");
 		funcionarioDao = activity.getHelper().getFuncionarioRuntimeDao();
 		
 		int id = activity.getIntent().getExtras().getInt("ID");
@@ -50,29 +57,26 @@ public class TelaFuncionarioLista extends ListFragment {
 			items.add(getString(R.string.str_Button_ChangeUserInfo));
 		}
 		
-		setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_activated_1, items));
+		adapter = new ListaMenuFuncionarioAdapter(activity, items);
 		
+		setListAdapter(adapter); //new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_activated_1, items)
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		Fragment fragment = getFragment(0, false);
+		exibirFragmento(fragment);
+		adapter.setSelectedView(0);
 	}
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		
-		if (items.get(position).equals(getString(R.string.str_Button_ListCheckInOut))) {
-			getFragmente(position);
-		} else if (items.get(position).equals(R.string.str_Button_ChangeUserInfo)) {
-			
-		} else if (items.get(position).equals(getString(R.string.activity_GerenciarFuncionarios))) {
-			
-		} else {
-			
-		}
-		
-		exibirFragmento(new ListaDePontosFragment());
-		exibirFragmento(new AlterarInfoFragment());
-		exibirFragmento(new GerenciarFuncionariosFragment());
-		exibirFragmento(new ConfiguracoesFragment());
-
-		
+		Fragment fragment = getFragment(position, false);
+		exibirFragmento(fragment);
+		adapter.setSelectedView(position);
+		v.setSelected(true);
 	}
 	
 	/**
@@ -81,33 +85,51 @@ public class TelaFuncionarioLista extends ListFragment {
 	 * multiplas vezes ou até mesmo não perder o progresso do usuário, caso ele tenha escrito/modificado
 	 * alguma coisa e não deseje perder.
 	 * 
+	 * @param position -
+	 * 		Positção do {@link Fragment}.
+	 * @param reaproveitar -
+	 * 		Se deseja reaprovitar o {@link Fragment}. 
 	 * @return
 	 * 		{@link Fragment}.
 	 */
-	private Fragment getFragmente(int position) {
-		Fragment fragment = fragments.get(position);
-		switch (position) {
-		case 0:
-			fragment = new ListaDePontosFragment();
-			break;
-			
-		case 1:	
-			fragment = new AlterarInfoFragment();
-			break;
-		case 2:
-			fragment = new GerenciarFuncionariosFragment();
-			break;
-			
-		default:
-			fragment = new ConfiguracoesFragment();
-			break;
+	private Fragment getFragment(int position, Boolean reaproveitar) {
+		Fragment fragment = null;
+		if (reaproveitar) {
+			fragment = fragments.get(position);
 		}
-		
+		 		
 		if (fragment == null) {
+			switch (position) {
+			case 0:
+				fragment = new ListaDePontosFragment();
+				break;
+				
+			case 1:	
+				if (funcionario.funcionarioID == 1) {
+					fragment = new GerenciarFuncionariosFragment();
+				} else {
+					fragment = new AlterarInfoFragment();
+				}
+				
+				break;
+			case 2:
+				if (funcionario.funcionarioID == 1) {
+					fragment = new ConfiguracoesFragment();
+				} else {
+					fragment = new GerenciarFuncionariosFragment();
+				}
+				
+				break;
+				
+			default:
+				fragment = new ConfiguracoesFragment();
+				break;
+			}
 			
 			fragments.append(position, fragment);
 		}
-		return null;
+		
+		return fragment;
 	}
 	
 	/**
@@ -118,7 +140,7 @@ public class TelaFuncionarioLista extends ListFragment {
 	 */
 	private void exibirFragmento(Fragment details) {
 	    FragmentTransaction ft = getFragmentManager().beginTransaction();
-	    ft.replace(R.id.detailFragment, details);
+	    ft.replace(R.id.telaFuncionario_Detail, details);
 	    
 	    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 	    ft.commit();

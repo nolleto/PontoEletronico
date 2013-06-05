@@ -1,18 +1,13 @@
 package br.com.pontoeletronico.util;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.security.PublicKey;
-import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
+import br.com.pontoeletronico.R;
+import br.com.pontoeletronico.activities.BaseActivity;
 import br.com.pontoeletronico.database.DaoProvider;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.database.Funcionario_Ponto;
@@ -21,23 +16,67 @@ import br.com.pontoeletronico.database.Ponto;
 import jxl.*;
 import jxl.read.biff.BiffException;
 import jxl.write.Label;
-import jxl.write.Number;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 
 public class ExcelFile {
 	
-	private static String PATH = "/Android/com.pontoeletronico/";  
+	private static String PATH = "/Android/data/com.pontoeletronico/";  
 	
+	/**
+	 * Abre um arquivo .xls no pr—prio celular, que Ž a lista de todos os funcion‡rios e seus respectivos
+	 * pontos.
+	 * 
+	 * @param activity -
+	 * 		{@link BaseActivity} atual.
+	 */
+	public static void openExcelFile(BaseActivity activity) {
+		if (ExcelFile.CheckFileExcel()) {
+			Intent intent = new Intent();
+			intent.setAction(android.content.Intent.ACTION_VIEW);
+			intent.setData(Uri.fromFile(ExcelFile.getFileExcel()));
+			activity.startActivity(intent);
+		} else {
+			activity.makeMyDearAlert(activity.getString(R.string.str_Error_FindXLS));
+		}
+	}
+	
+	/**
+	 * Abre o aplicativo de email com a arquivo .xls anexado nele, deixando o resto para o 
+	 * usu‡rio.
+	 * 
+	 * @param activity -
+	 * 		{@link BaseActivity} atual.
+	 */
+	public static void sendExcelFile(BaseActivity activity) {
+		if (ExcelFile.CheckFileExcel()) {
+			Intent intent = new Intent(Intent.ACTION_SEND);
+			intent.setType("message/rfc822");
+			intent.putExtra(Intent.EXTRA_EMAIL, new String[] {""});
+			intent.putExtra(Intent.EXTRA_SUBJECT, "Ponto Eletronico - XLS");
+			intent.putExtra(Intent.EXTRA_TEXT   , "body of email");
+			intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + ExcelFile.getFileExcel()));
+			
+			activity.startActivity(intent);
+		} else {
+			activity.makeMyDearAlert(activity.getString(R.string.str_Error_FindXLS));
+		}
+	}
+	
+	/**
+	 * Confere se o arquivo .xls com a lista de funcion‡rios e respectivos pontos existe.
+	 * 
+	 * @return
+	 * 		<code>true</code> se o arquivo existir, <code>false</code> caso contr‡rio.
+	 */
 	public static boolean CheckFileExcel() {
-    	File dataFile = Environment.getExternalStorageDirectory();
-        File file = new File(dataFile.toString() + PATH);
-        
-        Workbook workbook = null;
+    	Workbook workbook = null;
         try {
-			workbook = Workbook.getWorkbook(new File(file + "/Arquivo_Ponto.xls"));
+			workbook = Workbook.getWorkbook(new File(ExcelFile.getDirectory() + "/Arquivo_Ponto.xls"));
 		} catch (BiffException e) {
 			e.printStackTrace();
 			return false;
@@ -55,18 +94,48 @@ public class ExcelFile {
         
     }
 	
-	public static void CreateFile(DaoProvider daoProvider) {  //this is the downloader method
+	/**
+	 * Pega o {@link File} do arquivo, ou seja, o diret—rio mais o arquivo.
+	 * 
+	 * @return
+	 * 		{@link File} do arquivo.
+	 */
+	public static File getFileExcel() {
+		if (ExcelFile.CheckFileExcel()) {
+			File file = new File(ExcelFile.getDirectory() + "/Arquivo_Ponto.xls");
+			
+			return file;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Pega o {@link File} do diret—rio arquivo, ou seja, somente o diret—rio do arquivo.
+	 * 
+	 * @return
+	 * 		{@link File} do diret—rio do arquivo.
+	 */
+	public static File getDirectory() {
+		File dataFile = Environment.getExternalStorageDirectory();
+        File file = new File(dataFile.toString() + PATH);
+        file.mkdirs();
+		return file;
+	}
+	
+	/**
+	 * Cria um arquivo .xls com todos os funcion‡rios e seus respectivos pontos.
+	 * 
+	 * @param activity -	
+	 * 		{@link BaseActivity} atual.
+	 */
+	public static void CreateFile(BaseActivity activity) {  //this is the downloader method
+		DaoProvider daoProvider = activity.getHelper();
         try {
-        	
-        	//Cria pasta de destino
-        	File dataFile = Environment.getExternalStorageDirectory();
-            File file = new File(dataFile.toString() + PATH);
-            file.mkdirs();
-            
-            //Cria o Arquivo .xls na pasta de destino
+        	//Cria o Arquivo .xls na pasta de destino
             WritableWorkbook workbook = null;
     		try {
-    			workbook = Workbook.createWorkbook(new File(file + "/Arquivo_Ponto.xls"));
+    			workbook = Workbook.createWorkbook(new File(ExcelFile.getDirectory() + "/Arquivo_Ponto.xls"));
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
@@ -76,7 +145,6 @@ public class ExcelFile {
     		
     		RuntimeExceptionDao<Funcionario_Ponto, Integer> funcionarioPontoDao = daoProvider.getFuncionario_PontoRuntimeDao();
     		RuntimeExceptionDao<Funcionario, Integer> funcionarioDao = daoProvider.getFuncionarioRuntimeDao();
-    		RuntimeExceptionDao<Ponto, Integer> pontoDao = daoProvider.getPontoRuntimeDao();
     		
     		List<Funcionario> listFuncionarios = funcionarioDao.queryForAll();
     		
@@ -105,7 +173,7 @@ public class ExcelFile {
 					Ponto ponto = listPontos.get(i).ponto;
 					
 					Label pontoEntrada = new Label(4, linhaAtual, getDataEntrada(ponto));
-					Label pontoSaida = new Label(6, linhaAtual, getDataSaida(ponto));
+					Label pontoSaida = new Label(6, linhaAtual, getDataSaida(activity, ponto));
 					
 					sheet.addCell(pontoSaida);
 					sheet.addCell(pontoEntrada);
@@ -131,34 +199,10 @@ public class ExcelFile {
 	}
 	
 	private static String getDataEntrada(Ponto ponto) {
-		Date date = ponto.inputDate;
-		
-		int mesInt = date.getMonth();
-		
-		String dia = date.getDay() < 10 ? "0" + date.getDay() : String.valueOf(date.getDay());
-		int ano = date.getYear() + 1900;
-		String hora = date.getHours() < 10 ? "0" + date.getHours() : String.valueOf(date.getHours());
-		String min = date.getMinutes() < 10 ? "0" + date.getMinutes()  : String.valueOf(date.getMinutes());
-		String sec = date.getSeconds() < 10 ? "0" + date.getSeconds() : String.valueOf(date.getSeconds());
-		
-		return "" + dia + "/" + mesInt + "/" + ano + "   " + hora + ":" + min + ":" + sec;
+		return CodeSnippet.getStringFromDate(ponto.inputDate, "dd/MM/yyyy HH:mm:ss.SSS");
 	}
 	
-	private static String getDataSaida(Ponto ponto) {
-		Date date = ponto.outputDate;
-		
-		if (date == null) {
-			return "Usu‡rio n‹o tem o Ponto de sa’da!";
-		}
-		int mesInt = date.getMonth();
-		
-		String dia = date.getDay() < 10 ? "0" + date.getDay() : String.valueOf(date.getDay());
-		int ano = date.getYear() + 1900;
-		String hora = date.getHours() < 10 ? "0" + date.getHours() : String.valueOf(date.getHours());
-		String min = date.getMinutes() < 10 ? "0" + date.getMinutes()  : String.valueOf(date.getMinutes());
-		String sec = date.getSeconds() < 10 ? "0" + date.getSeconds() : String.valueOf(date.getSeconds());
-		
-		return "" + dia + "/" + mesInt + "/" + ano + "   " + hora + ":" + min + ":" + sec;
+	private static String getDataSaida(BaseActivity activity, Ponto ponto) {
+		return ponto.outputDate == null ? activity.getString(R.string.str_Error_CreateXLS_WithoutCheckOut) : CodeSnippet.getStringFromDate(ponto.outputDate, "dd/MM/yyyy HH:mm:ss.SSS");
 	}
-	
 }

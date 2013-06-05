@@ -5,23 +5,27 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
-import android.content.res.Resources;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.Toast;
 import br.com.pontoeletronico.R;
 import br.com.pontoeletronico.data.controller.FuncionarioController;
+import br.com.pontoeletronico.data.controller.FuncionarioPontoController;
+import br.com.pontoeletronico.data.controller.PontoController;
 import br.com.pontoeletronico.database.DaoProvider;
+import br.com.pontoeletronico.database.Funcionario;
 
 
 public class BaseActivity extends Activity{
 	private DaoProvider databaseHelper = null;
 	private Boolean showExitMessage = true;
+	private ProgressDialog dialog;
+	public Funcionario funcionario;
 	
 	@Override
 	protected void onDestroy() {
@@ -152,9 +156,13 @@ public class BaseActivity extends Activity{
 			new MenuInflater(this).inflate(R.layout.action_bar_cadastro, menu);
 		} else if (this instanceof PontoEletronicoActivity) {
 			new MenuInflater(this).inflate(R.layout.action_bar, menu);
-		} else if (this instanceof GerenciarFuncionariosActivity) {
-			new MenuInflater(this).inflate(R.layout.action_bar_gerenciar, menu);
-		}
+		} else if (this instanceof TelaFuncionarioActivity) {
+			new MenuInflater(this).inflate(R.layout.action_bar_ponto, menu);
+		} else if (this instanceof TelaFuncionarioConfiguracoesActivity) {
+			new MenuInflater(this).inflate(R.layout.action_bar_func_config, menu);
+		} else if (this instanceof InfoFuncionarioActivity && funcionario.funcionarioID != 1)  {
+			new MenuInflater(this).inflate(R.layout.action_bar_info_funcionario, menu);
+		} 
 		
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -186,8 +194,79 @@ public class BaseActivity extends Activity{
         		
             	break;
             	
+        	case R.id.actionPonto_Marcar:
+        		Toast.makeText(this, PontoController.smartCheckInOut(getHelper(), funcionario), Toast.LENGTH_SHORT).show();
+        		//makeMyDearAlert(PontoController.smartCheckInOut(getHelper(), funcionario));
+        		
+            	break;
+            	
+        	case R.id.actionInfoFunc_DeleteFunc:
+        		optionActivityAlert(new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						FuncionarioController.deleteFuncionario(getHelper(), funcionario.funcionarioID);
+		        		backActivity();
+						
+					}
+				}, this.getString(R.string.str_Action_DeleteUser_Touch));
+        		
+            	break;
+            	
+        	case R.id.actionInfoFunc_DeleteList:
+        		optionActivityAlert(new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						FuncionarioPontoController.deleteFuncionarioPonto(getHelper(), funcionario.funcionarioID);
+						
+					}
+				}, this.getString(R.string.str_Action_DeleteList_Touch));
+        		
+            	break;
+            	
+        	case R.id.actionPonto_FuncionarioConfig:
+        		TelaFuncionarioConfiguracoesActivity.startActivity(this, funcionario.funcionarioID);
+        		
+            	break;
+            	
+        	case R.id.actionFuncConfig_DeleteAll:
+        		((TelaFuncionarioConfiguracoesActivity) this).ResetAll();
+        		
+            	break;
+            	
+        	case R.id.actionFuncConfig_DeleteCheckIn:
+        		((TelaFuncionarioConfiguracoesActivity) this).ResetCheckIn();
+        		
+        		
+            	break;
+            	
+        	case R.id.actionFuncConfig_DeleteCheckOut:
+        		((TelaFuncionarioConfiguracoesActivity) this).ResetCheckOut();
+        		
+            	break;
+            	
+        	case R.id.actionInfoFunc_ListPontos:
+        		ListaPontosActivity.startActivity(this, funcionario.funcionarioID);
+        		
+            	break;
+            	
 			}
 		return super.onOptionsItemSelected(item);
 	}
 	
+	public void ShowLoad() {
+		dialog = new ProgressDialog(this);
+    	dialog.setCancelable(false);
+    	dialog.setTitle("Carregando");
+    	dialog.setMessage("Por favor aguarde . . .");
+		dialog.show();
+	}
+	
+	public void HideLoad() {
+		if (dialog != null) {
+			dialog.dismiss();
+		}
+	}
+		
 }

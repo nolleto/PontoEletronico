@@ -7,12 +7,14 @@
 	<TextView 
 	    android:id="@+id/listview_Text"
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"/>
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="20dp"/>
 	
 	<TextView 
 	    android:id="@+id/listview_Text2"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="20dp"
 	    android:visibility="gone"/>
     
 </LinearLayout>

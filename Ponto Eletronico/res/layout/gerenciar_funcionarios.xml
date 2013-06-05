@@ -3,22 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal" 
-    android:weightSum="20">
+    android:gravity="center_horizontal" >
     
-    <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="0px"
-        android:layout_weight="3"
-        android:text="Lista de Funcionarios"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    <SearchView 
+        android:id="@+id/gerencFuncionarios_SearcView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:visibility="visible"></SearchView>
     
     <ListView 
         android:id="@+id/gerencFuncionarios_ListView"
         android:layout_width="fill_parent"
-        android:layout_height="0px"
-        android:layout_weight="17" ></ListView>
-    
+        android:layout_height="fill_parent" ></ListView>
 
 </LinearLayout>

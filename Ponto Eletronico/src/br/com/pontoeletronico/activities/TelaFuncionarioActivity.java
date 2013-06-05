@@ -1,12 +1,11 @@
 package br.com.pontoeletronico.activities;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import br.com.pontoeletronico.R;
-import br.com.pontoeletronico.data.controller.PontoController;
 import br.com.pontoeletronico.database.Funcionario;
 import br.com.pontoeletronico.database.Funcionario_Ponto;
 import br.com.pontoeletronico.database.Ponto;
@@ -14,16 +13,15 @@ import br.com.pontoeletronico.util.CodeSnippet;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-public class TelaFuncionarioActivity extends BaseActivity {
+public class TelaFuncionarioActivity extends BaseActivity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 286791351337364826L;
 	Date dateCheckInLimit;
 	ImageView imgPonto;
-	Funcionario funcionario;
 	Funcionario_Ponto funcionarioPonto;
 	RuntimeExceptionDao<Funcionario, Integer> funcionarioDao;
 	RuntimeExceptionDao<Ponto, Integer> pontoDao;
@@ -33,12 +31,15 @@ public class TelaFuncionarioActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		getIntent().putExtra("Activity", this);
 		setContentView(R.layout.tela_funcionario);
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
-		setTitleInActionBar(funcionarioDao.queryForId(getIntent().getExtras().getInt("ID")).Name);
+		funcionario = funcionarioDao.queryForId(getIntent().getExtras().getInt("ID"));
+		
+		setTitleInActionBar(funcionario.Name);
 		
 		/*int id = getIntent().getExtras().getInt("ID");
 		
@@ -110,6 +111,10 @@ public class TelaFuncionarioActivity extends BaseActivity {
 		
 	*/
 		
+	}
+	
+	public void closeKeyBoard() {
+		CodeSnippet.closeKeyboard(this);
 	}
 	
 	public static void startActivity(Activity activity, int id) {

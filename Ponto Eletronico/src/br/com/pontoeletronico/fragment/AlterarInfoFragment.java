@@ -86,27 +86,36 @@ public class AlterarInfoFragment extends BaseFragment {
 		super.onResume();
 		funcionario = FuncionarioController.getFuncionarioForId(activity.getHelper(), funcionarioId);
 		
-		txtUser.setText("Usuário: " + funcionario.User);
-		txtNome.setText("Nome: " + funcionario.Name);
-		txtEmail.setText("Email: " + getEmail());
-		txtEndereco.setText("Endereço: " + getAdress());
-		txtTelefone.setText("Telefone: " + getPhone());
+		txtUser.setText(this.getString(R.string.simpleWord_Usuario) + ": " + funcionario.User);
+		txtPassword.setText(this.getString(R.string.simpleWord_Senha) + ": " + getPasswordDecrypted());
+		txtNome.setText(this.getString(R.string.simpleWord_Nome) + ": " + funcionario.Name);
+		txtEmail.setText(this.getString(R.string.simpleWord_Email) + ": " + getEmail());
+		txtEndereco.setText(this.getString(R.string.simpleWord_Endereco) + ": " + getAdress());
+		txtTelefone.setText(this.getString(R.string.simpleWord_Telefone) + ": " + getPhone());
 	}
 	
 	
 	private String getEmail() {
-			String strEmail = funcionario.Email;
-			return strEmail == null ? "Nenhum Email registrado." : strEmail;
+			String str = funcionario.Email;
+			return str == null ? this.getString(R.string.str_Current_Email_Empty) : str;
 	}
 	
 	private String getAdress() {
-		String strEmail = funcionario.Adress;
-		return strEmail == null ? "Nenhum endereço registrado." : strEmail;
+		String str = funcionario.Adress;
+		return str == null ? this.getString(R.string.str_Current_Adress_Empty) : str;
 	}
 	
 	private String getPhone() {
-		String strEmail = funcionario.Phone;
-		return strEmail == null ? "Nenhum telefone registrado." : strEmail;
+		String str = funcionario.Phone;
+		return str == null ? this.getString(R.string.str_Current_Phone_Empty) : str;
+	}
+	
+	private String getPasswordDecrypted() {
+		String str = "";
+		for (int i = 0; i < funcionario.Password.length(); i++) {
+			str = str + "*";
+		}
+		return str;
 	}
 	
 }

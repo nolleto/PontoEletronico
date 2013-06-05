@@ -19,8 +19,7 @@
         <activity
             android:name="br.com.pontoeletronico.activities.PontoEletronicoActivity"
             android:label="@string/app_name" 
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -144,6 +143,14 @@
             </intent-filter>
         </activity>
         
+        <activity 
+            android:name=".activities.TelaFuncionarioConfiguracoesActivity"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.TelaFuncionarioConfiguracoesActivity" />
+                <category android:name="android.intent.category.TelaFuncionarioConfiguracoesActivity" />
+            </intent-filter>
+        </activity>
         
         <service 
             android:name=".services.CheckOutService"

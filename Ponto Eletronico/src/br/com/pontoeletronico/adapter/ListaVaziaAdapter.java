@@ -27,7 +27,7 @@ public class ListaVaziaAdapter extends BaseAdapter {
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return 1;
+		return 0;
 	}
 
 	@Override

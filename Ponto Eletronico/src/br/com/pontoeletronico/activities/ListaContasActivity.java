@@ -1,9 +1,7 @@
 package br.com.pontoeletronico.activities;
 
-import java.sql.SQLException;
-import java.util.List;
 import br.com.pontoeletronico.R;
-import br.com.pontoeletronico.adapter.ListaContasAdapter;
+import br.com.pontoeletronico.data.controller.FuncionarioController;
 import br.com.pontoeletronico.database.Funcionario;
 
 import com.j256.ormlite.dao.RuntimeExceptionDao;
@@ -27,6 +25,7 @@ public class ListaContasActivity extends BaseActivity {
 		
 		funcionarioDao = getHelper().getFuncionarioRuntimeDao();
 		
+		/*
 		List<Funcionario> funcionarioList = null;
 		try {
 			funcionarioList = funcionarioDao.query(funcionarioDao.queryBuilder()
@@ -37,8 +36,8 @@ public class ListaContasActivity extends BaseActivity {
 			e.printStackTrace();
 		}
 		
-		ListaContasAdapter adapter = new ListaContasAdapter(this, funcionarioList);
-		listView.setAdapter(adapter);
+		ListaContasAdapter adapter = new ListaContasAdapter(this, funcionarioList);*/
+		listView.setAdapter(FuncionarioController.getArrayAdapter(getHelper(), this, 1));
 		
 	}
 	
